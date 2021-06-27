@@ -71,7 +71,7 @@ public class SearchService {
       return List.of();
     }
 
-    return hashTagMapper.mapHashTagListToSearchModelList(hashTagRepository.findAllByNameLike(name));
+    return hashTagMapper.mapHashTagListToSearchModelList(hashTagRepository.findByNameStartingWith(name));
   }
 
   public List<SearchModel> findAuthor(String authorName) {
@@ -79,7 +79,7 @@ public class SearchService {
       return List.of();
     }
 
-    return userMapper.mapUserListToSearchModelList(userRepository.findAllByUsernameLike(authorName));
+    return userMapper.mapUserListToSearchModelList(userRepository.findByUsernameStartingWith(authorName));
   }
 
   private LocalDateTime parseDate(String value) {

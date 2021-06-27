@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface HashTagRepository extends JpaRepository<HashTag, Long> {
 
-  List<HashTag> findAllByNameLike(String name);
+  List<HashTag> findByNameStartingWith(String name);
 
 }

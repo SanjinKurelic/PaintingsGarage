@@ -6,7 +6,6 @@ import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.ValueMapping;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public interface UserMapper {
 
   @Named("mapUserToSearchModel")
   @Mapping(target = "value", source = "username")
-  @ValueMapping(target = "type", source = "AUTHOR")
+  @Mapping(target = "type", constant = "AUTHOR")
   SearchModel mapUserToSearchModel(User user);
 
   @IterableMapping(qualifiedByName = "mapUserToSearchModel")

@@ -6,7 +6,6 @@ import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.ValueMapping;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public interface HashTagMapper {
 
   @Named("mapHashTagToSearchModel")
   @Mapping(target = "value", source = "name")
-  @ValueMapping(target = "type", source = "HASHTAG")
+  @Mapping(target = "type", constant = "HASHTAG")
   SearchModel mapHashTagToSearchModel(HashTag hashTag);
 
   @IterableMapping(qualifiedByName = "mapHashTagToSearchModel")
