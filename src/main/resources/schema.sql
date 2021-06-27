@@ -13,7 +13,9 @@ DROP TABLE IF EXISTS photo;
 CREATE TABLE photo (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   path VARCHAR(255) NOT NULL,
+  thumbnail VARCHAR(255) NOT NULL,
   description VARCHAR(500) NULL,
+  size INT NOT NULL,
   uploaded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   user_id BIGINT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id)
@@ -24,7 +26,16 @@ DROP TABLE IF EXISTS hashtag;
 
 CREATE TABLE hashtag (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  photo_id BIGINT NOT NULL,
-  name VARCHAR(50) NOT NULL,
-  FOREIGN KEY (photo_id) REFERENCES photo(id)
+  name VARCHAR(50) NOT NULL
+);
+
+
+DROP TABLE IF EXISTS hashtag_photo;
+
+CREATE TABLE hashtag_photo (
+  photo_id BIGINT,
+  hashtag_id BIGINT,
+  PRIMARY KEY (photo_id, hashtag_id),
+  FOREIGN KEY (photo_id) REFERENCES photo(id),
+  FOREIGN KEY (hashtag_id) REFERENCES hashtag(id)
 );

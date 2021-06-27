@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -29,6 +29,8 @@ public class Photo implements Serializable {
 
   private String description;
 
+  private Integer size;
+
   private LocalDateTime uploaded;
 
   @ManyToOne
@@ -36,7 +38,7 @@ public class Photo implements Serializable {
   private User author; //NOSONAR
 
   // We always require hash tags with photo entity
-  @OneToMany(mappedBy = "photo", fetch = FetchType.EAGER)
+  @ManyToMany(mappedBy = "photoList", fetch = FetchType.EAGER)
   private List<HashTag> hashTags; //NOSONAR
 
 }
