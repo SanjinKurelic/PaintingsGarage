@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,16 @@ public class SearchService {
   private final UserMapper userMapper;
   private final PhotoRepository photoRepository;
   private final PhotoMapper photoMapper;
+
+  public List<PhotoData> getLatestPhotoList() {
+    var photoList = photoMapper.mapPhotoListToPhotoDataList(photoRepository.findFirst10ByOrderByUploadedDesc());
+
+    if (Objects.isNull(photoList)) {
+      photoList = List.of();
+    }
+
+    return photoList;
+  }
 
   public List<PhotoData> findImages(List<SearchModel> searchModels) {
     var authorIds = new ArrayList<Long>();

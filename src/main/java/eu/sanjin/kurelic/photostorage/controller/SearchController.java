@@ -4,6 +4,7 @@ import eu.sanjin.kurelic.photostorage.model.PhotoData;
 import eu.sanjin.kurelic.photostorage.model.SearchModel;
 import eu.sanjin.kurelic.photostorage.service.SearchService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,26 +12,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
-@RestController
+@RestController("/api")
 @RequiredArgsConstructor
 public class SearchController {
 
   private final SearchService searchService;
 
+  @GetMapping("getLatestPhotoList")
+  public ResponseEntity<List<PhotoData>> getLatestPhotoList() {
+    return ResponseEntity.ok(searchService.getLatestPhotoList());
+  }
+
   @GetMapping("findAuthor/{authorName}")
-  public List<SearchModel> findAuthor(@PathVariable String authorName) {
-    return searchService.findAuthor(authorName);
+  public ResponseEntity<List<SearchModel>> findAuthor(@PathVariable String authorName) {
+    var authorList = searchService.findAuthor(authorName);
+
+    if (Objects.isNull(authorList) || authorList.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    return ResponseEntity.ok(authorList);
   }
 
   @GetMapping("findHashTag/{name}")
-  public List<SearchModel> findHashTag(@PathVariable String name) {
-    return searchService.findHashTag(name);
+  public ResponseEntity<List<SearchModel>> findHashTag(@PathVariable String name) {
+    var hashTagList = searchService.findHashTag(name);
+
+    if (Objects.isNull(hashTagList) || hashTagList.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    return ResponseEntity.ok(hashTagList);
   }
 
   @PostMapping("findImages")
-  public List<PhotoData> findImages(@RequestBody List<SearchModel> searchModelList) {
-    return searchService.findImages(searchModelList);
+  public ResponseEntity<List<PhotoData>> findImages(@RequestBody List<SearchModel> searchModelList) {
+    var images = searchService.findImages(searchModelList);
+
+    if (Objects.isNull(images) || images.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    return ResponseEntity.ok(images);
   }
 
 }
