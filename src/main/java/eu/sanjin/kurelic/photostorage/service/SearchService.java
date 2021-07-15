@@ -3,7 +3,6 @@ package eu.sanjin.kurelic.photostorage.service;
 import eu.sanjin.kurelic.photostorage.data.repository.HashTagRepository;
 import eu.sanjin.kurelic.photostorage.data.repository.PhotoRepository;
 import eu.sanjin.kurelic.photostorage.data.repository.UserRepository;
-import eu.sanjin.kurelic.photostorage.exceptions.ErrorCode;
 import eu.sanjin.kurelic.photostorage.exceptions.WrongArgumentException;
 import eu.sanjin.kurelic.photostorage.mapper.HashTagMapper;
 import eu.sanjin.kurelic.photostorage.mapper.PhotoMapper;
@@ -56,7 +55,7 @@ public class SearchService {
         case DATE:
           var fromTo = searchModel.getValue().split("-");
           if (fromTo.length != 2) {
-            throw new WrongArgumentException(ErrorCode.WRONG_DATE_FROM_TO_ARGUMENT);
+            throw new WrongArgumentException(WrongArgumentException.WrongArgumentMessage.WRONG_DATE_FROM_TO_PATTERN);
           }
           from = parseDate(fromTo[0]);
           to = parseDate(fromTo[1]);
@@ -68,7 +67,7 @@ public class SearchService {
           try {
             size = Integer.valueOf(searchModel.getValue());
           } catch (NumberFormatException ignore) {
-            throw new WrongArgumentException(ErrorCode.WRONG_SIZE_ARGUMENT);
+            throw new WrongArgumentException(WrongArgumentException.WrongArgumentMessage.WRONG_SIZE_TYPE);
           }
           break;
       }
@@ -97,7 +96,7 @@ public class SearchService {
     try {
       return LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     } catch (DateTimeParseException ignore) {
-      throw new WrongArgumentException(ErrorCode.WRONG_DATE_FROM_TO_ARGUMENT);
+      throw new WrongArgumentException(WrongArgumentException.WrongArgumentMessage.WRONG_DATE_FROM_TO_PATTERN);
     }
   }
 
