@@ -5,27 +5,24 @@ import eu.sanjin.kurelic.photostorage.model.SearchModel;
 import eu.sanjin.kurelic.photostorage.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
 
-@RestController("/api/search")
+@RestController
+@RequestMapping("/api/search")
 @RequiredArgsConstructor
 public class SearchController {
 
   private final SearchService searchService;
 
-  @GetMapping("getLatestPhotoList")
+  @GetMapping("/image/latest")
   public ResponseEntity<List<PhotoData>> getLatestPhotoList() {
     return ResponseEntity.ok(searchService.getLatestPhotoList());
   }
 
-  @GetMapping("findAuthor/{authorName}")
+  @GetMapping("/author/{authorName}")
   public ResponseEntity<List<SearchModel>> findAuthor(@PathVariable String authorName) {
     var authorList = searchService.findAuthor(authorName);
 
@@ -36,7 +33,7 @@ public class SearchController {
     return ResponseEntity.ok(authorList);
   }
 
-  @GetMapping("findHashTag/{name}")
+  @GetMapping("/hashtag/{name}")
   public ResponseEntity<List<SearchModel>> findHashTag(@PathVariable String name) {
     var hashTagList = searchService.findHashTag(name);
 
@@ -47,7 +44,7 @@ public class SearchController {
     return ResponseEntity.ok(hashTagList);
   }
 
-  @PostMapping("findImages")
+  @PostMapping("/image")
   public ResponseEntity<List<PhotoData>> findImages(@RequestBody List<SearchModel> searchModelList) {
     var images = searchService.findImages(searchModelList);
 
@@ -57,5 +54,4 @@ public class SearchController {
 
     return ResponseEntity.ok(images);
   }
-
 }

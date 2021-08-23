@@ -11,8 +11,9 @@ spring:
 
 smp:
   file:
-    directory: /home/images/
+    directory: ./images/
     host: localhost
+    port: 2222
     username: user
     password: password
     extension-list:
