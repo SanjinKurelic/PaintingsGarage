@@ -1,0 +1,22 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 500MB
+      max-request-size: 512MB
+
+smp:
+  file:
+    directory: /home/images/
+    host: localhost
+    username: user
+    password: password
+    extension-list:
+      - jpg
+      - jpeg
+      - png
+      - bmp
