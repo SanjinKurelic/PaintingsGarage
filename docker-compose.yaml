@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  sftp:
+    image: atmoz/sftp
+    volumes:
+      - ./docker-files/images:/home/user/images
+    ports:
+      - "2222:22"
+    command: user:password:1001

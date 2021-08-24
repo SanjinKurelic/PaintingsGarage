@@ -47,3 +47,5 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# Docker
+docker-files/*
