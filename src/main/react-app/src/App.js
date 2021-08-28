@@ -1,4 +1,5 @@
-import Header from './components/Header'
+import Header from './components/header/Header'
+import ImageList from "./components/image/ImageList";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {Container} from "react-bootstrap";
 

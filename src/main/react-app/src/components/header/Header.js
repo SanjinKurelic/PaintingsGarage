@@ -1,7 +1,7 @@
-import logo from '../assets/logo.png'
+import logo from '../../assets/logo.png'
 import {Button, Form, FormControl, Image, InputGroup, Nav} from 'react-bootstrap'
 import {BsSearch} from 'react-icons/bs'
-import {FaUser} from 'react-icons/fa'
+import {FaShoppingCart, FaUser} from 'react-icons/fa'
 
 const Header = () => {
   return (
@@ -14,6 +14,7 @@ const Header = () => {
         </InputGroup>
       </Form>
       <Button variant='link' size='lg'><FaUser size={28} color='black'/></Button>
+      <Button variant='link' size='lg'><FaShoppingCart size={28} color='black'/></Button>
     </Nav>
   );
 }
