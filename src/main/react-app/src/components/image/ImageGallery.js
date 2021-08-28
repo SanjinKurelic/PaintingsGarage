@@ -1,7 +1,7 @@
-import PropTypes from "prop-types"
-import moment from "moment";
-import ImageActionButton from "./ImageActionButton";
-import HashtagList from "../hashtag/HashtagList";
+import PropTypes from 'prop-types'
+import moment from 'moment'
+import ImageActionButton from './ImageActionButton'
+import HashtagList from '../hashtag/HashtagList'
 
 const ImageGallery = ({images}) => {
   return (
@@ -25,7 +25,7 @@ const ImageGallery = ({images}) => {
         </div>
       ))}
     </div>
-  );
+  )
 }
 
 ImageGallery.propTypes = {
@@ -44,4 +44,4 @@ ImageGallery.defaultProps = {
   images: []
 }
 
-export default ImageGallery;
+export default ImageGallery

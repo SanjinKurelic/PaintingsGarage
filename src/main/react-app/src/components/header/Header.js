@@ -16,7 +16,7 @@ const Header = () => {
       <Button variant='link' size='lg'><FaUser size={28} color='black'/></Button>
       <Button variant='link' size='lg'><FaShoppingCart size={28} color='black'/></Button>
     </Nav>
-  );
+  )
 }
 
-export default Header;
+export default Header

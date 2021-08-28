@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import Hashtag from "./Hashtag";
+import PropTypes from 'prop-types'
+import Hashtag from './Hashtag'
 
 
 const HashtagList = ({hashtagItems}) => {

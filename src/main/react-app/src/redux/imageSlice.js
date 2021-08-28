@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice} from '@reduxjs/toolkit'
 
 export const imageSlice = createSlice({
   name: 'imageSlice',
@@ -7,11 +7,11 @@ export const imageSlice = createSlice({
   },
   reducers: {
     fillLastImages: (state, action) => {
-      state.images = action.payload;
+      state.images = action.payload
     }
   }
-});
+})
 
-export const {fillLastImages} = imageSlice.actions;
+export const {fillLastImages} = imageSlice.actions
 
-export default imageSlice.reducer;
+export default imageSlice.reducer

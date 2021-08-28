@@ -1,5 +1,5 @@
-import PropTypes from "prop-types"
-import {AiOutlineDelete, AiOutlineDollar, AiOutlineDownload, AiOutlineEdit} from "react-icons/all";
+import PropTypes from 'prop-types'
+import {AiOutlineDelete, AiOutlineDollar, AiOutlineDownload, AiOutlineEdit} from 'react-icons/all'
 
 
 const ImageActionButton = ({type}) => {

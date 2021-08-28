@@ -1,20 +1,20 @@
 import Header from './components/header/Header'
-import ImageGallery from "./components/image/ImageGallery";
+import ImageGallery from './components/image/ImageGallery'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {Container} from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-import {fillLastImages} from "./redux/imageSlice";
+import {Container} from 'react-bootstrap'
+import {useDispatch, useSelector} from 'react-redux'
+import {useEffect} from 'react'
+import {fillLastImages} from './redux/imageSlice'
 
 function App() {
-  const {images} = useSelector((state) => state.imageSlice);
-  const dispatch = useDispatch();
+  const {images} = useSelector((state) => state.imageSlice)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     fetch('http://localhost:8080/api/search/image/latest')
       .then(response => {
         if (response.ok) {
-          return response.json();
+          return response.json()
         }
         throw new Error('' + response.status)
       })
@@ -27,7 +27,7 @@ function App() {
       <Header/>
       <ImageGallery images={images}/>
     </Container>
-  );
+  )
 }
 
-export default App;
+export default App
