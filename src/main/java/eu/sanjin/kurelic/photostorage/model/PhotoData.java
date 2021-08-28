@@ -16,5 +16,6 @@ public class PhotoData {
   private LocalDateTime uploaded;
   private String author;
   private List<String> hashTags;
+  private PhotoOwnershipType ownershipType;
 
 }

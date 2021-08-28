@@ -16,6 +16,7 @@ public interface PhotoMapper {
 
   @Named("mapPhotoToPhotoData")
   @Mapping(target = "author", source = "author.username")
+  @Mapping(target = "ownershipType", constant = "NONE") // TODO check user ownership
   PhotoData mapPhotoToPhotoData(Photo photo);
 
   @IterableMapping(qualifiedByName = "mapPhotoToPhotoData")
