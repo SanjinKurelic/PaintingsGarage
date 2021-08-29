@@ -2,29 +2,31 @@ import PropTypes from 'prop-types'
 import {AiOutlineDelete, AiOutlineDollar, AiOutlineDownload, AiOutlineEdit} from 'react-icons/all'
 
 
-const ImageActionButton = ({type}) => {
+const ImageActionButton = ({type, size}) => {
   switch (type) {
     case 'owner':
       return (
         <div>
-          <AiOutlineDownload size='1.2em' />
-          <AiOutlineEdit size='1.2em' />
-          <AiOutlineDelete color='red' size='1.2em' />
+          <AiOutlineDownload size={size} />
+          <AiOutlineEdit size={size} />
+          <AiOutlineDelete color='red' size={size} />
         </div>
       )
     case 'bought':
-      return <AiOutlineDownload size='1.2em' />
+      return <AiOutlineDownload size={size} />
     default:
-      return <AiOutlineDollar size='1.2em' />
+      return <AiOutlineDollar size={size} />
   }
 }
 
 ImageActionButton.propTypes = {
-  type: PropTypes.oneOf(['owner','bought','none'])
+  type: PropTypes.oneOf(['OWNER','BOUGHT','NONE']),
+  size: PropTypes.string
 }
 
 ImageActionButton.defaultProps = {
-  type: 'none'
+  type: 'none',
+  size: '1.2em'
 }
 
 export default ImageActionButton

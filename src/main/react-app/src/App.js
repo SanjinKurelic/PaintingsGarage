@@ -3,10 +3,12 @@ import ImageGallery from './components/image/ImageGallery'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {Container} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {fillLastImages} from './redux/imageSlice'
+import Image from './components/image/Image'
 
 function App() {
+  const [selectedImage, setSelectedImage] = useState(null)
   const {images} = useSelector((state) => state.imageSlice)
   const dispatch = useDispatch()
 
@@ -25,7 +27,8 @@ function App() {
   return (
     <Container>
       <Header/>
-      <ImageGallery images={images}/>
+      <ImageGallery images={images} setSelectedImage={setSelectedImage}/>
+      {selectedImage && <Image image={selectedImage} setSelectedImage={setSelectedImage} />}
     </Container>
   )
 }

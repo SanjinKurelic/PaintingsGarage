@@ -3,7 +3,7 @@ import moment from 'moment'
 import ImageActionButton from './ImageActionButton'
 import HashtagList from '../hashtag/HashtagList'
 
-const ImageGallery = ({images}) => {
+const ImageGallery = ({images, setSelectedImage}) => {
   return (
     <div className='row'>
       {images.map((image) => (
@@ -15,11 +15,11 @@ const ImageGallery = ({images}) => {
                 <p className='p-0 m-0' style={{fontSize: 'xx-small'}}>{moment(image.uploaded).format('hh:mm')}</p>
               </div>
             </div>
-            <img width='100%' alt={image.description} src={'http://localhost:8080/api/file/download/' + image.thumbnail + '.jpg'}/>
+            <img onClick={() => setSelectedImage(image)} width='100%' alt={image.description} src={'http://localhost:8080/api/file/download/' + image.thumbnail + '.jpg'}/>
             <div className='row justify-content-between p-2'>
               <div className='col-9 overflow-hidden'><HashtagList hashtagItems={image.hashTags} /></div>
               <div className='col-3 text-end'>
-                <ImageActionButton type={image.ownershipType} />
+                <ImageActionButton type={image.ownershipType} size='2em' />
               </div>
             </div>
         </div>
@@ -29,11 +29,12 @@ const ImageGallery = ({images}) => {
 }
 
 ImageGallery.propTypes = {
+  setSelectedImage: PropTypes.func.isRequired,
   images: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
-    uploaded: PropTypes.instanceOf(Date).isRequired,
+    uploaded: PropTypes.string.isRequired,
     description: PropTypes.string,
     ownershipType: PropTypes.string,
     hashTags: PropTypes.array
