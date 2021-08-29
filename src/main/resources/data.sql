@@ -5,16 +5,16 @@ INSERT INTO users (id, username, password, active) VALUES
 (4, 'julia@example.com', '$2y$10$yzqWQYxxUYXJ0j06Z/akZ.WzNTN6B0/FMyQRrwdGxA5QO2BsCO6Oq', true);
 
 INSERT INTO photo (id, path, thumbnail, description, size, uploaded, user_id) VALUES
-(1, 'photo1', 'thumbnail1', 'Image 1 description', 120, {ts '2020-01-01 15:21:12.41'}, 1),
-(2, 'photo2', 'thumbnail2', 'Image 2 description', 300, {ts '2020-05-13 12:37:24.12'}, 1),
-(3, 'photo3', 'thumbnail3', 'Image 3 description', 75, {ts '2020-04-17 16:56:33.07'}, 2),
-(4, 'photo4', 'thumbnail4', 'Image 4 description', 412, {ts '2020-02-10 13:17:56.56'}, 2),
-(5, 'photo5', 'thumbnail5', 'Image 5 description', 1024, {ts '2020-03-05 07:22:46.13'}, 3),
-(6, 'photo6', 'thumbnail6', 'Image 6 description', 300, {ts '2019-12-23 06:12:37.22'}, 3),
-(7, 'photo7', 'thumbnail7', 'Image 7 description', 305, {ts '2019-12-22 21:02:22.41'}, 3),
-(8, 'photo8', 'thumbnail8', 'Image 8 description', 703, {ts '2020-03-17 17:52:17.07'}, 4),
-(9, 'photo9', 'thumbnail9', 'Image 9 description', 290, {ts '2020-04-08 15:41:01.03'}, 4),
-(10, 'photo10', 'thumbnail10', 'Image 10 description', 291, {ts '2020-05-12 09:31:05.00'}, 4);
+(1, 'photo1.jpg', 'thumbnail1.jpg', 'Image 1 description', 120, {ts '2020-01-01 15:21:12.41'}, 1),
+(2, 'photo2.jpg', 'thumbnail2.jpg', 'Image 2 description', 300, {ts '2020-05-13 12:37:24.12'}, 1),
+(3, 'photo3.jpg', 'thumbnail3.jpg', 'Image 3 description', 75, {ts '2020-04-17 16:56:33.07'}, 2),
+(4, 'photo4.jpg', 'thumbnail4.jpg', 'Image 4 description', 412, {ts '2020-02-10 13:17:56.56'}, 2),
+(5, 'photo5.jpg', 'thumbnail5.jpg', 'Image 5 description', 1024, {ts '2020-03-05 07:22:46.13'}, 3),
+(6, 'photo6.jpg', 'thumbnail6.jpg', 'Image 6 description', 300, {ts '2019-12-23 06:12:37.22'}, 3),
+(7, 'photo7.jpg', 'thumbnail7.jpg', 'Image 7 description', 305, {ts '2019-12-22 21:02:22.41'}, 3),
+(8, 'photo8.jpg', 'thumbnail8.jpg', 'Image 8 description', 703, {ts '2020-03-17 17:52:17.07'}, 4),
+(9, 'photo9.jpg', 'thumbnail9.jpg', 'Image 9 description', 290, {ts '2020-04-08 15:41:01.03'}, 4),
+(10, 'photo10.jpg', 'thumbnail10.jpg', 'Image 10 description', 291, {ts '2020-05-12 09:31:05.00'}, 4);
 
 INSERT INTO hashtag (id, name) VALUES
 (1, 'hashtag1'),
