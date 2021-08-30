@@ -2,33 +2,19 @@ import Header from './components/header/Header'
 import ImageGallery from './components/image/ImageGallery'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {Container} from 'react-bootstrap'
-import {useDispatch, useSelector} from 'react-redux'
-import {useEffect, useState} from 'react'
-import {fillLastImages} from './redux/imageSlice'
+import {useState} from 'react'
 import Image from './components/image/Image'
+import {useGetLatestImagesQuery} from './redux/api/searchApi'
 
 function App() {
+  const {data, isSuccess} = useGetLatestImagesQuery()
   const [selectedImage, setSelectedImage] = useState(null)
-  const {images} = useSelector((state) => state.imageSlice)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    fetch('http://localhost:8080/api/search/image/latest')
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-        throw new Error('' + response.status)
-      })
-      .then(data => dispatch(fillLastImages(data)))
-      .catch(status => console.log('Error while fetching latest images from server, status: ' + status))
-  }, [dispatch])
 
   return (
     <Container>
       <Header/>
-      <ImageGallery images={images} setSelectedImage={setSelectedImage}/>
-      {selectedImage && <Image image={selectedImage} setSelectedImage={setSelectedImage} />}
+      {isSuccess && <ImageGallery images={data} setSelectedImage={setSelectedImage}/>}
+      {selectedImage && <Image image={selectedImage} setSelectedImage={setSelectedImage}/>}
     </Container>
   )
 }

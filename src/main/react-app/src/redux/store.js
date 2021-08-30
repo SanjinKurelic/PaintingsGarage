@@ -1,8 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit'
-import {imageSlice} from './imageSlice'
+import {searchApi} from './api/searchApi'
+import {setupListeners} from '@reduxjs/toolkit/query'
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
-    imageSlice: imageSlice.reducer
-  }
+    [searchApi.reducerPath]: searchApi.reducer
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(searchApi.middleware)
 })
+
+setupListeners(store.dispatch)
