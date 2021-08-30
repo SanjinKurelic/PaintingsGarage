@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import ImageActionButton from './ImageActionButton'
 import {AiOutlineCloseCircle} from 'react-icons/all'
+import {fileUrl} from '../../redux/api/fileApi'
 
 const Image = ({image, setSelectedImage}) => {
   const closeDialog = () => {
@@ -14,20 +15,21 @@ const Image = ({image, setSelectedImage}) => {
         <div className="modal-content" style={{background: 'black', color: '#BEBEBE'}}>
           <div className="modal-body row p-5">
             <div className="col-9" style={{
-              background: 'url(http://localhost:8080/api/file/download/' + image.path + '.jpg)',
+              background: `url(${fileUrl}/download/${image.path})`,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               height: '100%'
             }}/>
             <div className="col-3 p-4">
-              <div className='text-end'>
-                <AiOutlineCloseCircle size='2em' />
+              <div className="text-end">
+                <AiOutlineCloseCircle size="2em"/>
               </div>
               <h2>{image.author}</h2>
-              <div className='text-end' style={{fontSize: 'x-small'}}>{moment(image.uploaded).format('YYYY-MM-DD hh:mm')}</div>
-              <p className='my-5'>{image.description}</p>
-              <ImageActionButton type={image.ownershipType} />
+              <div className="text-end"
+                   style={{fontSize: 'x-small'}}>{moment(image.uploaded).format('YYYY-MM-DD hh:mm')}</div>
+              <p className="my-5">{image.description}</p>
+              <ImageActionButton type={image.ownershipType} size="2em"/>
             </div>
           </div>
         </div>

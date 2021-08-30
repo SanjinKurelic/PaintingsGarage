@@ -7,20 +7,20 @@ const ImageActionButton = ({type, size}) => {
     case 'owner':
       return (
         <div>
-          <AiOutlineDownload size={size} />
-          <AiOutlineEdit size={size} />
-          <AiOutlineDelete color='red' size={size} />
+          <AiOutlineDownload size={size} cursor="pointer"/>
+          <AiOutlineEdit size={size} cursor="pointer"/>
+          <AiOutlineDelete color="red" size={size} cursor="pointer"/>
         </div>
       )
     case 'bought':
-      return <AiOutlineDownload size={size} />
+      return <AiOutlineDownload size={size} cursor="pointer"/>
     default:
-      return <AiOutlineDollar size={size} />
+      return <AiOutlineDollar size={size} cursor="pointer"/>
   }
 }
 
 ImageActionButton.propTypes = {
-  type: PropTypes.oneOf(['OWNER','BOUGHT','NONE']),
+  type: PropTypes.oneOf(['OWNER', 'BOUGHT', 'NONE']),
   size: PropTypes.string
 }
 
