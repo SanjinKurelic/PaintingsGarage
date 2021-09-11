@@ -47,5 +47,7 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# Docker
-docker-files/*
+# Docker files
+docker-files/images/*
+# Except examples
+!docker-files/images/demo_*.jpg
