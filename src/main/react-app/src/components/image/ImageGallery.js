@@ -17,7 +17,7 @@ const ImageGallery = ({images, setSelectedImage}) => {
             </div>
           </div>
           <img onClick={() => setSelectedImage(image)} width="100%" alt={image.description}
-               src={`${fileUrl}/download/${image.thumbnail}`}/>
+               src={`${fileUrl}/download/${image.thumbnail}`} role="button"/>
           <div className="row justify-content-between p-2">
             <div className="col-9 overflow-hidden"><HashtagList hashtagItems={image.hashTags}/></div>
             <div className="col-3 text-end">

@@ -22,13 +22,14 @@ const Image = ({image, setSelectedImage}) => {
               height: '100%'
             }}/>
             <div className="col-3 p-4">
-              <div className="text-end">
+              <div className="text-end" role="button">
                 <AiOutlineCloseCircle size="2em"/>
               </div>
               <h2>{image.author}</h2>
-              <div className="text-end"
-                   style={{fontSize: 'x-small'}}>{moment(image.uploaded).format('YYYY-MM-DD hh:mm')}</div>
-              <p className="my-5">{image.description}</p>
+              <div className="my-5">
+                <p><b className="me-2">Uploaded:</b>{moment(image.uploaded).format('YYYY-MM-DD hh:mm')}</p>
+                <p className="my-4">{image.description}</p>
+              </div>
               <ImageActionButton type={image.ownershipType} size="2em"/>
             </div>
           </div>
