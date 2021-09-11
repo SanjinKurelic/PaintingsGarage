@@ -20,7 +20,7 @@ import static eu.sanjin.kurelic.photostorage.data.repository.PhotoSpecification.
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Long>, JpaSpecificationExecutor<Photo> {
 
-  List<Photo> findFirst10ByOrderByUploadedDesc();
+  List<Photo> findFirst9ByOrderByUploadedDesc();
 
   default List<Photo> findAllBy(List<Long> authorIds, List<Long> hashTagIds, Integer size, LocalDateTime from, LocalDateTime to) {
     var specificationList = new ArrayList<Specification<Photo>>();

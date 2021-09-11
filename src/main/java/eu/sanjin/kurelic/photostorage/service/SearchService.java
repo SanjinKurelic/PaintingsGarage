@@ -31,7 +31,7 @@ public class SearchService {
   private final PhotoMapper photoMapper;
 
   public List<PhotoData> getLatestPhotoList() {
-    var photoList = photoMapper.mapPhotoListToPhotoDataList(photoRepository.findFirst10ByOrderByUploadedDesc());
+    var photoList = photoMapper.mapPhotoListToPhotoDataList(photoRepository.findFirst9ByOrderByUploadedDesc());
 
     if (Objects.isNull(photoList)) {
       photoList = List.of();

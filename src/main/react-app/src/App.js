@@ -1,13 +1,25 @@
-import Header from './components/Header'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import {Container} from "react-bootstrap";
+import Header from './components/header/Header'
+import ImageGallery from './components/image/ImageGallery'
+import {Container} from 'react-bootstrap'
+import {useState} from 'react'
+import Image from './components/image/Image'
+import {useGetLatestImagesQuery} from './redux/api/searchApi'
+import Footer from './components/footer/Footer'
 
 function App() {
+  const latestImages = useGetLatestImagesQuery()
+  const [selectedImage, setSelectedImage] = useState(null)
+
   return (
-    <Container>
-      <Header />
-    </Container>
-  );
+    <>
+      <Header/>
+      <Container>
+        {latestImages.isSuccess && <ImageGallery images={latestImages.data} setSelectedImage={setSelectedImage}/>}
+        {selectedImage && <Image image={selectedImage} setSelectedImage={setSelectedImage}/>}
+      </Container>
+      <Footer/>
+    </>
+  )
 }
 
-export default App;
+export default App
