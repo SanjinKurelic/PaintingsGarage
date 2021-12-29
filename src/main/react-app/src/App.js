@@ -7,6 +7,7 @@ import {useGetLatestImagesQuery} from './redux/api/photoApi'
 import Footer from './components/footer/Footer'
 import {BrowserRouter, Route} from 'react-router-dom'
 import Login from './components/login/Login'
+import './app.scss'
 
 function App() {
   const latestImages = useGetLatestImagesQuery()
@@ -15,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header/>
-      <Container>
+      <Container style={{marginBottom: '58px'}}>
         <Route path="/" exact render={() => (
           <>
             {latestImages.isSuccess && <ImageGallery images={latestImages.data} setSelectedImage={setSelectedImage}/>}
