@@ -1,7 +1,7 @@
 package eu.sanjin.kurelic.photostorage.security.controller;
 
-import eu.sanjin.kurelic.photostorage.modules.user.entity.UserRole;
-import eu.sanjin.kurelic.photostorage.modules.user.service.UserService;
+import eu.sanjin.kurelic.photostorage.user.entity.UserRole;
+import eu.sanjin.kurelic.photostorage.user.service.UserService;
 import eu.sanjin.kurelic.photostorage.security.mapper.SecurityUserModelMapper;
 import eu.sanjin.kurelic.photostorage.security.model.JwtResponse;
 import eu.sanjin.kurelic.photostorage.security.model.LoginUserRequest;
