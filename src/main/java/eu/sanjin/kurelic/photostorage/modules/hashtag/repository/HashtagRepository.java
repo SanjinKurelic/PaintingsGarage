@@ -10,5 +10,4 @@ import java.util.List;
 public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
 
   List<Hashtag> findByNameStartingWith(String name);
-
 }

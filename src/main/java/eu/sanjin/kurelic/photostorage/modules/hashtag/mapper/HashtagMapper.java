@@ -14,5 +14,4 @@ public interface HashtagMapper {
   SearchResult mapHashtagToSearchResult(Hashtag hashtag);
 
   List<SearchResult> mapHashtagListToSearchResultList(List<Hashtag> hashtagList);
-
 }

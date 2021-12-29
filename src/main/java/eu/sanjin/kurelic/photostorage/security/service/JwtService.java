@@ -26,13 +26,13 @@ public class JwtService {
     return Jwts.builder()
       .setSubject((userPrincipal.getUsername()))
       .setIssuedAt(new Date())
-      .setExpiration(DateUtils.addMinutes(new Date(), config.getJwtExpiration()))
-      .signWith(SignatureAlgorithm.HS512, config.getJwtSecret())
+      .setExpiration(DateUtils.addMinutes(new Date(), config.getExpiration()))
+      .signWith(SignatureAlgorithm.HS512, config.getSecret())
       .compact();
   }
 
   public String getEmailFromJwtToken(String token) {
-    return Jwts.parser().setSigningKey(config.getJwtSecret()).parseClaimsJws(token).getBody().getSubject();
+    return Jwts.parser().setSigningKey(config.getSecret()).parseClaimsJws(token).getBody().getSubject();
   }
 
   public boolean validateJwtToken(String authToken) {
@@ -41,7 +41,7 @@ public class JwtService {
     }
 
     try {
-      Jwts.parser().setSigningKey(config.getJwtSecret()).parseClaimsJws(authToken);
+      Jwts.parser().setSigningKey(config.getSecret()).parseClaimsJws(authToken);
       return true;
     } catch (Exception e) {
       log.error(e.getMessage(), e);

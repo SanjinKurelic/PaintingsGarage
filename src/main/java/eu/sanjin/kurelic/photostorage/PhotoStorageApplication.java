@@ -14,5 +14,4 @@ public class PhotoStorageApplication {
   public static void main(String[] args) {
     SpringApplication.run(PhotoStorageApplication.class, args);
   }
-
 }
