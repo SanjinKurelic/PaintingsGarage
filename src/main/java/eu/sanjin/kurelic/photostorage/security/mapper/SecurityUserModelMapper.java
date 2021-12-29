@@ -1,7 +1,7 @@
 package eu.sanjin.kurelic.photostorage.security.mapper;
 
-import eu.sanjin.kurelic.photostorage.modules.user.entity.User;
-import eu.sanjin.kurelic.photostorage.modules.user.entity.UserRole;
+import eu.sanjin.kurelic.photostorage.user.entity.User;
+import eu.sanjin.kurelic.photostorage.user.entity.UserRole;
 import eu.sanjin.kurelic.photostorage.security.model.RegisterUserRequest;
 import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
 import org.mapstruct.Mapper;

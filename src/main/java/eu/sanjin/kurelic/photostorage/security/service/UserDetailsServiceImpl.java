@@ -1,6 +1,6 @@
 package eu.sanjin.kurelic.photostorage.security.service;
 
-import eu.sanjin.kurelic.photostorage.modules.user.service.UserService;
+import eu.sanjin.kurelic.photostorage.user.service.UserService;
 import eu.sanjin.kurelic.photostorage.security.mapper.SecurityUserModelMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;

@@ -1,6 +1,6 @@
 package eu.sanjin.kurelic.photostorage.security.configuration;
 
-import eu.sanjin.kurelic.photostorage.modules.user.entity.UserRole;
+import eu.sanjin.kurelic.photostorage.user.entity.UserRole;
 import eu.sanjin.kurelic.photostorage.security.filter.AuthTokenFilter;
 import eu.sanjin.kurelic.photostorage.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
