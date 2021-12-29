@@ -1,17 +1,15 @@
-package eu.sanjin.kurelic.photostorage.service;
+package eu.sanjin.kurelic.photostorage.modules.photo.service;
 
-import eu.sanjin.kurelic.photostorage.config.FileStorageConfig;
-import eu.sanjin.kurelic.photostorage.data.entity.Photo;
-import eu.sanjin.kurelic.photostorage.data.entity.User;
-import eu.sanjin.kurelic.photostorage.data.repository.PhotoRepository;
 import eu.sanjin.kurelic.photostorage.exceptions.InternalServerError;
-import eu.sanjin.kurelic.photostorage.exceptions.ResourceNotFound;
 import eu.sanjin.kurelic.photostorage.exceptions.WrongArgumentException;
-import eu.sanjin.kurelic.photostorage.mapper.PhotoMapper;
-import eu.sanjin.kurelic.photostorage.model.ImageStreamingDestinationFile;
-import eu.sanjin.kurelic.photostorage.model.ImageStreamingSourceFile;
-import eu.sanjin.kurelic.photostorage.model.PhotoData;
-import eu.sanjin.kurelic.photostorage.model.SearchModel;
+import eu.sanjin.kurelic.photostorage.modules.photo.file.ImageStreamingDestinationFile;
+import eu.sanjin.kurelic.photostorage.modules.photo.file.ImageStreamingSourceFile;
+import eu.sanjin.kurelic.photostorage.modules.photo.config.FileStorageConfig;
+import eu.sanjin.kurelic.photostorage.modules.photo.entity.Photo;
+import eu.sanjin.kurelic.photostorage.modules.photo.mapper.PhotoMapper;
+import eu.sanjin.kurelic.photostorage.modules.photo.model.PhotoData;
+import eu.sanjin.kurelic.photostorage.modules.photo.repository.PhotoRepository;
+import eu.sanjin.kurelic.photostorage.modules.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.schmizz.sshj.SSHClient;
@@ -25,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -40,7 +38,8 @@ public class LocalFileService implements FileService {
   private static final String THUMBNAIL_PREFIX = "th";
   private static final int MEGABYTE = 1024 * 1024;
 
-  public PhotoData saveFile(MultipartFile file, String description, List<SearchModel> hashTagList) {
+  @Override
+  public PhotoData saveFile(MultipartFile file, String title, String description, Map<String, Long> hashtagList) {
     // Validate
     if (file.isEmpty()) {
       throw new WrongArgumentException(WrongArgumentException.WrongArgumentMessage.WRONG_FILE_FORMAT);
@@ -56,8 +55,9 @@ public class LocalFileService implements FileService {
 
     var photo = Photo.builder()
       .author(author) // TODO get current user
+      .title(title)
       .description(description)
-      //.hashTags(hashTags) // TODO if search model does not have id, store it as new hashtag
+      //.hashtags(hashtags) // TODO if search model does not have id, store it as new hashtag
       .path(String.join(".", fileId, extension))
       .thumbnail(String.format("%s_%s.%s", fileId, THUMBNAIL_PREFIX, extension))
       .size((int) (file.getSize() / MEGABYTE))
@@ -74,11 +74,13 @@ public class LocalFileService implements FileService {
 
     try {
       try (var sftp = getSftpClient(new SSHClient())) {
-        sftp.put(new ImageStreamingSourceFile(multipartFile), appendRemotePath(fileName));
+        var sourceFile = new ImageStreamingSourceFile(multipartFile);
+        sftp.put(sourceFile, appendRemotePath(fileName));
         // TODO store resize image for thumbnail
         var resizedImage = multipartFile.getInputStream();
         sftp.put(new ImageStreamingSourceFile(multipartFile, resizedImage), appendRemotePath(thumbnailName));
         resizedImage.close();
+        sourceFile.close();
       }
     } catch (IOException e) {
       log.error(e.getMessage(), e);
@@ -91,7 +93,7 @@ public class LocalFileService implements FileService {
   @Override
   public byte[] loadFile(String fileName) {
     var path = appendRemotePath(fileName);
-    byte[] content;
+    byte[] content = null;
 
     try (var remoteFile = getSftpClient(new SSHClient())) {
       var destinationFile = new ImageStreamingDestinationFile();
@@ -103,7 +105,6 @@ public class LocalFileService implements FileService {
       destinationFile.close();
     } catch (Exception e) {
       log.error(e.getMessage(), e);
-      throw new ResourceNotFound();
     }
 
     return content;

@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.photostorage.model;
+package eu.sanjin.kurelic.photostorage.modules.photo.file;
 
 import net.schmizz.sshj.xfer.InMemorySourceFile;
 import org.springframework.web.multipart.MultipartFile;

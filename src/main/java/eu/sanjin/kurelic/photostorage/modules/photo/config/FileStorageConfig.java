@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.photostorage.config;
+package eu.sanjin.kurelic.photostorage.modules.photo.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "smp.file")
+@ConfigurationProperties(prefix = "app.file")
 public class FileStorageConfig {
 
   private String directory;
@@ -22,5 +22,4 @@ public class FileStorageConfig {
   private String password;
 
   private List<String> extensionList;
-
 }

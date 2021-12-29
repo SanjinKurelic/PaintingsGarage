@@ -1,5 +1,7 @@
-package eu.sanjin.kurelic.photostorage.data.entity;
+package eu.sanjin.kurelic.photostorage.modules.photo.entity;
 
+import eu.sanjin.kurelic.photostorage.modules.hashtag.entity.Hashtag;
+import eu.sanjin.kurelic.photostorage.modules.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -26,7 +29,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "photo")
-@SuppressWarnings("JpaDataSourceORMInspection")
 public class Photo implements Serializable {
 
   @Id
@@ -37,6 +39,8 @@ public class Photo implements Serializable {
 
   private String thumbnail;
 
+  private String title;
+
   private String description;
 
   private Integer size;
@@ -45,10 +49,17 @@ public class Photo implements Serializable {
 
   @ManyToOne
   @JoinColumn(name = "user_id", referencedColumnName = "id")
-  private User author; //NOSONAR
+  private User author;
 
-  // We always require hash tags with photo entity
+  // We always require hashtags with photo entity
   @ManyToMany(mappedBy = "photoList", fetch = FetchType.EAGER)
-  private List<HashTag> hashTags; //NOSONAR
+  private List<Hashtag> hashtags;
 
+  @ManyToMany
+  @JoinTable(
+    name = "photo_owner",
+    joinColumns = {@JoinColumn(name = "photo_id")},
+    inverseJoinColumns = {@JoinColumn(name = "user_id")}
+  )
+  private List<User> owners;
 }

@@ -1,7 +1,7 @@
-package eu.sanjin.kurelic.photostorage.data.repository;
+package eu.sanjin.kurelic.photostorage.modules.photo.repository;
 
-import eu.sanjin.kurelic.photostorage.data.entity.Photo;
-import eu.sanjin.kurelic.photostorage.data.entity.Photo_;
+import eu.sanjin.kurelic.photostorage.modules.photo.entity.Photo;
+import eu.sanjin.kurelic.photostorage.modules.photo.entity.Photo_;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,8 +17,8 @@ public class PhotoSpecification {
     return (root, criteriaQuery, criteriaBuilder) -> root.get(Photo_.author).in(authorIds);
   }
 
-  public static Specification<Photo> findAllByHashTagsIdIn(List<Long> hashTagIds) {
-    return (root, criteriaQuery, criteriaBuilder) -> root.get(Photo_.hashTags).in(hashTagIds);
+  public static Specification<Photo> findAllByHashtagsIdIn(List<Long> hashtagIds) {
+    return (root, criteriaQuery, criteriaBuilder) -> root.get(Photo_.hashtags).in(hashtagIds);
   }
 
   public static Specification<Photo> findAllBySize(Integer size) {
@@ -34,7 +34,7 @@ public class PhotoSpecification {
 
   public static Specification<Photo> combineSpecifications(List<Specification<Photo>> specificationList) {
     Specification<Photo> specification = null;
-    for(var s : specificationList) {
+    for (var s : specificationList) {
       if (Objects.isNull(specification)) {
         specification = s;
       } else {

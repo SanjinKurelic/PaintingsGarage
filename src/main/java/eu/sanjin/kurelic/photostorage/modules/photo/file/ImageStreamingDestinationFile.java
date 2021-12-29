@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.photostorage.model;
+package eu.sanjin.kurelic.photostorage.modules.photo.file;
 
 import net.schmizz.sshj.xfer.InMemoryDestFile;
 
@@ -11,7 +11,7 @@ public class ImageStreamingDestinationFile extends InMemoryDestFile {
   private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
   @Override
-  public OutputStream getOutputStream() throws IOException {
+  public OutputStream getOutputStream() {
     return outputStream;
   }
 
