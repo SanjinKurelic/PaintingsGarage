@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import ImageActionButton from './ImageActionButton'
 import {AiOutlineCloseCircle} from 'react-icons/all'
-import {fileUrl} from '../../redux/api/fileApi'
+import {photoUrl} from '../../redux/api/photoApi'
 
 const Image = ({image, setSelectedImage}) => {
   const closeDialog = () => {
@@ -15,7 +15,7 @@ const Image = ({image, setSelectedImage}) => {
         <div className="modal-content" style={{background: 'black', color: '#BEBEBE'}}>
           <div className="modal-body row p-5">
             <div className="col-9" style={{
-              background: `url(${fileUrl}/download/${image.path})`,
+              background: `url(${photoUrl}/download/${image.path})`,
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
@@ -47,7 +47,7 @@ Image.propType = {
     uploaded: PropTypes.string.isRequired,
     description: PropTypes.string,
     ownershipType: PropTypes.string,
-    hashTags: PropTypes.array
+    hashtags: PropTypes.array
   })
 }
 

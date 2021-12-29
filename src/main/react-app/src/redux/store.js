@@ -1,12 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit'
-import {searchApi} from './api/searchApi'
+import {photoApi} from './api/photoApi'
 import {setupListeners} from '@reduxjs/toolkit/query'
 
 export const store = configureStore({
   reducer: {
-    [searchApi.reducerPath]: searchApi.reducer
+    [photoApi.reducerPath]: photoApi.reducer
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(searchApi.middleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(photoApi.middleware)
 })
 
 setupListeners(store.dispatch)

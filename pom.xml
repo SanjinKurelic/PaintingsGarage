@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.5.2</version>
+    <version>2.6.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -18,12 +18,14 @@
   <description>Demo project for Spring Boot</description>
 
   <properties>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
     <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
     <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
-    <org.hibernate-jpamodelgen.version>5.5.3.Final</org.hibernate-jpamodelgen.version>
-    <com.sshj.version>0.31.0</com.sshj.version>
+    <org.hibernate-jpamodelgen.version>5.6.3.Final</org.hibernate-jpamodelgen.version>
+    <com.sshj.version>0.32.0</com.sshj.version>
+    <org.apache.commons.version>3.12.0</org.apache.commons.version>
+    <io.jjwt.version>0.9.1</io.jjwt.version>
     <!-- frontend -->
     <maven.frontend.plugin>1.12.0</maven.frontend.plugin>
     <maven.resources.plugin>3.2.0</maven.resources.plugin>
@@ -75,6 +77,18 @@
       <groupId>com.hierynomus</groupId>
       <artifactId>sshj</artifactId>
       <version>${com.sshj.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${org.apache.commons.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt</artifactId>
+      <version>${io.jjwt.version}</version>
     </dependency>
 
     <dependency>

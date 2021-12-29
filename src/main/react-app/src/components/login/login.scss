@@ -1,0 +1,18 @@
+.login {
+  &-divider:after, &-divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+  }
+
+  &-social-media-button {
+    width: 45px;
+    height: 45px;
+  }
+
+  &-submit-button {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}

@@ -10,8 +10,6 @@ public class WrongArgumentException extends RuntimeException implements MessageB
   @RequiredArgsConstructor
   @Getter
   public enum WrongArgumentMessage {
-    WRONG_DATE_FROM_TO_PATTERN("wrong.date.from.to.pattern"),
-    WRONG_SIZE_TYPE("wrong.size.type"),
     WRONG_FILE_FORMAT("wrong.file.argument");
 
     private final String errorCode;

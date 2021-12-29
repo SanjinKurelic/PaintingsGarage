@@ -9,7 +9,14 @@ spring:
       max-file-size: 500MB
       max-request-size: 512MB
 
-smp:
+app:
+  react:
+    urls:
+      - /login
+      - /home
+  jwt:
+    secret: '024d1700-85de-45d8-9c4d-37ce2a545290'
+    expiration: 60
   file:
     directory: ./images/
     host: localhost

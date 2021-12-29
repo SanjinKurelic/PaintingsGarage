@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import ImageActionButton from './ImageActionButton'
 import HashtagList from '../hashtag/HashtagList'
-import {fileUrl} from '../../redux/api/fileApi'
+import {photoUrl} from '../../redux/api/photoApi'
 
 const ImageGallery = ({images, setSelectedImage}) => {
   return (
@@ -17,9 +17,9 @@ const ImageGallery = ({images, setSelectedImage}) => {
             </div>
           </div>
           <img onClick={() => setSelectedImage(image)} width="100%" alt={image.description}
-               src={`${fileUrl}/download/${image.thumbnail}`} role="button"/>
+               src={`${photoUrl}/download/${image.thumbnail}`} role="button"/>
           <div className="row justify-content-between p-2">
-            <div className="col-9 overflow-hidden"><HashtagList hashtagItems={image.hashTags}/></div>
+            <div className="col-9 overflow-hidden"><HashtagList hashtagItems={image.hashtags}/></div>
             <div className="col-3 text-end">
               <ImageActionButton type={image.ownershipType}/>
             </div>
@@ -39,7 +39,7 @@ ImageGallery.propTypes = {
     uploaded: PropTypes.string.isRequired,
     description: PropTypes.string,
     ownershipType: PropTypes.string,
-    hashTags: PropTypes.array
+    hashtags: PropTypes.array
   }))
 }
 

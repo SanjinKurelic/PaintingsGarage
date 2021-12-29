@@ -7,7 +7,7 @@
     cursor: pointer !important;
 
     &:hover {
-      background: red;
+      background: var(--bs-yellow);
     }
   }
 }

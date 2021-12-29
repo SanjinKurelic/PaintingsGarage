@@ -2,9 +2,13 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(255) NOT NULL,
+  name VARCHAR(50) UNIQUE NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  role ENUM('ROLE_ADMIN', 'ROLE_USER') NOT NULL,
   password VARCHAR(80) NOT NULL,
-  active BOOLEAN DEFAULT FALSE
+  active BOOLEAN DEFAULT FALSE,
+  registered DATE DEFAULT CURRENT_DATE,
+  avatar VARCHAR(40) DEFAULT 'user.jpg'
 );
 
 
@@ -14,11 +18,22 @@ CREATE TABLE photo (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   path VARCHAR(255) NOT NULL,
   thumbnail VARCHAR(255) NOT NULL,
+  title VARCHAR(50) NOT NULL,
   description VARCHAR(500) NULL,
   size INT NOT NULL,
   uploaded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   user_id BIGINT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+DROP TABLE IF EXISTS photo_owner;
+
+CREATE TABLE photo_owner (
+  user_id BIGINT NOT NULL,
+  photo_id BIGINT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (photo_id) REFERENCES photo(id)
 );
 
 

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import {AiOutlineDelete, AiOutlineDollar, AiOutlineDownload, AiOutlineEdit} from 'react-icons/all'
+import './imageActionButton.scss'
 
 const ImageActionButton = ({type, size}) => {
   switch (type) {
@@ -25,7 +26,7 @@ ImageActionButton.propTypes = {
 
 ImageActionButton.defaultProps = {
   type: 'NONE',
-  size: '1.2em'
+  size: '1.3em'
 }
 
 export default ImageActionButton
