@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.photostorage.exceptions;
+package eu.sanjin.kurelic.photostorage.common.exceptions;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

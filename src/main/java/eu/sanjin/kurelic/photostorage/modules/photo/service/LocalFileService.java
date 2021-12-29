@@ -1,7 +1,7 @@
 package eu.sanjin.kurelic.photostorage.modules.photo.service;
 
-import eu.sanjin.kurelic.photostorage.exceptions.InternalServerError;
-import eu.sanjin.kurelic.photostorage.exceptions.WrongArgumentException;
+import eu.sanjin.kurelic.photostorage.common.exceptions.InternalServerError;
+import eu.sanjin.kurelic.photostorage.common.exceptions.WrongArgumentException;
 import eu.sanjin.kurelic.photostorage.modules.photo.file.ImageStreamingDestinationFile;
 import eu.sanjin.kurelic.photostorage.modules.photo.file.ImageStreamingSourceFile;
 import eu.sanjin.kurelic.photostorage.modules.photo.config.FileStorageConfig;
