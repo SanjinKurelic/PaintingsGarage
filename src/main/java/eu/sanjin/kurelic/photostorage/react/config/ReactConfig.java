@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.photostorage.config;
+package eu.sanjin.kurelic.photostorage.react.config;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package eu.sanjin.kurelic.photostorage.config;
+package eu.sanjin.kurelic.photostorage.react.config;
 
-import eu.sanjin.kurelic.photostorage.filter.ReactRouterFilter;
+import eu.sanjin.kurelic.photostorage.react.filter.ReactRouterFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

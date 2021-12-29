@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.photostorage.filter;
+package eu.sanjin.kurelic.photostorage.react.filter;
 
 import lombok.extern.slf4j.Slf4j;
 
