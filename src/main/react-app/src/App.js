@@ -7,7 +7,6 @@ import {useGetLatestImagesQuery} from './redux/api/photoApi'
 import Footer from './components/footer/Footer'
 import {BrowserRouter, Route} from 'react-router-dom'
 import Login from './components/login/Login'
-import './app.scss'
 
 function App() {
   const latestImages = useGetLatestImagesQuery()
