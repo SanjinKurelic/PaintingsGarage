@@ -1,6 +1,6 @@
+import {Button, Container} from 'react-bootstrap'
 import Header from './components/header/Header'
 import ImageGallery from './components/image/ImageGallery'
-import {Container} from 'react-bootstrap'
 import {useState} from 'react'
 import Image from './components/image/Image'
 import {useGetLatestImagesQuery} from './redux/api/photoApi'
@@ -11,14 +11,30 @@ import Login from './components/login/Login'
 function App() {
   const latestImages = useGetLatestImagesQuery()
   const [selectedImage, setSelectedImage] = useState(null)
+  const [searchImageResults, setSearchImageResults] = useState(null)
+  const [searchFired, setSearchFired] = useState(false)
+
+  const images = () => {
+    if (searchFired && searchImageResults.isSuccess) {
+      return searchImageResults.data
+    }
+    if (!searchFired && latestImages.isSuccess) {
+      return latestImages.data
+    }
+    return []
+  }
 
   return (
     <BrowserRouter>
-      <Header/>
+      <Header setSearchImageResults={setSearchImageResults} setSearchFired={setSearchFired}/>
       <Container style={{marginBottom: '58px'}}>
         <Route path="/" exact render={() => (
           <>
-            {latestImages.isSuccess && <ImageGallery images={latestImages.data} setSelectedImage={setSelectedImage}/>}
+            {(images().length === 0 && searchFired) && <div className="m-3 fst-italic text-danger">
+              Sorry, but nothing matched your search terms. Please try again with some different keywords or&nbsp;
+              <Button variant="link" className="fst-italic p-0 align-baseline" onClick={() => setSearchFired(false)}>view latest images.</Button>
+            </div>}
+            <ImageGallery images={images()} setSelectedImage={setSelectedImage}/>
             {selectedImage && <Image image={selectedImage} setSelectedImage={setSelectedImage}/>}
           </>
         )}/>

@@ -1,7 +1,7 @@
 import {Button, FormControl, InputGroup} from 'react-bootstrap'
 import {BsCalendar, BsImage, BsSearch} from 'react-icons/bs'
 import './search.scss'
-import {createRef, forwardRef, useState} from 'react'
+import {createRef, forwardRef, useEffect, useState} from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.min.css'
 import {useFindAuthorQuery} from '../../redux/api/userApi'
@@ -10,11 +10,12 @@ import {useFindImagesQuery} from '../../redux/api/photoApi'
 import {AiOutlineCloseCircle} from 'react-icons/all'
 import SearchFilter from './SearchFilter'
 
-const Search = ({setSearchImageResults}) => {
+const Search = ({setSearchImageResults, setSearchFired}) => {
   // Fetch results
   const [searchQuery, setSearchQuery] = useState({})
   const searchInput = createRef()
-  setSearchImageResults(useFindImagesQuery(searchQuery))
+  const foundImages = useFindImagesQuery(searchQuery)
+  useEffect(() => setSearchImageResults(foundImages), [setSearchImageResults, foundImages])
 
   // Search for specific image size
   const [currentImageSize, setCurrentImageSize] = useState(0)
@@ -84,6 +85,7 @@ const Search = ({setSearchImageResults}) => {
     }
 
     setSearchQuery(args)
+    setSearchFired(true)
   }
 
   return (
@@ -106,22 +108,22 @@ const Search = ({setSearchImageResults}) => {
       </InputGroup>
       <SearchFilter authors={authors} setAuthors={setAuthors} hashtags={hashtags} setHashtags={setHashtags}/>
       {((findAuthor.isSuccess && findAuthor.data.length > 0) || (findHashtag.isSuccess && findHashtag.data.length > 0)) &&
-      <div className="position-absolute w-100 search-content">
-        {findAuthor.isSuccess && findAuthor.data.map((result) =>
-          <div className="search-content-result p-2" key={result.id}
-               onClick={() => {
-                 setAuthors([...authors, result])
-                 clearSearchField()
-               }}>{result.value}</div>
-        )}
-        {findHashtag.isSuccess && findHashtag.data.map((result) =>
-          <div className="search-content-result p-2" key={result.id}
-               onClick={() => {
-                 setHashtags([...hashtags, result])
-                 clearSearchField()
-               }}>{result.value}</div>
-        )}
-      </div>}
+        <div className="position-absolute w-100 search-content">
+          {findAuthor.isSuccess && findAuthor.data.map((result) =>
+            <div className="search-content-result p-2" key={result.id}
+                 onClick={() => {
+                   setAuthors([...authors, result])
+                   clearSearchField()
+                 }}>{result.value}</div>
+          )}
+          {findHashtag.isSuccess && findHashtag.data.map((result) =>
+            <div className="search-content-result p-2" key={result.id}
+                 onClick={() => {
+                   setHashtags([...hashtags, result])
+                   clearSearchField()
+                 }}>{result.value}</div>
+          )}
+        </div>}
     </div>
   )
 }
