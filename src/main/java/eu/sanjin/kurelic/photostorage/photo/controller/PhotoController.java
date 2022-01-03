@@ -61,12 +61,6 @@ public class PhotoController {
     @RequestParam(required = false) LocalDateTime dateFrom,
     @RequestParam(required = false) LocalDateTime dateTo
   ) {
-    var images = photoService.findImages(authors, hashtags, size, dateFrom, dateTo);
-
-    if (Objects.isNull(images) || images.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    return ResponseEntity.ok(images);
+    return ResponseEntity.ok(photoService.findImages(authors, hashtags, size, dateFrom, dateTo));
   }
 }

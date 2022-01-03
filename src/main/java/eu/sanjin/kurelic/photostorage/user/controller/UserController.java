@@ -1,9 +1,9 @@
 package eu.sanjin.kurelic.photostorage.user.controller;
 
 import eu.sanjin.kurelic.photostorage.common.model.SearchResult;
+import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
 import eu.sanjin.kurelic.photostorage.user.model.Author;
 import eu.sanjin.kurelic.photostorage.user.service.UserService;
-import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,12 +50,6 @@ public class UserController {
 
   @GetMapping("/find/{authorName}")
   public ResponseEntity<List<SearchResult>> findAuthor(@PathVariable String authorName) {
-    var authorList = service.findAuthor(authorName);
-
-    if (Objects.isNull(authorList) || authorList.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    return ResponseEntity.ok(authorList);
+    return ResponseEntity.ok(service.findAuthor(authorName));
   }
 }

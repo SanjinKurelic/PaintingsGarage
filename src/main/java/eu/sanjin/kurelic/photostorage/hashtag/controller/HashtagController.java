@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,12 +20,6 @@ public class HashtagController {
 
   @GetMapping("/find/{hashtagName}")
   public ResponseEntity<List<SearchResult>> findHashtag(@PathVariable String hashtagName) {
-    var hashtagList = hashtagService.findHashtag(hashtagName);
-
-    if (Objects.isNull(hashtagList) || hashtagList.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    return ResponseEntity.ok(hashtagList);
+    return ResponseEntity.ok(hashtagService.findHashtag(hashtagName));
   }
 }
