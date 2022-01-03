@@ -4,9 +4,12 @@
 
     &:hover, &:focus {
       color: var(--bs-yellow);
-      background: var(--bs-gray-800);
       box-shadow: none;
       outline-style: none;
+
+      svg {
+        filter: drop-shadow(0 0 5px var(--bs-yellow));
+      }
     }
   }
 }
