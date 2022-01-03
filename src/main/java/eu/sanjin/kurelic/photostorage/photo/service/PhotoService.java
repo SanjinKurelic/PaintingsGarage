@@ -2,6 +2,7 @@ package eu.sanjin.kurelic.photostorage.photo.service;
 
 import eu.sanjin.kurelic.photostorage.photo.mapper.PhotoMapper;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoData;
+import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import eu.sanjin.kurelic.photostorage.photo.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class PhotoService {
     return photoList;
   }
 
-  public List<PhotoData> findImages(List<Long> authors, List<Long> hashtags, Integer size, LocalDateTime dateFrom, LocalDateTime dateTo) {
+  public List<PhotoData> findImages(List<Long> authors, List<Long> hashtags, PhotoSize size, LocalDateTime dateFrom, LocalDateTime dateTo) {
     return photoMapper.mapPhotoListToPhotoDataList(photoRepository.findAllBy(authors, hashtags, size, dateFrom, dateTo));
   }
 }

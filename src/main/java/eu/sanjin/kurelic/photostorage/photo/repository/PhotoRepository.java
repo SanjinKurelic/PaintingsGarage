@@ -1,6 +1,7 @@
 package eu.sanjin.kurelic.photostorage.photo.repository;
 
 import eu.sanjin.kurelic.photostorage.photo.entity.Photo;
+import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -22,7 +23,7 @@ public interface PhotoRepository extends JpaRepository<Photo, Long>, JpaSpecific
 
   List<Photo> findFirst9ByOrderByUploadedDesc();
 
-  default List<Photo> findAllBy(List<Long> authors, List<Long> hashtags, Integer size, LocalDateTime dateFrom, LocalDateTime dateTo) {
+  default List<Photo> findAllBy(List<Long> authors, List<Long> hashtags, PhotoSize size, LocalDateTime dateFrom, LocalDateTime dateTo) {
     var specificationList = new ArrayList<Specification<Photo>>();
 
     if (Objects.nonNull(authors) && !authors.isEmpty()) {

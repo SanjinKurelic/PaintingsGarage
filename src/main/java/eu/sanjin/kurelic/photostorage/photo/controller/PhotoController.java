@@ -1,6 +1,7 @@
 package eu.sanjin.kurelic.photostorage.photo.controller;
 
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoData;
+import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import eu.sanjin.kurelic.photostorage.photo.service.FileService;
 import eu.sanjin.kurelic.photostorage.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +58,7 @@ public class PhotoController {
   public ResponseEntity<List<PhotoData>> findImages(
     @RequestParam(required = false) List<Long> authors,
     @RequestParam(required = false) List<Long> hashtags,
-    @RequestParam(required = false) Integer size,
+    @RequestParam(required = false) PhotoSize size,
     @RequestParam(required = false) LocalDateTime dateFrom,
     @RequestParam(required = false) LocalDateTime dateTo
   ) {
