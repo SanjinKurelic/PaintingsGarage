@@ -1,0 +1,12 @@
+.header {
+  &-link {
+    color: var(--bs-yellow);
+
+    &:hover, &:focus {
+      color: var(--bs-yellow);
+      background: var(--bs-gray-800);
+      box-shadow: none;
+      outline-style: none;
+    }
+  }
+}
