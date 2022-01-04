@@ -18,13 +18,25 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
   useEffect(() => setSearchImageResults(foundImages), [setSearchImageResults, foundImages])
 
   // Search for specific image size
-  const [currentImageSize, setCurrentImageSize] = useState(0)
+  const [currentImageSize, setCurrentImageSize] = useState(1)
   const imageSize = [{size: 1, value: 'NORMAL'}, {size: 1.3, value: 'BIG'}, {size: 0.7, value: 'SMALL'}]
 
-  const changeImageSize = (e) => {
-    setCurrentImageSize((currentImageSize + 1) % imageSize.length)
+  const changeImageSize = () => {
+    let currentImage = imageSize.find(({size}) => size === currentImageSize) || {size: 1}
+    let currentSize = currentImage.size
 
-    e.currentTarget.style.fontSize = imageSize[currentImageSize].size + 'em'
+    // Bugfix: Implementation that use array index as currentImageSize worked unexpectedly in some situations
+    let nextSize = (s) => {
+      switch (s) {
+        case 1:
+          return 1.3
+        case 1.3:
+          return 0.7
+        default:
+          return 1
+      }
+    }
+    setCurrentImageSize(nextSize(currentSize))
   }
 
   // Search for specific date
@@ -61,27 +73,28 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
       setCurrentHashtag(query.substring(1))
     }
   }
+
   const clearSearchField = () => {
     setCurrentAuthor('n')
     setCurrentHashtag('n')
     searchInput.current.value = ''
   }
 
-
   // Perform search
   const search = () => {
     let args = {}
 
-    if (imageSize[currentImageSize].value !== 'NORMAL') {
-      args.size = imageSize[currentImageSize].value
+    if (imageSize.find(({size, value}) => (size === currentImageSize && value !== 'NORMAL'))) {
+      args.size = imageSize.find(({size}) => size === currentImageSize).value
     }
     args.authors = authors.map(({id}) => id).join(',')
     args.hashtags = hashtags.map(({id}) => id).join(',')
+    // Using searchDate variable because there is a Date object stored
     if (startDate) {
-      args.dateFrom = startDate
+      args.dateFrom = searchDate[0].toISOString()
     }
     if (endDate) {
-      args.dateTo = endDate
+      args.dateTo = searchDate[1].toISOString()
     }
 
     setSearchQuery(args)
@@ -103,7 +116,8 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
                     showYearDropdown
                     withPortal
                     customInput={<SearchElement/>}/>
-        <InputGroup.Text className="search-action" onClick={changeImageSize}><BsImage/></InputGroup.Text>
+        <InputGroup.Text className="search-action" onClick={changeImageSize}><BsImage
+          style={{fontSize: currentImageSize + 'em'}}/></InputGroup.Text>
         <InputGroup.Text className="search-action" onClick={search}><BsSearch/></InputGroup.Text>
       </InputGroup>
       <SearchFilter authors={authors} setAuthors={setAuthors} hashtags={hashtags} setHashtags={setHashtags}/>

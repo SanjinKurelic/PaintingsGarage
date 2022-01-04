@@ -18,8 +18,8 @@ public class PhotoSpecification {
     return (root, criteriaQuery, criteriaBuilder) -> root.get(Photo_.author).in(authorIds);
   }
 
-  public static Specification<Photo> findAllByHashtagsIdIn(List<Long> hashtagIds) {
-    return (root, criteriaQuery, criteriaBuilder) -> root.get(Photo_.hashtags).in(hashtagIds);
+  public static Specification<Photo> findAllByPhotoIdIn(List<Long> photoIds) {
+    return (root, criteriaQuery, criteriaBuilder) -> root.get(Photo_.id).in(photoIds);
   }
 
   public static Specification<Photo> findAllBySize(PhotoSize size) {

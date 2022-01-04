@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -52,14 +52,19 @@ public class Photo implements Serializable {
   private User author;
 
   // We always require hashtags with photo entity
-  @ManyToMany(mappedBy = "photoList", fetch = FetchType.EAGER)
-  private List<Hashtag> hashtags;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+    name = "hashtag_photo",
+    joinColumns = @JoinColumn(name = "photo_id"),
+    inverseJoinColumns = @JoinColumn(name = "hashtag_id")
+  )
+  private Set<Hashtag> hashtags;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
     name = "photo_owner",
     joinColumns = {@JoinColumn(name = "photo_id")},
     inverseJoinColumns = {@JoinColumn(name = "user_id")}
   )
-  private List<User> owners;
+  private Set<User> owners;
 }

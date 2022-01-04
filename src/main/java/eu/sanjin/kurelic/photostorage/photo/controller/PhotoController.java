@@ -5,6 +5,8 @@ import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import eu.sanjin.kurelic.photostorage.photo.service.FileService;
 import eu.sanjin.kurelic.photostorage.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/photo")
@@ -46,6 +49,7 @@ public class PhotoController {
 
     return ResponseEntity.ok()
       .contentType(fileService.getMediaType(fileName))
+      .cacheControl(CacheControl.maxAge(3, TimeUnit.HOURS).mustRevalidate().noTransform())
       .body(content);
   }
 
@@ -59,8 +63,8 @@ public class PhotoController {
     @RequestParam(required = false) List<Long> authors,
     @RequestParam(required = false) List<Long> hashtags,
     @RequestParam(required = false) PhotoSize size,
-    @RequestParam(required = false) LocalDateTime dateFrom,
-    @RequestParam(required = false) LocalDateTime dateTo
+    @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateFrom,
+    @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo
   ) {
     return ResponseEntity.ok(photoService.findImages(authors, hashtags, size, dateFrom, dateTo));
   }
