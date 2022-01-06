@@ -4,17 +4,16 @@ import './search.scss'
 import {createRef, forwardRef, useEffect, useState} from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.min.css'
-import {useFindAuthorQuery} from '../../redux/api/userApi'
-import {useFindHashtagQuery} from '../../redux/api/hashtagApi'
-import {useFindImagesQuery} from '../../redux/api/photoApi'
+import {useLazyFindAuthorQuery} from '../../redux/api/userApi'
+import {useLazyFindHashtagQuery} from '../../redux/api/hashtagApi'
+import {useLazyFindImagesQuery} from '../../redux/api/photoApi'
 import {AiOutlineCloseCircle} from 'react-icons/all'
 import SearchFilter from './SearchFilter'
 
 const Search = ({setSearchImageResults, setSearchFired}) => {
   // Fetch results
-  const [searchQuery, setSearchQuery] = useState({})
   const searchInput = createRef()
-  const foundImages = useFindImagesQuery(searchQuery)
+  const [findImages, foundImages] = useLazyFindImagesQuery()
   useEffect(() => setSearchImageResults(foundImages), [setSearchImageResults, foundImages])
 
   // Search for specific image size
@@ -53,12 +52,14 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
 
   // Search for author or hashtag
   const [authors, setAuthors] = useState([])
-  const [currentAuthor, setCurrentAuthor] = useState('n')
-  const findAuthor = useFindAuthorQuery(currentAuthor)
+  const [foundAuthors, setFoundAuthors] = useState({isSuccess: false})
+  const [findAuthor, findAuthorResult] = useLazyFindAuthorQuery()
+  useEffect(() => setFoundAuthors(findAuthorResult), [findAuthorResult])
 
   const [hashtags, setHashtags] = useState([])
-  const [currentHashtag, setCurrentHashtag] = useState('n')
-  const findHashtag = useFindHashtagQuery(currentHashtag)
+  const [foundHashtags, setFoundHashtags] = useState({isSuccess: false})
+  const [findHashtag, findHashtagResult] = useLazyFindHashtagQuery()
+  useEffect(() => setFoundHashtags(findHashtagResult), [findHashtagResult])
 
   const findAuthorOrHashtag = (e) => {
     let query = e.target.value
@@ -68,15 +69,15 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
     }
 
     if (query.startsWith('@')) {
-      setCurrentAuthor(query.substring(1))
+      findAuthor(query.substring(1))
     } else if (query.startsWith('#')) {
-      setCurrentHashtag(query.substring(1))
+      findHashtag(query.substring(1))
     }
   }
 
   const clearSearchField = () => {
-    setCurrentAuthor('n')
-    setCurrentHashtag('n')
+    setFoundAuthors({isSuccess: false})
+    setFoundHashtags({isSuccess: false})
     searchInput.current.value = ''
   }
 
@@ -97,7 +98,7 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
       args.dateTo = searchDate[1].toISOString()
     }
 
-    setSearchQuery(args)
+    findImages(args)
     setSearchFired(true)
   }
 
@@ -121,16 +122,16 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
         <InputGroup.Text className="search-action" onClick={search}><BsSearch/></InputGroup.Text>
       </InputGroup>
       <SearchFilter authors={authors} setAuthors={setAuthors} hashtags={hashtags} setHashtags={setHashtags}/>
-      {((findAuthor.isSuccess && findAuthor.data.length > 0) || (findHashtag.isSuccess && findHashtag.data.length > 0)) &&
+      {((foundAuthors.isSuccess && foundAuthors.data.length > 0) || (foundHashtags.isSuccess && foundHashtags.data.length > 0)) &&
         <div className="position-absolute w-100 search-content">
-          {findAuthor.isSuccess && findAuthor.data.map((result) =>
+          {foundAuthors.isSuccess && foundAuthors.data.map((result) =>
             <div className="search-content-result p-2" key={result.id}
                  onClick={() => {
                    setAuthors([...authors, result])
                    clearSearchField()
                  }}>{result.value}</div>
           )}
-          {findHashtag.isSuccess && findHashtag.data.map((result) =>
+          {foundHashtags.isSuccess && foundHashtags.data.map((result) =>
             <div className="search-content-result p-2" key={result.id}
                  onClick={() => {
                    setHashtags([...hashtags, result])

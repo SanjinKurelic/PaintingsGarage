@@ -15,4 +15,4 @@ export const userApi = createApi({
   })
 })
 
-export const {useFindAuthorQuery} = userApi
+export const {useLazyFindAuthorQuery} = userApi

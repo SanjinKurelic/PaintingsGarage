@@ -23,4 +23,4 @@ export const photoApi = createApi({
   })
 })
 
-export const {useGetLatestImagesQuery, useFindImagesQuery} = photoApi
+export const {useGetLatestImagesQuery, useLazyFindImagesQuery} = photoApi

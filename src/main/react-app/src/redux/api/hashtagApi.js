@@ -15,4 +15,4 @@ export const hashtagApi = createApi({
   })
 })
 
-export const {useFindHashtagQuery} = hashtagApi
+export const {useLazyFindHashtagQuery} = hashtagApi
