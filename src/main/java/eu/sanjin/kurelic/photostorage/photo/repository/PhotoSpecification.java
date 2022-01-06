@@ -2,6 +2,7 @@ package eu.sanjin.kurelic.photostorage.photo.repository;
 
 import eu.sanjin.kurelic.photostorage.photo.entity.Photo;
 import eu.sanjin.kurelic.photostorage.photo.entity.Photo_;
+import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,12 +18,15 @@ public class PhotoSpecification {
     return (root, criteriaQuery, criteriaBuilder) -> root.get(Photo_.author).in(authorIds);
   }
 
-  public static Specification<Photo> findAllByHashtagsIdIn(List<Long> hashtagIds) {
-    return (root, criteriaQuery, criteriaBuilder) -> root.get(Photo_.hashtags).in(hashtagIds);
+  public static Specification<Photo> findAllByPhotoIdIn(List<Long> photoIds) {
+    return (root, criteriaQuery, criteriaBuilder) -> root.get(Photo_.id).in(photoIds);
   }
 
-  public static Specification<Photo> findAllBySize(Integer size) {
-    return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get(Photo_.size), size);
+  public static Specification<Photo> findAllBySize(PhotoSize size) {
+    return (root, criteriaQuery, criteriaBuilder) -> switch (size) {
+      case SMALL -> criteriaBuilder.le(root.get(Photo_.size), 1000);
+      case BIG -> criteriaBuilder.ge(root.get(Photo_.size), 4000);
+    };
   }
 
   public static Specification<Photo> findAllByUploadedAfterAndUploadedBefore(LocalDateTime from, LocalDateTime to) {

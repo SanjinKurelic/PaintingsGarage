@@ -1,0 +1,15 @@
+.header {
+  &-link {
+    color: var(--bs-yellow);
+
+    &:hover, &:focus {
+      color: var(--bs-yellow);
+      box-shadow: none;
+      outline-style: none;
+
+      svg {
+        filter: drop-shadow(0 0 5px var(--bs-yellow));
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+.search {
+  max-width: 600px;
+
+  &-input {
+    border-bottom: 1px solid var(--bs-gray-400);
+
+    &:hover {
+      border-color: var(--bs-yellow);
+    }
+
+    input {
+      color: var(--bs-gray-400);
+      background: transparent;
+      border: none;
+
+      &:focus {
+        color: var(--bs-gray-400);
+        background: transparent;
+        box-shadow: none;
+        outline-style: none;
+      }
+    }
+  }
+
+  &-action {
+    cursor: pointer;
+    background: transparent;
+    color: var(--bs-gray-400);
+    height: 38px;
+    border: none;
+
+    &:hover {
+      color: var(--bs-yellow);
+    }
+  }
+
+  &-date {
+    &-value {
+      padding-left: 12px;
+      font-size: 0.8em;
+    }
+
+    &-clear {
+      padding-right: 0;
+      text-decoration: none;
+      color: var(--bs-gray-400);
+
+      &:hover {
+        cursor: pointer;
+        color: var(--bs-yellow);
+      }
+    }
+  }
+
+  &-content {
+    font-size: 0.8em;
+    color: var(--bs-gray-400);
+    background: var(--bs-dark);
+    box-shadow: 0 0 10px var(--bs-dark);
+
+    &-result {
+      border-bottom: 1px solid var(--bs-gray-700);
+      cursor: pointer;
+
+      &:hover {
+        color: var(--bs-gray-900);
+        background: var(--bs-yellow);
+      }
+    }
+  }
+}

@@ -1,6 +1,5 @@
 package eu.sanjin.kurelic.photostorage.hashtag.entity;
 
-import eu.sanjin.kurelic.photostorage.photo.entity.Photo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,12 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
 
 @Getter
 @Setter
@@ -30,12 +25,4 @@ public class Hashtag implements Serializable {
   private Long id;
 
   private String name;
-
-  @ManyToMany
-  @JoinTable(
-    name = "hashtag_photo",
-    joinColumns = @JoinColumn(name = "hashtag_id"),
-    inverseJoinColumns = @JoinColumn(name = "photo_id")
-  )
-  private List<Photo> photoList;
 }

@@ -11,8 +11,16 @@ export const photoApi = createApi({
   endpoints: (builder) => ({
     getLatestImages: builder.query({
       query: () => 'latest'
+    }),
+    findImages: builder.query({
+      query: (arg) => {
+        return {
+          url: 'find',
+          params: arg
+        }
+      }
     })
   })
 })
 
-export const {useGetLatestImagesQuery} = photoApi
+export const {useGetLatestImagesQuery, useFindImagesQuery} = photoApi
