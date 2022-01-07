@@ -7,6 +7,7 @@ import {useGetLatestImagesQuery} from './redux/api/photoApi'
 import Footer from './components/footer/Footer'
 import {BrowserRouter, Route} from 'react-router-dom'
 import Login from './components/login/Login'
+import User from './components/user/User'
 
 function App() {
   const latestImages = useGetLatestImagesQuery()
@@ -32,13 +33,15 @@ function App() {
           <>
             {(images().length === 0 && searchFired) && <div className="m-3 fst-italic text-danger">
               Sorry, but nothing matched your search terms. Please try again with some different keywords or&nbsp;
-              <Button variant="link" className="fst-italic p-0 align-baseline" onClick={() => setSearchFired(false)}>view latest images.</Button>
+              <Button variant="link" className="fst-italic p-0 align-baseline" onClick={() => setSearchFired(false)}>view
+                latest images.</Button>
             </div>}
             <ImageGallery images={images()} setSelectedImage={setSelectedImage}/>
             {selectedImage && <Image image={selectedImage} setSelectedImage={setSelectedImage}/>}
           </>
         )}/>
         <Route path="/login" component={Login}/>
+        <Route path="/user" component={User}/>
       </Container>
       <Footer/>
     </BrowserRouter>

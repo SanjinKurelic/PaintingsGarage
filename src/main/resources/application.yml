@@ -13,7 +13,8 @@ app:
   react:
     urls:
       - /login
-      - /home
+      - /user
+      - /cart
   jwt:
     secret: '024d1700-85de-45d8-9c4d-37ce2a545290'
     expiration: 60
