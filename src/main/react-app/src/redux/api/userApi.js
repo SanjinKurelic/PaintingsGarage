@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {baseUrl} from './baseApi'
-import {setAuthHeader} from '../auth'
+import {setAuthHeader} from '../util/headerBuilder'
 
 export const userUrl = baseUrl + '/user'
 
@@ -8,7 +8,7 @@ export const userApi = createApi({
   reducerPath: 'user',
   baseQuery: fetchBaseQuery({
     baseUrl: userUrl,
-    prepareHeaders: (headers) => setAuthHeader(headers)
+    prepareHeaders: (headers, {getState}) => setAuthHeader(headers, getState)
   }),
   endpoints: (builder) => ({
     findAuthor: builder.query({
