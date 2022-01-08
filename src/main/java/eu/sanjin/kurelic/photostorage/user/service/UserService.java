@@ -1,11 +1,13 @@
 package eu.sanjin.kurelic.photostorage.user.service;
 
 import eu.sanjin.kurelic.photostorage.common.model.SearchResult;
+import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
 import eu.sanjin.kurelic.photostorage.user.entity.User;
 import eu.sanjin.kurelic.photostorage.user.mapper.UserMapper;
 import eu.sanjin.kurelic.photostorage.user.model.Author;
 import eu.sanjin.kurelic.photostorage.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +29,18 @@ public class UserService {
     return mapper.mapUserListToSearchResultList(repository.findByNameStartingWith(name));
   }
 
-  public Author getAuthor(String name) {
-    return repository.getByName(name).map(mapper::mapUserToAuthor).orElse(null);
+  public Author getAuthorDetails() {
+    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    if (Objects.nonNull(principal) && principal instanceof UserDetailsModel user) {
+      return repository.getByName(user.getName()).map(mapper::mapUserToAuthor).orElse(null);
+    }
+
+    return null;
+  }
+
+  public List<Author> getAuthors() {
+    return mapper.mapUserListToAuthorList(repository.getAllByActiveIsTrue());
   }
 
   /**
