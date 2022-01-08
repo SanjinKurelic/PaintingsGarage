@@ -1,0 +1,11 @@
+.image-content {
+  background: var(--bs-dark);
+  color: var(--bs-gray-400);
+
+  &-image {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+  }
+}
