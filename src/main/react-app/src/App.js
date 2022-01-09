@@ -1,7 +1,7 @@
 import {Button, Container} from 'react-bootstrap'
 import Header from './components/header/Header'
 import ImageGallery from './components/image/ImageGallery'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import Image from './components/image/Image'
 import {useGetLatestImagesQuery} from './redux/api/photoApi'
 import Footer from './components/footer/Footer'
@@ -9,12 +9,22 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Login from './components/login/Login'
 import User from './components/user/User'
 import ProtectedRoute from './util/ProtectedRoute'
+import {useAuth} from './hooks/useAuth'
 
 function App() {
   const latestImages = useGetLatestImagesQuery()
   const [selectedImage, setSelectedImage] = useState(null)
   const [searchImageResults, setSearchImageResults] = useState(null)
   const [searchFired, setSearchFired] = useState(false)
+  const {user} = useAuth()
+
+  // Re-fetch if user login/logout
+  useEffect(() => {
+    return () => {
+      latestImages.refetch()
+    }
+  }, [user])
+
 
   const images = () => {
     if (searchFired && searchImageResults.isSuccess) {

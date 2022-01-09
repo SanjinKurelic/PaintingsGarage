@@ -12,7 +12,8 @@ export const photoApi = createApi({
   }),
   endpoints: (builder) => ({
     getLatestImages: builder.query({
-      query: () => 'latest'
+      query: () => 'latest',
+      providesTags: ['Photos']
     }),
     findImages: builder.query({
       query: (arg) => {
@@ -20,7 +21,16 @@ export const photoApi = createApi({
           url: 'find',
           params: arg
         }
-      }
+      },
+      providesTags: ['Photos']
+    }),
+    uploadPhoto: builder.mutation({
+      query: (photo) => ({
+        url: 'upload',
+        method: 'POST',
+        body: photo
+      }),
+      invalidatesTags: ['Photos']
     })
   })
 })
