@@ -5,8 +5,10 @@ import eu.sanjin.kurelic.photostorage.photo.entity.Photo;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoData;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoOwnershipType;
 import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
+import eu.sanjin.kurelic.photostorage.user.entity.UserRole;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
@@ -19,16 +21,20 @@ public interface PhotoMapper {
   default PhotoOwnershipType getPhotoOwnershipType(Photo photo) {
     var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     // If user is not registered he does not have ownership type
-    if (Objects.isNull(principal) || !(principal instanceof UserDetailsModel)) {
+    if (Objects.isNull(principal) || !(principal instanceof UserDetailsModel currentUser)) {
       return PhotoOwnershipType.NONE;
     }
 
-    var currentUser = ((UserDetailsModel) principal).getId();
-    // Check if user is author of image or owner (he bought it), otherwise return none
-    if (photo.getAuthor().getId().equals(currentUser)) {
+    // If user is admin he owns every photo
+    var adminRole = UserRole.ROLE_ADMIN.name();
+    if (currentUser.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(adminRole::equals)) {
       return PhotoOwnershipType.OWNER;
     }
-    if (photo.getOwners().stream().anyMatch(u -> u.getId().equals(currentUser))) {
+    // Check if user is author or owner (he/she bought it) of an image, otherwise return none
+    if (photo.getAuthor().getId().equals(currentUser.getId())) {
+      return PhotoOwnershipType.OWNER;
+    }
+    if (photo.getOwners().stream().anyMatch(u -> u.getId().equals(currentUser.getId()))) {
       return PhotoOwnershipType.BOUGHT;
     }
     return PhotoOwnershipType.NONE;

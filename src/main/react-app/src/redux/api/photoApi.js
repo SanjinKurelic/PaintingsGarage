@@ -8,7 +8,7 @@ export const photoApi = createApi({
   reducerPath: 'photo',
   baseQuery: fetchBaseQuery({
     baseUrl: photoUrl,
-    prepareHeaders: (headers, {getState}) => setAuthHeader(headers, getState)
+    prepareHeaders: (headers, {getState}) => setAuthHeader(headers, getState())
   }),
   endpoints: (builder) => ({
     getLatestImages: builder.query({

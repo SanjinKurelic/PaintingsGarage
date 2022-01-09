@@ -82,7 +82,7 @@ const Login = () => {
         </Col>
         <Col className="col-8 col-lg-6 col-xl-4 offset-xl-1 mt-5">
           {(loginResult.isError || registerResult.isError) && <div className="alert alert-danger">
-            {loginResult.isError && <span>Wrong email password combination</span>}
+            {loginResult.isError && <span>Invalid email or password</span>}
             {registerResult.isError && <span>Name or email already exists</span>}
           </div>}
           <Form noValidate validated={validated} onSubmit={submit} className="login">
@@ -120,7 +120,7 @@ const Login = () => {
             <Form.Group as={Row} className="mb-4">
               <Form.Label column className="col-3"><b>Email:</b></Form.Label>
               <Col>
-                <Form.Control required type="email" name="email" placeholder="Enter email" onChange={changeInput}
+                <Form.Control required type="email" name="email" placeholder="Enter your email" onChange={changeInput}
                               className="login-input-text"/>
                 <Form.Control.Feedback type="invalid">
                   Please enter valid email.
@@ -130,7 +130,7 @@ const Login = () => {
             <Form.Group as={Row} className="mb-4">
               <Form.Label column className="col-3"><b>Password:</b></Form.Label>
               <Col>
-                <Form.Control required minLength={8} type="password" name="password" placeholder="Password"
+                <Form.Control required minLength={8} type="password" name="password" placeholder="Enter your password"
                               className="login-input-text" onChange={changeInput}/>
                 <Form.Control.Feedback type="invalid">
                   Please enter valid password, at least 8 characters long.

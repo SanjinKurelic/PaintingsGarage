@@ -8,7 +8,7 @@ export const userApi = createApi({
   reducerPath: 'user',
   baseQuery: fetchBaseQuery({
     baseUrl: userUrl,
-    prepareHeaders: (headers, {getState}) => setAuthHeader(headers, getState)
+    prepareHeaders: (headers, {getState}) => setAuthHeader(headers, getState())
   }),
   endpoints: (builder) => ({
     findAuthor: builder.query({

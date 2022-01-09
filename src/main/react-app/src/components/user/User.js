@@ -49,7 +49,7 @@ const User = () => {
           </Card>
         </Col>
         <Col>
-          <Button className="user-action-button m-2" variant="primary"
+          <Button className="user-action-button d-block m-2" variant="primary"
                   onClick={() => dispatch(setCurrentUser(null))}>Logout</Button>
         </Col>
       </Row>

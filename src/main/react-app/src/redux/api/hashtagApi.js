@@ -8,7 +8,7 @@ export const hashtagApi = createApi({
   reducerPath: 'hashtag',
   baseQuery: fetchBaseQuery({
     baseUrl: hashtagUrl,
-    prepareHeaders: (headers, {getState}) => setAuthHeader(headers, getState)
+    prepareHeaders: (headers, {getState}) => setAuthHeader(headers, getState())
   }),
   endpoints: (builder) => ({
     findHashtag: builder.query({
