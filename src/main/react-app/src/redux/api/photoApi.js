@@ -10,6 +10,7 @@ export const photoApi = createApi({
     baseUrl: photoUrl,
     prepareHeaders: (headers, {getState}) => setAuthHeader(headers, getState())
   }),
+  tagTypes: ['Photos'],
   endpoints: (builder) => ({
     getLatestImages: builder.query({
       query: () => 'latest',
