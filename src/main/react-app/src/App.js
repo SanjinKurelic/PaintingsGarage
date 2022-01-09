@@ -10,6 +10,7 @@ import Login from './components/login/Login'
 import User from './components/user/User'
 import ProtectedRoute from './util/ProtectedRoute'
 import {useAuth} from './hooks/useAuth'
+import Admin from './components/admin/Admin'
 
 function App() {
   const latestImages = useGetLatestImagesQuery()
@@ -20,9 +21,7 @@ function App() {
 
   // Re-fetch if user login/logout
   useEffect(() => {
-    return () => {
-      latestImages.refetch()
-    }
+    latestImages.refetch()
   }, [user])
 
 
@@ -53,7 +52,7 @@ function App() {
             </>
           )}/>
           <Route path="/login" component={Login}/>
-          <ProtectedRoute path="/user" component={User}/>
+          <ProtectedRoute path="/user" componentForRole={{user: User, admin: Admin}}/>
         </Switch>
       </Container>
       <Footer/>

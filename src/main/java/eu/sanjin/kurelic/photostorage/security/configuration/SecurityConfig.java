@@ -1,8 +1,8 @@
 package eu.sanjin.kurelic.photostorage.security.configuration;
 
-import eu.sanjin.kurelic.photostorage.user.entity.UserRole;
 import eu.sanjin.kurelic.photostorage.security.filter.AuthTokenFilter;
 import eu.sanjin.kurelic.photostorage.security.service.UserDetailsServiceImpl;
+import eu.sanjin.kurelic.photostorage.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UserRole.ROLE_USER.getApplicationRole(), UserRole.ROLE_ADMIN.getApplicationRole()
       )
       // User
+      .antMatchers("/api/user/changePlanForUser/**", "/api/user/list").hasRole(
+        UserRole.ROLE_ADMIN.getApplicationRole()
+      )
+      .antMatchers("/api/user/changePlan", "/api/user/details").hasAnyRole(
+        UserRole.ROLE_USER.getApplicationRole(), UserRole.ROLE_ADMIN.getApplicationRole()
+      )
       .antMatchers("/api/user/**").permitAll()
       // Admin
       .antMatchers("/api/admin/**").hasRole(UserRole.ROLE_ADMIN.getApplicationRole())

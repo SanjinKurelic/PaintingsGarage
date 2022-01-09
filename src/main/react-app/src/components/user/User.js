@@ -1,16 +1,20 @@
 import {useFindImagesQuery} from '../../redux/api/photoApi'
 import ImageGallery from '../image/ImageGallery'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import Image from '../image/Image'
 import './user.scss'
-import {useGetUserDetailsQuery} from '../../redux/api/userApi'
+import {useLazyGetUserDetailsQuery} from '../../redux/api/userApi'
 import {useAuth} from '../../hooks/useAuth'
 import UserDetails from './UserDetails'
 import {Button} from 'react-bootstrap'
 
 const User = () => {
-  const userDetails = useGetUserDetailsQuery()
   const {user} = useAuth()
+  const [fetchUserDetails, userDetails] = useLazyGetUserDetailsQuery()
+  // Re-fetch if user login/logout
+  useEffect(() => {
+    fetchUserDetails()
+  }, [user])
 
   // Fetch images
   const userImages = useFindImagesQuery({authors: user.id})
@@ -18,7 +22,7 @@ const User = () => {
 
   return (
     <>
-      {userDetails.isSuccess && <UserDetails className="mt-4" userDetails={userDetails.data}/>}
+      {userDetails.isSuccess && <UserDetails className="m-4 text-center border-bottom" userDetails={userDetails.data}/>}
       {userDetails.isSuccess && userDetails.data.plan === 'ARTIST' && <div className="text-center">
         <Button className="user-action-button m-5 d-inline-block" variant="primary">Upload image</Button>
       </div>}

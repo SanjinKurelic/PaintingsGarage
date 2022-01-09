@@ -4,19 +4,23 @@ import {setCurrentUser} from '../../redux/slice/currentUserSlice'
 import {useDispatch} from 'react-redux'
 import PropTypes from 'prop-types'
 import Plan from '../plan/Plan'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 const UserDetails = ({userDetails, showLogoutButton, className}) => {
   const dispatch = useDispatch()
-  const resolvePlan = () => {
-    return userDetails.plan === 'ARTIST' ? 1 : 0;
+  const resolvePlan = (plan) => {
+    return plan === 'ARTIST' ? 1 : 0;
   }
-  const [selectedPlan, setSelectedPlan] = useState(resolvePlan())
+  const [selectedPlan, setSelectedPlan] = useState(resolvePlan(userDetails.plan))
+  // If plan change, set new one
+  useEffect(() => {
+    setSelectedPlan(resolvePlan(userDetails.plan))
+  }, [userDetails.plan])
 
   return (
     <Row className={className}>
       <Col className="text-center">
-        <img alt="" src={hostname + '/' + userDetails.avatar} height="128"/>
+        <img className="mt-3" alt="" src={hostname + '/' + userDetails.avatar} height="100"/>
       </Col>
       <Col xs={6}>
         <Card className="user-details">
@@ -52,7 +56,7 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
         </Card>
       </Col>
       <Col>
-        <Button hidden={!showLogoutButton} className="user-action-button d-block m-2" variant="primary"
+        <Button hidden={showLogoutButton === false} className="user-action-button d-block m-2" variant="primary"
                 onClick={() => dispatch(setCurrentUser(null))}>Logout</Button>
       </Col>
     </Row>
