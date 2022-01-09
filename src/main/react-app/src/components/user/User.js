@@ -1,34 +1,23 @@
-import {useHistory} from 'react-router-dom'
 import {Button, Card, Col, Container, Row} from 'react-bootstrap'
-import {useLazyFindImagesQuery} from '../../redux/api/photoApi'
+import {useFindImagesQuery} from '../../redux/api/photoApi'
 import ImageGallery from '../image/ImageGallery'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import {hostname} from '../../redux/api/baseApi'
 import Image from '../image/Image'
 import './user.scss'
-import {logoutCurrentUser} from '../../redux/auth'
 import {useGetUserDetailsQuery} from '../../redux/api/userApi'
+import {useAuth} from '../../hooks/useAuth'
+import {useDispatch} from 'react-redux'
+import {setCurrentUser} from '../../redux/slice/currentUserSlice'
 
 const User = () => {
   const userDetails = useGetUserDetailsQuery()
-
-  // Redirect if user is not logged in
-  const history = useHistory()
-  useEffect(() => {
-    if (userDetails.isError) {
-      history.push('/login')
-    }
-  }, [history, userDetails])
+  const dispatch = useDispatch()
+  const {user} = useAuth()
 
   // Fetch images
-  const [findUserImages, userImages] = useLazyFindImagesQuery()
+  const userImages = useFindImagesQuery({authors: user.id})
   const [selectedImage, setSelectedImage] = useState(null)
-
-  useEffect(() => {
-    if (userDetails.isSuccess) {
-      findUserImages({authors: userDetails.data.id})
-    }
-  }, [userDetails, findUserImages])
 
   return (
     <>
@@ -61,13 +50,11 @@ const User = () => {
         </Col>
         <Col>
           <Button className="user-action-button m-2" variant="primary"
-                  onClick={() => logoutCurrentUser()}>Logout</Button>
+                  onClick={() => dispatch(setCurrentUser(null))}>Logout</Button>
         </Col>
       </Row>
         <div className="text-center">
-          <Button className="user-action-button m-5 d-inline-block" variant="primary"
-                  onClick={() => logoutCurrentUser()}>Upload
-            image</Button>
+          <Button className="user-action-button m-5 d-inline-block" variant="primary">Upload image</Button>
         </div>
       </>}
       {(userImages.isSuccess && userImages.data.length > 0) &&

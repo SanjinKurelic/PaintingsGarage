@@ -5,7 +5,8 @@ import {useCallback, useEffect, useState} from 'react'
 import {hostname} from '../../redux/api/baseApi'
 import {useLoginUserMutation, useRegisterUserMutation} from '../../redux/api/authApi'
 import {useHistory} from 'react-router-dom'
-import {storeCurrentUser} from '../../redux/auth'
+import {useDispatch} from 'react-redux'
+import {setCurrentUser} from '../../redux/slice/currentUserSlice'
 
 const Login = () => {
   // Action type constants and state
@@ -55,16 +56,17 @@ const Login = () => {
   }
 
   // If user successfully register/login
+  const dispatch = useDispatch()
   const history = useHistory()
   const storeAndRedirect = useCallback((result) => {
     if (result.isSuccess && result.data && result.data.token) {
-      storeCurrentUser(result.data)
+      dispatch(setCurrentUser(result.data))
       // Clean inputs
       setInputs({})
       // redirect
       history.push('/')
     }
-  }, [setInputs, history])
+  }, [setInputs, history, dispatch])
   useEffect(() => {
     storeAndRedirect(loginResult)
   }, [loginResult, storeAndRedirect])
