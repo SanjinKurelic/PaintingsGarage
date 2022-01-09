@@ -3,6 +3,7 @@ import moment from 'moment'
 import ImageActionButton from './ImageActionButton'
 import HashtagList from '../hashtag/HashtagList'
 import {photoUrl} from '../../redux/api/photoApi'
+import './imageGallery.scss'
 
 const ImageGallery = ({images, setSelectedImage}) => {
   return (
@@ -11,9 +12,9 @@ const ImageGallery = ({images, setSelectedImage}) => {
         <div key={image.path} className="col-lg-4 col-md-6 p-2">
           <div className="row justify-content-between p-2">
             <div className="col-5"><b>{image.author}</b></div>
-            <div className="col-5 text-end">
-              <p className="p-0 m-0" style={{fontSize: 'xx-small'}}>{moment(image.uploaded).format('YYYY-MM-DD')}</p>
-              <p className="p-0 m-0" style={{fontSize: 'xx-small'}}>{moment(image.uploaded).format('hh:mm')}</p>
+            <div className="col-5 text-end image-description-time">
+              <p className="p-0 m-0">{moment(image.uploaded).format('YYYY-MM-DD')}</p>
+              <p className="p-0 m-0">{moment(image.uploaded).format('hh:mm')}</p>
             </div>
           </div>
           <img onClick={() => setSelectedImage(image)} width="100%" alt={image.description}

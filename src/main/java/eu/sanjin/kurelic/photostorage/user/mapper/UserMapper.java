@@ -13,6 +13,8 @@ public interface UserMapper {
 
   Author mapUserToAuthor(User user);
 
+  List<Author> mapUserListToAuthorList(List<User> user);
+
   @Mapping(target = "value", source = "name")
   SearchResult mapUserToSearchResult(User user);
 

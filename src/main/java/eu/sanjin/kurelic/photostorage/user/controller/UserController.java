@@ -1,12 +1,10 @@
 package eu.sanjin.kurelic.photostorage.user.controller;
 
 import eu.sanjin.kurelic.photostorage.common.model.SearchResult;
-import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
 import eu.sanjin.kurelic.photostorage.user.model.Author;
 import eu.sanjin.kurelic.photostorage.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +22,7 @@ public class UserController {
 
   @GetMapping("/details")
   public ResponseEntity<Author> getCurrentAuthor() {
-    Author author = null;
-
-    // Get current user
-    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    if (Objects.nonNull(principal) && principal instanceof UserDetailsModel user) {
-      author = service.getAuthor(user.getName());
-    }
+    Author author = service.getAuthorDetails();
 
     if (Objects.isNull(author)) {
       return ResponseEntity.notFound().build();
@@ -38,14 +30,9 @@ public class UserController {
     return ResponseEntity.ok(author);
   }
 
-  @GetMapping("/details/{authorName}")
-  public ResponseEntity<Author> getUserDetails(@PathVariable String authorName) {
-    var author = service.getAuthor(authorName);
-
-    if (Objects.isNull(author)) {
-      return ResponseEntity.notFound().build();
-    }
-    return ResponseEntity.ok(author);
+  @GetMapping("/list")
+  public ResponseEntity<List<Author>> getAuthorList() {
+    return ResponseEntity.ok(service.getAuthors());
   }
 
   @GetMapping("/find/{authorName}")

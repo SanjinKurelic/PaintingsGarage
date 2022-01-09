@@ -1,0 +1,17 @@
+.user-details {
+  width: 500px;
+}
+
+.user-action-button {
+  width: 130px;
+  color: var(--bs-yellow);
+  background: var(--bs-dark);
+  border: none;
+
+  &:hover, &:focus {
+    background: var(--bs-yellow);
+    color: var(--bs-dark);
+    box-shadow: none;
+    outline: none;
+  }
+}

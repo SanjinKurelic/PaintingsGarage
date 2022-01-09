@@ -3,6 +3,7 @@ import moment from 'moment'
 import ImageActionButton from './ImageActionButton'
 import {AiOutlineCloseCircle} from 'react-icons/all'
 import {photoUrl} from '../../redux/api/photoApi'
+import './image.scss'
 
 const Image = ({image, setSelectedImage}) => {
   const closeDialog = () => {
@@ -10,17 +11,11 @@ const Image = ({image, setSelectedImage}) => {
   }
 
   return (
-    <div className="modal show fade" style={{display: 'block'}} onClick={closeDialog} onContextMenu={closeDialog}>
+    <div className="modal show fade d-block" onClick={closeDialog} onContextMenu={closeDialog}>
       <div className="modal-fullscreen">
-        <div className="modal-content" style={{background: 'black', color: '#BEBEBE'}}>
+        <div className="modal-content image-content">
           <div className="modal-body row p-5">
-            <div className="col-9" style={{
-              background: `url(${photoUrl}/download/${image.path})`,
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
-              height: '100%'
-            }}/>
+            <div className="col-9 image-content-image" style={{background: `url(${photoUrl}/download/${image.path})`}}/>
             <div className="col-3 p-4">
               <div className="text-end" role="button">
                 <AiOutlineCloseCircle size="2em"/>

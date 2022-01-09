@@ -12,6 +12,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   List<User> findByNameStartingWith(String name);
 
+  List<User> getAllByActiveIsTrue();
+
   Optional<User> getByEmail(String email);
 
   Optional<User> getByName(String name);

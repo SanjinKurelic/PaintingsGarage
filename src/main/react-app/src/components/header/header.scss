@@ -1,4 +1,8 @@
 .header {
+  &-logo {
+    cursor: pointer;
+  }
+
   &-link {
     color: var(--bs-yellow);
 

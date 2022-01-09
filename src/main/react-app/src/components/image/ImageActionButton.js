@@ -4,7 +4,7 @@ import './imageActionButton.scss'
 
 const ImageActionButton = ({type, size}) => {
   switch (type) {
-    case 'owner':
+    case 'OWNER':
       return (
         <div>
           <AiOutlineDownload size={size} role="button"/>
@@ -12,7 +12,7 @@ const ImageActionButton = ({type, size}) => {
           <AiOutlineDelete color="red" size={size} role="button"/>
         </div>
       )
-    case 'bought':
+    case 'BOUGHT':
       return <AiOutlineDownload size={size} role="button"/>
     default:
       return <AiOutlineDollar size={size} role="button"/>

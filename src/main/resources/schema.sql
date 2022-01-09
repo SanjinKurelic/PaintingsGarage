@@ -8,7 +8,7 @@ CREATE TABLE users (
   password VARCHAR(80) NOT NULL,
   active BOOLEAN DEFAULT FALSE,
   registered DATE DEFAULT CURRENT_DATE,
-  avatar VARCHAR(40) DEFAULT 'user.jpg'
+  avatar VARCHAR(40) DEFAULT 'user.png'
 );
 
 
