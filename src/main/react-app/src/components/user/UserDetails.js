@@ -9,7 +9,7 @@ import {useEffect, useState} from 'react'
 const UserDetails = ({userDetails, showLogoutButton, className}) => {
   const dispatch = useDispatch()
   const resolvePlan = (plan) => {
-    return plan === 'ARTIST' ? 1 : 0;
+    return plan === 'ARTIST' ? 1 : 0
   }
   const [selectedPlan, setSelectedPlan] = useState(resolvePlan(userDetails.plan))
   // If plan change, set new one
@@ -19,11 +19,11 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
 
   return (
     <Row className={className}>
-      <Col className="text-center">
+      <Col className="text-center col-2">
         <img className="mt-3" alt="" src={hostname + '/' + userDetails.avatar} height="100"/>
       </Col>
-      <Col xs={6}>
-        <Card className="user-details">
+      <Col className={showLogoutButton ? "col-6" : "col-7"}>
+        <Card className="user-details text-start">
           <Card.Body>
             <Card.Title>User details</Card.Title>
             <Card.Text>
@@ -45,7 +45,7 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
           </Card.Body>
         </Card>
       </Col>
-      <Col>
+      <Col className={showLogoutButton ? "col-2" : "col-3"}>
         <Card>
           <Card.Body>
             <Card.Title>Change plan</Card.Title>
@@ -55,10 +55,8 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
           </Card.Body>
         </Card>
       </Col>
-      <Col>
-        {showLogoutButton && <Button className="user-action-button d-block m-2" variant="primary"
-                onClick={() => dispatch(setCurrentUser(null))}>Logout</Button>}
-      </Col>
+      {showLogoutButton && <Col className="col-2"><Button className="user-action-button d-block m-2" variant="primary"
+                                                          onClick={() => dispatch(setCurrentUser(null))}>Logout</Button></Col>}
     </Row>
   )
 }
