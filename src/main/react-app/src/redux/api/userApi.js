@@ -16,8 +16,18 @@ export const userApi = createApi({
     }),
     getUserDetails: builder.query({
       query: () => 'details'
+    }),
+    getUserList: builder.query({
+      query: () => 'list'
+    }),
+    changePlan: builder.mutation({
+      query: (plan) => ({
+        url: 'changePlan',
+        method: 'POST',
+        body: {plan: plan}
+      })
     })
   })
 })
 
-export const {useLazyFindAuthorQuery, useGetUserDetailsQuery} = userApi
+export const {useLazyFindAuthorQuery, useLazyGetUserDetailsQuery, useGetUserListQuery, useChangePlanMutation} = userApi
