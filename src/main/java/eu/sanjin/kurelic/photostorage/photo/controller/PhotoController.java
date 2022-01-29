@@ -1,5 +1,6 @@
 package eu.sanjin.kurelic.photostorage.photo.controller;
 
+import eu.sanjin.kurelic.photostorage.audit.aspect.LogPhotoUpload;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoData;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import eu.sanjin.kurelic.photostorage.photo.service.FileService;
@@ -30,6 +31,7 @@ public class PhotoController {
   private final PhotoService photoService;
   private final FileService fileService;
 
+  @LogPhotoUpload
   @PostMapping("/upload")
   public ResponseEntity<PhotoData> uploadFile(
     @RequestParam("file") MultipartFile file,

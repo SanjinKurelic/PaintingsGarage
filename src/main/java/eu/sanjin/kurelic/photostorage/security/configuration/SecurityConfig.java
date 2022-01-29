@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UserRole.ROLE_USER.getApplicationRole(), UserRole.ROLE_ADMIN.getApplicationRole()
       )
       // User
-      .antMatchers("/api/user/changePlanForUser/**", "/api/user/list").hasRole(
+      .antMatchers("/api/user/changePlanForUser/**", "/api/user/list", "/api/audit/latest").hasRole(
         UserRole.ROLE_ADMIN.getApplicationRole()
       )
       .antMatchers("/api/user/changePlan", "/api/user/details").hasAnyRole(

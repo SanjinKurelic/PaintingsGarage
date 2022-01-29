@@ -1,5 +1,6 @@
 package eu.sanjin.kurelic.photostorage.user.controller;
 
+import eu.sanjin.kurelic.photostorage.audit.aspect.LogUserPlanChange;
 import eu.sanjin.kurelic.photostorage.common.model.SearchResult;
 import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
 import eu.sanjin.kurelic.photostorage.user.model.Author;
@@ -40,6 +41,7 @@ public class UserController {
     return ResponseEntity.ok(service.getAuthors());
   }
 
+  @LogUserPlanChange
   @PostMapping("/changePlan")
   public void changePlan(@RequestBody UserPlanRequest plan) {
     var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

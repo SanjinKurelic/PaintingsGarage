@@ -1,5 +1,7 @@
 ### Run with:
 
+> docker-compose up
+
 > ./mvnw spring-boot:run
  
 ### Login credentials

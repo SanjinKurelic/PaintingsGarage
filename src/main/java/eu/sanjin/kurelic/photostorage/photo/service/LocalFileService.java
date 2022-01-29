@@ -83,8 +83,7 @@ public class LocalFileService implements FileService {
         sourceFile.close();
       }
     } catch (IOException e) {
-      log.error(e.getMessage(), e);
-      throw new InternalServerError(InternalServerError.InternalServerErrorMessage.ERROR_STORAGE_SPACE);
+      throw new InternalServerError(e);
     }
 
     return fileId;

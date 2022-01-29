@@ -1,24 +1,12 @@
 package eu.sanjin.kurelic.photostorage.common.exceptions;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+public class InternalServerError extends RuntimeException {
 
-@Getter
-@RequiredArgsConstructor
-public class InternalServerError extends RuntimeException implements MessageBasedException {
-
-  @Getter
-  @RequiredArgsConstructor
-  public enum InternalServerErrorMessage {
-    ERROR_STORAGE_SPACE("no.storage.space");
-
-    private final String errorCode;
+  public InternalServerError(String message) {
+    super(message);
   }
 
-  private final InternalServerErrorMessage errorMessage;
-
-  @Override
-  public String getErrorCode() {
-    return errorMessage.getErrorCode();
+  public InternalServerError(Throwable throwable) {
+    super(throwable);
   }
 }

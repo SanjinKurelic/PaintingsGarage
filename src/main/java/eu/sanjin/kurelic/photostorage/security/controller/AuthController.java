@@ -1,5 +1,7 @@
 package eu.sanjin.kurelic.photostorage.security.controller;
 
+import eu.sanjin.kurelic.photostorage.audit.aspect.LogUserLogin;
+import eu.sanjin.kurelic.photostorage.audit.aspect.LogUserRegistration;
 import eu.sanjin.kurelic.photostorage.security.model.JwtResponse;
 import eu.sanjin.kurelic.photostorage.security.model.LoginUserRequest;
 import eu.sanjin.kurelic.photostorage.security.model.RegisterUserRequest;
@@ -18,11 +20,13 @@ public class AuthController {
 
   private final AuthService authService;
 
+  @LogUserLogin
   @PostMapping("/loginUser")
   public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginUserRequest loginRequest) {
     return ResponseEntity.ok(authService.authenticateUser(loginRequest));
   }
 
+  @LogUserRegistration
   @PostMapping("/registerUser")
   public ResponseEntity<JwtResponse> registerUser(@RequestBody RegisterUserRequest registerRequest) {
     if (!authService.registerUser(registerRequest)) {

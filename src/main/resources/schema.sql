@@ -55,3 +55,14 @@ CREATE TABLE hashtag_photo (
   FOREIGN KEY (photo_id) REFERENCES photo(id),
   FOREIGN KEY (hashtag_id) REFERENCES hashtag(id)
 );
+
+DROP TABLE IF EXISTS audit;
+
+CREATE TABLE audit (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(9),
+  action VARCHAR(20) NOT NULL,
+  subject VARCHAR(50) NOT NULL,
+  object VARCHAR(255) NULL,
+  PRIMARY KEY (id)
+);
