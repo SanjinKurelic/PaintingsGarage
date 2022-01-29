@@ -3,7 +3,7 @@ import {useAuth} from '../hooks/useAuth'
 import {useDispatch} from 'react-redux'
 import {setCurrentUser} from '../redux/slice/currentUserSlice'
 
-const ProtectedRoute = ({component, location, ...rest}) => {
+const ProtectedRoute = ({componentForRole, location, ...rest}) => {
   const {user} = useAuth()
   const dispatch = useDispatch()
 
@@ -27,8 +27,9 @@ const ProtectedRoute = ({component, location, ...rest}) => {
     return (<Redirect to={{pathname: '/login', state: {from: location}}}/>)
   }
 
+  const role = user.role.toLowerCase().replace("role_", "")
   return (
-    <Route {...rest} component={component}/>
+    <Route {...rest} component={componentForRole[role]}/>
   )
 }
 

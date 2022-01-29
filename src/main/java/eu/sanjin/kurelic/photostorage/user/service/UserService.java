@@ -3,6 +3,7 @@ package eu.sanjin.kurelic.photostorage.user.service;
 import eu.sanjin.kurelic.photostorage.common.model.SearchResult;
 import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
 import eu.sanjin.kurelic.photostorage.user.entity.User;
+import eu.sanjin.kurelic.photostorage.user.entity.UserPlan;
 import eu.sanjin.kurelic.photostorage.user.mapper.UserMapper;
 import eu.sanjin.kurelic.photostorage.user.model.Author;
 import eu.sanjin.kurelic.photostorage.user.repository.UserRepository;
@@ -41,6 +42,14 @@ public class UserService {
 
   public List<Author> getAuthors() {
     return mapper.mapUserListToAuthorList(repository.getAllByActiveIsTrue());
+  }
+
+  public void changePlan(Long userId, UserPlan plan) {
+    var userData = repository.getById(userId);
+
+    userData.setPlan(plan);
+
+    repository.saveAndFlush(userData);
   }
 
   /**

@@ -14,7 +14,7 @@ const ImageGallery = ({images, setSelectedImage}) => {
             <div className="col-5"><b>{image.author}</b></div>
             <div className="col-5 text-end image-description-time">
               <p className="p-0 m-0">{moment(image.uploaded).format('YYYY-MM-DD')}</p>
-              <p className="p-0 m-0">{moment(image.uploaded).format('hh:mm')}</p>
+              <p className="p-0 m-0">{moment(image.uploaded).format('HH:mm')}</p>
             </div>
           </div>
           <img onClick={() => setSelectedImage(image)} width="100%" alt={image.description}

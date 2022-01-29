@@ -7,6 +7,7 @@ public record Author(
   String name,
   String email,
   LocalDate registered,
-  String avatar
+  String avatar,
+  String plan
 ) {
 }

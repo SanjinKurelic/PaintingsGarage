@@ -42,4 +42,7 @@ public class User implements Serializable {
   private LocalDate registered;
 
   private String avatar;
+
+  @Enumerated(EnumType.STRING)
+  private UserPlan plan;
 }

@@ -30,6 +30,7 @@
       background: var(--bs-yellow);
       color: var(--bs-dark);
       box-shadow: none;
+      outline: none;
     }
   }
 
@@ -45,7 +46,7 @@
   }
 
   input:-webkit-autofill, input:-webkit-autofill:focus {
-    background: var(--bs-yellow) !important;
+    background: #fffcc8 !important;
     border-color: var(--bs-yellow);
   }
 }

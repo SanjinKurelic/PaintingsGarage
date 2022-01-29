@@ -8,4 +8,15 @@
     background-position: center;
     height: 100%;
   }
+
+  &-tags {
+    color: black;
+    font-size: 0.8em;
+    bottom: 0;
+
+    .hashtag-tag {
+      margin-top: 2px;
+      display: inline-block;
+    }
+  }
 }

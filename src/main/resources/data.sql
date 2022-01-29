@@ -1,14 +1,14 @@
-INSERT INTO users (id, name, email, role, password, active) VALUES
-(1, 'picasso', 'picasso@example.com', 'ROLE_USER', '{bcrypt}$2y$10$OSN6RcjBoh1/AkQbtOkh8elkaSs.GueaU9l5tzPHl9eecv2jheRri', true),
-(2, 'remby', 'remby@example.com', 'ROLE_USER', '{bcrypt}$2y$10$DXZDfdbiTgfozb8pKEsyQu/22BoPYXX0hGD55B3/ldljBybqs3kYS', true),
-(3, 'munch', 'munch@example.com', 'ROLE_USER', '{bcrypt}$2y$10$3va09Cg7BXDqIa9uTxoPreqCE4nR6ZKXn8BUaSBpnR8GvDS9Y9iEO', true),
-(4, 'da.vinci', 'da.vinci@example.com', 'ROLE_USER', '{bcrypt}$2y$10$pDf6M4aQbgwLNRYAGppuKOA8eHPIiZWOZOD9eL0SPHF.3QFdJzn1S', true),
-(5, 'van.gogh', 'van.gogh@example.com', 'ROLE_USER', '{bcrypt}$2y$10$d7n7Im5OXW1XfAXwMM6.Ru9P7bL1aRx.g1vjpgHEp2EpAvmJCkhNq', true),
-(6, 'bosch', 'bosch@example.com', 'ROLE_USER', '{bcrypt}$2y$10$.I4U7lkafnZJDoQGKaEb6OO2MoQ0aiuh3fTv60faEw3zAlVBqW3Fm', true),
-(7, 'seurat', 'seurat@example.com', 'ROLE_USER', '{bcrypt}$2y$10$naMlMbjSMsqtmCE3YS4Ale5g5ypXom8MY3iW1V4UIpVCOkBJ32sWS', true),
-(8, 'botticeli', 'botticeli@example.it', 'ROLE_USER', '{bcrypt}$2y$10$hbBxZnk.MDA51xdpqCzRWO68QIP1BnYCPktiXPiSaHY8INUqDGxm.', true),
-(9, 'verm33r', 'verm33r@example.com', 'ROLE_USER', '{bcrypt}$2y$10$eVKa2Gq8P3B.F/yRdeuf0efsk4EJtLFharvQJKYwT03OKsb2vg4Nm', true),
-(10, 'admin', 'admin@example.com', 'ROLE_ADMIN', '{bcrypt}$2y$10$1h7VDDIWWTk7jnnF19.UC.iHcfv2h0FfTbwKq/aJlpVRIgJ6nZ5Ou', true);
+INSERT INTO users (id, name, email, role, password, active, plan) VALUES
+(1, 'picasso', 'picasso@example.com', 'ROLE_USER', '{bcrypt}$2y$10$OSN6RcjBoh1/AkQbtOkh8elkaSs.GueaU9l5tzPHl9eecv2jheRri', true, 'ARTIST'),
+(2, 'remby', 'remby@example.com', 'ROLE_USER', '{bcrypt}$2y$10$DXZDfdbiTgfozb8pKEsyQu/22BoPYXX0hGD55B3/ldljBybqs3kYS', true, 'ARTIST'),
+(3, 'munch', 'munch@example.com', 'ROLE_USER', '{bcrypt}$2y$10$3va09Cg7BXDqIa9uTxoPreqCE4nR6ZKXn8BUaSBpnR8GvDS9Y9iEO', true, 'ARTIST'),
+(4, 'da.vinci', 'da.vinci@example.com', 'ROLE_USER', '{bcrypt}$2y$10$pDf6M4aQbgwLNRYAGppuKOA8eHPIiZWOZOD9eL0SPHF.3QFdJzn1S', true, 'ARTIST'),
+(5, 'van.gogh', 'van.gogh@example.com', 'ROLE_USER', '{bcrypt}$2y$10$d7n7Im5OXW1XfAXwMM6.Ru9P7bL1aRx.g1vjpgHEp2EpAvmJCkhNq', true, 'ARTIST'),
+(6, 'bosch', 'bosch@example.com', 'ROLE_USER', '{bcrypt}$2y$10$.I4U7lkafnZJDoQGKaEb6OO2MoQ0aiuh3fTv60faEw3zAlVBqW3Fm', true, 'ARTIST'),
+(7, 'seurat', 'seurat@example.com', 'ROLE_USER', '{bcrypt}$2y$10$naMlMbjSMsqtmCE3YS4Ale5g5ypXom8MY3iW1V4UIpVCOkBJ32sWS', true, 'ARTIST'),
+(8, 'botticeli', 'botticeli@example.it', 'ROLE_USER', '{bcrypt}$2y$10$hbBxZnk.MDA51xdpqCzRWO68QIP1BnYCPktiXPiSaHY8INUqDGxm.', true, 'ARTIST'),
+(9, 'verm33r', 'verm33r@example.com', 'ROLE_USER', '{bcrypt}$2y$10$eVKa2Gq8P3B.F/yRdeuf0efsk4EJtLFharvQJKYwT03OKsb2vg4Nm', true, 'ARTIST'),
+(10, 'admin', 'admin@example.com', 'ROLE_ADMIN', '{bcrypt}$2y$10$1h7VDDIWWTk7jnnF19.UC.iHcfv2h0FfTbwKq/aJlpVRIgJ6nZ5Ou', true, 'BUYER');
 
 INSERT INTO photo (id, path, thumbnail, title, description, size, uploaded, user_id) VALUES
 (1, 'demo_afa34a6e-2c9f-44c0-823b-44b9d0b27751.jpg', 'demo_6a4dd621-99aa-42c2-bcb0-578ec6fc183e.jpg', 'Image 1', 'Plenty of people enjoying near river.', 2724, '2020-01-01 15:21:12.41', 7),

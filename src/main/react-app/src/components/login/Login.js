@@ -7,12 +7,16 @@ import {useLoginUserMutation, useRegisterUserMutation} from '../../redux/api/aut
 import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {setCurrentUser} from '../../redux/slice/currentUserSlice'
+import Plan from '../plan/Plan'
 
 const Login = () => {
   // Action type constants and state
   const LOGIN = 'LOGIN'
   const REGISTER = 'REGISTER'
   const [action, setAction] = useState(LOGIN)
+
+  // Selected plan
+  const [selectedPlan, setSelectedPlan] = useState(0)
 
   // Validation
   const [validated, setValidate] = useState(false)
@@ -38,7 +42,7 @@ const Login = () => {
           login(data)
           break
         case REGISTER:
-          register(...{name: inputs.name}, ...data)
+          register(Object.assign(data, {name: inputs.name, plan: selectedPlan}))
           break
         default:
           return
@@ -137,8 +141,16 @@ const Login = () => {
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
+            <Form.Group as={Row} className="mb-4" hidden={action === LOGIN}>
+              <Form.Label column className="col-3"><b>Plan:</b></Form.Label>
+              <Col>
+                <Form.Control hidden={true} required={action === REGISTER} name="plan" value={selectedPlan} readOnly/>
+                <Plan visibleDetails={true} selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan}/>
+              </Col>
+            </Form.Group>
             <div className="text-center text-lg-end mt-4 pt-2">
-              <Button className="login-submit-button" variant="primary" type="submit">Login</Button>
+              <Button className="login-submit-button" variant="primary"
+                      type="submit">{action === LOGIN ? 'Login' : 'Register'}</Button>
             </div>
           </Form>
         </Col>
