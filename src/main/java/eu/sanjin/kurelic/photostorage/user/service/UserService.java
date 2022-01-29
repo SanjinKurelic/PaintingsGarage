@@ -8,7 +8,6 @@ import eu.sanjin.kurelic.photostorage.user.mapper.UserMapper;
 import eu.sanjin.kurelic.photostorage.user.model.Author;
 import eu.sanjin.kurelic.photostorage.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
