@@ -39,25 +39,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .cors().and().csrf().disable()
       .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
       .authorizeRequests()
+      // Audit
+      .antMatchers("/api/audit/**").hasRole(UserRole.ROLE_ADMIN.getApplicationRole())
       // Auth
       .antMatchers("/api/auth/**").permitAll()
       // Hashtag
-      .antMatchers("/api/hashtag/**").permitAll()
+      .antMatchers("/api/search/**").permitAll()
       // Photo
       .antMatchers(HttpMethod.GET, "/api/photo/**").permitAll()
-      .antMatchers(HttpMethod.POST, "/api/photo/**").hasAnyRole(
+      .antMatchers("/api/photo/**").hasAnyRole(
         UserRole.ROLE_USER.getApplicationRole(), UserRole.ROLE_ADMIN.getApplicationRole()
       )
       // User
-      .antMatchers("/api/user/changePlanForUser/**", "/api/user/list", "/api/audit/latest").hasRole(
-        UserRole.ROLE_ADMIN.getApplicationRole()
-      )
-      .antMatchers("/api/user/changePlan", "/api/user/details").hasAnyRole(
+      .antMatchers(HttpMethod.PUT,"/api/user/**").hasAnyRole(
         UserRole.ROLE_USER.getApplicationRole(), UserRole.ROLE_ADMIN.getApplicationRole()
       )
-      .antMatchers("/api/user/**").permitAll()
-      // Admin
-      .antMatchers("/api/admin/**").hasRole(UserRole.ROLE_ADMIN.getApplicationRole())
+      .antMatchers(HttpMethod.GET,"/api/user/current").hasAnyRole(
+        UserRole.ROLE_USER.getApplicationRole(), UserRole.ROLE_ADMIN.getApplicationRole()
+      )
+      .antMatchers("/api/user").hasRole(UserRole.ROLE_ADMIN.getApplicationRole())
       .anyRequest().permitAll();
 
     http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);

@@ -50,7 +50,7 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
           <Card.Body>
             <Card.Title>Change plan</Card.Title>
             <Card.Text>
-              <Plan setSelectedPlan={setSelectedPlan} selectedPlan={selectedPlan}/>
+              <Plan userId={userDetails.id} setSelectedPlan={setSelectedPlan} selectedPlan={selectedPlan}/>
             </Card.Text>
           </Card.Body>
         </Card>

@@ -3,15 +3,15 @@ import buyer from '../../assets/buyer.png'
 import painter from '../../assets/painter.png'
 import PropTypes from 'prop-types'
 import './plan.scss'
-import {useChangePlanMutation} from '../../redux/api/userApi'
 import {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {showDialog} from '../../redux/slice/currentDialogSlice'
 import {DialogType} from '../dialog/AllDialogs'
+import {useUpdateUserMutation} from '../../redux/api/baseApi'
 
-const Plan = ({visibleDetails, selectedPlan, setSelectedPlan}) => {
+const Plan = ({visibleDetails, userId, selectedPlan, setSelectedPlan}) => {
   const dispatch = useDispatch()
-  const [changePlan] = useChangePlanMutation()
+  const [changePlan] = useUpdateUserMutation()
   const [focusedPlan, setFocusedPlan] = useState(selectedPlan)
 
   const focusPlanAndShowDialog = (value) => {
@@ -25,7 +25,7 @@ const Plan = ({visibleDetails, selectedPlan, setSelectedPlan}) => {
 
   const confirmChangePlan = () => {
     setSelectedPlan(focusedPlan)
-    changePlan(focusedPlan === 0 ? 'BUYER' : 'ARTIST')
+    changePlan({userId, plan: focusedPlan === 0 ? 'BUYER' : 'ARTIST'})
   }
 
   return (
@@ -56,6 +56,7 @@ const Plan = ({visibleDetails, selectedPlan, setSelectedPlan}) => {
 
 Plan.propTypes = {
   visibleDetails: PropTypes.bool,
+  userId: PropTypes.number,
   selectedPlan: PropTypes.number.isRequired,
   setSelectedPlan: PropTypes.func.isRequired
 }

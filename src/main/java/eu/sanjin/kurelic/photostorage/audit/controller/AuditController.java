@@ -17,8 +17,8 @@ public class AuditController {
 
   private final AuditService auditService;
 
-  @GetMapping("/latest")
-  public ResponseEntity<List<AuditModel>> getLatestAuditLogs() {
+  @GetMapping
+  public ResponseEntity<List<AuditModel>> getAuditLogs() {
     return ResponseEntity.ok(auditService.getLatestAuditLogs());
   }
 }

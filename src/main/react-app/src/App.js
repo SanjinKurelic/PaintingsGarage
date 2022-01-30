@@ -1,33 +1,25 @@
 import {Button, Container} from 'react-bootstrap'
 import Header from './components/header/Header'
 import ImageGallery from './components/image/ImageGallery'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import Image from './components/image/Image'
-import {useGetLatestImagesQuery} from './redux/api/photoApi'
 import Footer from './components/footer/Footer'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Login from './components/login/Login'
 import User from './components/user/User'
 import ProtectedRoute from './util/ProtectedRoute'
-import {useAuth} from './hooks/useAuth'
 import Admin from './components/admin/Admin'
 import {useSelector} from 'react-redux'
 import {selectCurrentDialog} from './redux/slice/currentDialogSlice'
 import {getDialog} from './components/dialog/AllDialogs'
+import {useGetPhotoListQuery} from './redux/api/baseApi'
 
 function App() {
-  const latestImages = useGetLatestImagesQuery()
+  const latestImages = useGetPhotoListQuery()
   const [selectedImage, setSelectedImage] = useState(null)
   const [searchImageResults, setSearchImageResults] = useState(null)
   const [searchFired, setSearchFired] = useState(false)
   const currentDialog = useSelector(selectCurrentDialog)
-  const {user} = useAuth()
-
-  // Re-fetch if user login/logout
-  useEffect(() => {
-    latestImages.refetch()
-  }, [user])
-
 
   const images = () => {
     if (searchFired && searchImageResults.isSuccess) {

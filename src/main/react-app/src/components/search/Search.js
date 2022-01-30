@@ -4,16 +4,14 @@ import './search.scss'
 import {createRef, forwardRef, useEffect, useState} from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.min.css'
-import {useLazyFindAuthorQuery} from '../../redux/api/userApi'
-import {useLazyFindHashtagQuery} from '../../redux/api/hashtagApi'
-import {useLazyFindImagesQuery} from '../../redux/api/photoApi'
 import {AiOutlineCloseCircle} from 'react-icons/all'
 import SearchFilter from './SearchFilter'
+import {useLazyFindAuthorQuery, useLazyFindHashtagQuery, useLazyFindImageQuery} from '../../redux/api/baseApi'
 
 const Search = ({setSearchImageResults, setSearchFired}) => {
   // Fetch results
   const searchInput = createRef()
-  const [findImages, foundImages] = useLazyFindImagesQuery()
+  const [findImages, foundImages] = useLazyFindImageQuery()
   useEffect(() => setSearchImageResults(foundImages), [setSearchImageResults, foundImages])
 
   // Search for specific image size

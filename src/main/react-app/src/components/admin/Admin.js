@@ -1,26 +1,16 @@
-import {useGetUserListQuery} from '../../redux/api/userApi'
 import UserDetails from '../user/UserDetails'
 import {useDispatch} from 'react-redux'
 import {deleteCurrentUser} from '../../redux/slice/currentUserSlice'
 import {Button, Col, Row} from 'react-bootstrap'
-import {useGetLatestAuditQuery} from '../../redux/api/auditApi'
 import {BiImageAlt, BiLockAlt, BiUser} from 'react-icons/all'
 import moment from 'moment'
 import './admin.scss'
-import {useAuth} from '../../hooks/useAuth'
-import {useEffect} from 'react'
+import {useGetAuditListQuery, useGetUserListQuery} from '../../redux/api/baseApi'
 
 const Admin = () => {
   const dispatch = useDispatch()
   const userList = useGetUserListQuery()
-  const auditList = useGetLatestAuditQuery()
-  const {user} = useAuth()
-
-  // Re-fetch if user login/logout
-  useEffect(() => {
-    userList.refetch()
-    auditList.refetch()
-  }, [user])
+  const auditList = useGetAuditListQuery()
 
   return (
     <div className="admin">

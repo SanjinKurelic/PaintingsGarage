@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import ImageActionButton from './ImageActionButton'
 import {AiOutlineCloseCircle} from 'react-icons/all'
-import {photoUrl} from '../../redux/api/photoApi'
+import {baseUrl} from '../../redux/api/baseApi'
 import './image.scss'
 import HashtagList from '../hashtag/HashtagList'
 import {useDispatch} from 'react-redux'
@@ -23,7 +23,7 @@ const Image = ({image, setSelectedImage}) => {
       <div className="modal-fullscreen">
         <div className="modal-content image-content">
           <div className="modal-body row p-5">
-            <div className="col-9 image-content-image" style={{background: `url(${photoUrl}/download/${image.path})`}}/>
+            <div className="col-9 image-content-image" style={{background: `url(${baseUrl}/photo/${image.path})`}}/>
             <div className="col-3 p-4 position-relative">
               <div className="float-end" role="button">
                 <AiOutlineCloseCircle size="2em"/>

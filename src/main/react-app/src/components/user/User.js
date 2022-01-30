@@ -1,23 +1,16 @@
-import {useFindImagesQuery} from '../../redux/api/photoApi'
 import ImageGallery from '../image/ImageGallery'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import Image from '../image/Image'
 import './user.scss'
-import {useLazyGetUserDetailsQuery} from '../../redux/api/userApi'
-import {useAuth} from '../../hooks/useAuth'
 import UserDetails from './UserDetails'
 import {Button} from 'react-bootstrap'
+import {useFindImageQuery, useGetUserQuery} from '../../redux/api/baseApi'
 
 const User = () => {
-  const {user} = useAuth()
-  const [fetchUserDetails, userDetails] = useLazyGetUserDetailsQuery()
-  // Re-fetch if user login/logout
-  useEffect(() => {
-    fetchUserDetails()
-  }, [user])
+  const userDetails = useGetUserQuery()
 
   // Fetch images
-  const userImages = useFindImagesQuery({authors: user.id})
+  const userImages = useFindImageQuery({authors: userDetails.id})
   const [selectedImage, setSelectedImage] = useState(null)
 
   return (

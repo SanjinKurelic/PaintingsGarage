@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import ImageActionButton from './ImageActionButton'
 import HashtagList from '../hashtag/HashtagList'
-import {photoUrl} from '../../redux/api/photoApi'
+import {baseUrl} from '../../redux/api/baseApi'
 import './imageGallery.scss'
 import {useDispatch} from 'react-redux'
 import {showDialog} from '../../redux/slice/currentDialogSlice'
@@ -25,10 +25,10 @@ const ImageGallery = ({images, setSelectedImage}) => {
             </div>
           </div>
           <img onClick={() => setSelectedImage(image)} width="100%" alt={image.description}
-               src={`${photoUrl}/download/${image.thumbnail}`} role="button"/>
+               src={`${baseUrl}/photo/${image.thumbnail}`} role="button"/>
           <div className="row justify-content-between p-2">
-            <div className="col-9 overflow-hidden"><HashtagList hashtagItems={image.hashtags}/></div>
-            <div className="col-3 text-end image-description-hashtag-fade">
+            <div className="col-8 overflow-hidden"><HashtagList hashtagItems={image.hashtags}/></div>
+            <div className="col-4 text-end image-description-hashtag-fade">
               {image.ownershipType === 'NONE' && <span className="d-inline-block mx-2">{image.digitalPrice} €</span>}
               <ImageActionButton type={image.ownershipType}
                                  callback={(actionType) => imageActionButtonClicked(actionType, image)}/>
