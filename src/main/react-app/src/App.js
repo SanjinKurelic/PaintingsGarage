@@ -45,7 +45,7 @@ function App() {
                   latest images.</Button>
               </div>}
               <ImageGallery images={images()} setSelectedImage={setSelectedImage}/>
-              {selectedImage && <Image image={selectedImage} setSelectedImage={setSelectedImage}/>}
+              {selectedImage && <Image image={selectedImage} closeCallback={() => setSelectedImage(null)}/>}
             </>
           )}/>
           <Route path="/login" component={Login}/>
