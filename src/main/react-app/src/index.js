@@ -5,12 +5,15 @@ import App from './App'
 import {persistor, store} from './redux/store'
 import {Provider} from 'react-redux'
 import {PersistGate} from 'redux-persist/integration/react'
+import {CartProvider} from 'react-use-cart'
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <App/>
+        <CartProvider>
+          <App/>
+        </CartProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,
