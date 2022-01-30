@@ -4,8 +4,15 @@ import ImageActionButton from './ImageActionButton'
 import HashtagList from '../hashtag/HashtagList'
 import {photoUrl} from '../../redux/api/photoApi'
 import './imageGallery.scss'
+import {useDispatch} from 'react-redux'
+import {showDialog} from '../../redux/slice/currentDialogSlice'
 
 const ImageGallery = ({images, setSelectedImage}) => {
+  const dispatch = useDispatch()
+  const imageActionButtonClicked = (actionType, image) => {
+    dispatch(showDialog({type: actionType, data: image}))
+  }
+
   return (
     <div className="row">
       {images.map((image) => (
@@ -21,8 +28,10 @@ const ImageGallery = ({images, setSelectedImage}) => {
                src={`${photoUrl}/download/${image.thumbnail}`} role="button"/>
           <div className="row justify-content-between p-2">
             <div className="col-9 overflow-hidden"><HashtagList hashtagItems={image.hashtags}/></div>
-            <div className="col-3 text-end">
-              <ImageActionButton type={image.ownershipType}/>
+            <div className="col-3 text-end image-description-hashtag-fade">
+              {image.ownershipType === 'NONE' && <span className="d-inline-block mx-2">{image.digitalPrice} €</span>}
+              <ImageActionButton type={image.ownershipType}
+                                 callback={(actionType) => imageActionButtonClicked(actionType, image)}/>
             </div>
           </div>
         </div>

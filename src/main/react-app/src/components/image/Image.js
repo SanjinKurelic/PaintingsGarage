@@ -5,10 +5,17 @@ import {AiOutlineCloseCircle} from 'react-icons/all'
 import {photoUrl} from '../../redux/api/photoApi'
 import './image.scss'
 import HashtagList from '../hashtag/HashtagList'
+import {useDispatch} from 'react-redux'
+import {showDialog} from '../../redux/slice/currentDialogSlice'
 
 const Image = ({image, setSelectedImage}) => {
   const closeDialog = () => {
     setSelectedImage(null)
+  }
+
+  const dispatch = useDispatch()
+  const imageActionButtonClicked = (actionType) => {
+    dispatch(showDialog({type: actionType, data: image}))
   }
 
   return (
@@ -25,8 +32,10 @@ const Image = ({image, setSelectedImage}) => {
               <div className="my-5">
                 <p><b className="me-2">Uploaded:</b>{moment(image.uploaded).format('YYYY-MM-DD HH:mm')}</p>
                 <p className="my-4">{image.description}</p>
+                <p className="my-4">Digital price: {image.digitalPrice} €</p>
+                <p className="my-4">Painting price: {image.paintingPrice} €</p>
               </div>
-              <ImageActionButton type={image.ownershipType} size="2em"/>
+              <ImageActionButton type={image.ownershipType} size="2em" callback={imageActionButtonClicked}/>
               <div className="position-absolute image-content-tags"><HashtagList hashtagItems={image.hashtags}/></div>
             </div>
           </div>

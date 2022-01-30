@@ -11,12 +11,16 @@ import User from './components/user/User'
 import ProtectedRoute from './util/ProtectedRoute'
 import {useAuth} from './hooks/useAuth'
 import Admin from './components/admin/Admin'
+import {useSelector} from 'react-redux'
+import {selectCurrentDialog} from './redux/slice/currentDialogSlice'
+import {getDialog} from './components/dialog/AllDialogs'
 
 function App() {
   const latestImages = useGetLatestImagesQuery()
   const [selectedImage, setSelectedImage] = useState(null)
   const [searchImageResults, setSearchImageResults] = useState(null)
   const [searchFired, setSearchFired] = useState(false)
+  const currentDialog = useSelector(selectCurrentDialog)
   const {user} = useAuth()
 
   // Re-fetch if user login/logout
@@ -42,6 +46,7 @@ function App() {
         <Switch>
           <Route path="/" exact render={() => (
             <>
+              {currentDialog && getDialog(currentDialog.type, currentDialog.data)}
               {(images().length === 0 && searchFired) && <div className="m-3 fst-italic text-danger">
                 Sorry, but nothing matched your search terms. Please try again with some different keywords or&nbsp;
                 <Button variant="link" className="fst-italic p-0 align-baseline" onClick={() => setSearchFired(false)}>view
