@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.min.css'
 import {AiOutlineCloseCircle} from 'react-icons/all'
 import SearchFilter from './SearchFilter'
 import {useLazyFindAuthorQuery, useLazyFindHashtagQuery, useLazyFindImageQuery} from '../../redux/api/baseApi'
+import {useHistory} from 'react-router-dom'
 
 const Search = ({setSearchImageResults, setSearchFired}) => {
   // Fetch results
@@ -80,6 +81,7 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
   }
 
   // Perform search
+  const history = useHistory()
   const search = () => {
     let args = {}
 
@@ -98,6 +100,7 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
 
     findImages(args)
     setSearchFired(true)
+    history.push('/')
   }
 
   return (
