@@ -22,6 +22,8 @@ CREATE TABLE photo (
   title VARCHAR(50) NOT NULL,
   description VARCHAR(500) NULL,
   size INT NOT NULL,
+  digital_price DECIMAL(10,2) NOT NULL,
+  painting_price DECIMAL(10,2) NOT NULL,
   uploaded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   user_id BIGINT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id)
