@@ -13,11 +13,11 @@ const Admin = () => {
   const auditList = useGetAuditListQuery()
 
   return (
-    <div className="admin">
+    <div className="admin position-relative">
       <Button className="user-action-button d-block m-2 position-absolute end-0" variant="primary"
               onClick={() => dispatch(deleteCurrentUser)}>Logout</Button>
       <h3 className="m-5 text-center">Activity</h3>
-      <div className="admin-audit">
+      <div className="admin-audit position-relative m-auto">
         {auditList.isSuccess && auditList.data.map((auditDetail) => (
           <Row className="m-3">
             <Col className="col-1 rounded-circle text-center m-2 admin-audit-action">
@@ -36,7 +36,7 @@ const Admin = () => {
           <p className="alert alert-warning">No activity found</p>}
       </div>
       <h3 className="m-5 text-center">User list</h3>
-      <div className="admin-users">
+      <div className="admin-users m-auto">
         {userList.isSuccess && userList.data.map((userDetails) => (
           <UserDetails className="mt-2 border-2 rounded-2" userDetails={userDetails} showLogoutButton={false}/>))}
       </div>

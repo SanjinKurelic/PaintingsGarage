@@ -4,14 +4,15 @@ import painter from '../../assets/painter.png'
 import PropTypes from 'prop-types'
 import './plan.scss'
 import {useState} from 'react'
-import {useDispatch} from 'react-redux'
-import {showDialog} from '../../redux/slice/currentDialogSlice'
-import {DialogType} from '../dialog/AllDialogs'
+import {useDispatch, useSelector} from 'react-redux'
+import {selectCurrentDialog, showDialog} from '../../redux/slice/currentDialogSlice'
+import {DialogType, getDialog} from '../dialog/AllDialogs'
 import {useUpdateUserMutation} from '../../redux/api/baseApi'
 
 const Plan = ({visibleDetails, userId, selectedPlan, setSelectedPlan}) => {
   const dispatch = useDispatch()
   const [changePlan] = useUpdateUserMutation()
+  const currentDialog = useSelector(selectCurrentDialog)
   const [focusedPlan, setFocusedPlan] = useState(selectedPlan)
 
   const focusPlanAndShowDialog = (value) => {
@@ -30,6 +31,7 @@ const Plan = ({visibleDetails, userId, selectedPlan, setSelectedPlan}) => {
 
   return (
     <>
+      {currentDialog && getDialog(currentDialog.type, currentDialog.data)}
       <ListGroup horizontal className="plan">
         <ListGroup.Item className="plan-item text-center" data-selected={selectedPlan === 0}
                         onClick={() => focusPlanAndShowDialog(0)}>
@@ -61,7 +63,7 @@ Plan.propTypes = {
   setSelectedPlan: PropTypes.func.isRequired
 }
 
-Plan.defaultPropTypes = {
+Plan.defaultProps = {
   visibleDetails: false
 }
 
