@@ -1,6 +1,6 @@
 import {Button, Card, Col, Container, Row} from 'react-bootstrap'
 import {hostname} from '../../redux/api/baseApi'
-import {setCurrentUser} from '../../redux/slice/currentUserSlice'
+import {deleteCurrentUser} from '../../redux/slice/currentUserSlice'
 import {useDispatch} from 'react-redux'
 import PropTypes from 'prop-types'
 import Plan from '../plan/Plan'
@@ -56,7 +56,7 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
         </Card>
       </Col>
       {showLogoutButton && <Col className="col-2"><Button className="user-action-button d-block m-2" variant="primary"
-                                                          onClick={() => dispatch(setCurrentUser(null))}>Logout</Button></Col>}
+                                                          onClick={() => dispatch(deleteCurrentUser())}>Logout</Button></Col>}
     </Row>
   )
 }

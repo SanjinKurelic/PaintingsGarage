@@ -64,7 +64,7 @@ const Login = () => {
   const history = useHistory()
   const storeAndRedirect = useCallback((result) => {
     if (result.isSuccess && result.data && result.data.token) {
-      dispatch(setCurrentUser(result.data))
+      dispatch(setCurrentUser({user: result.data}))
       // Clean inputs
       setInputs({})
       // redirect

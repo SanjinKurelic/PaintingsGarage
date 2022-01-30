@@ -1,7 +1,7 @@
 import {useGetUserListQuery} from '../../redux/api/userApi'
 import UserDetails from '../user/UserDetails'
 import {useDispatch} from 'react-redux'
-import {setCurrentUser} from '../../redux/slice/currentUserSlice'
+import {deleteCurrentUser} from '../../redux/slice/currentUserSlice'
 import {Button, Col, Row} from 'react-bootstrap'
 import {useGetLatestAuditQuery} from '../../redux/api/auditApi'
 import {BiImageAlt, BiLockAlt, BiUser} from 'react-icons/all'
@@ -25,7 +25,7 @@ const Admin = () => {
   return (
     <div className="admin">
       <Button className="user-action-button d-block m-2 position-absolute end-0" variant="primary"
-              onClick={() => dispatch(setCurrentUser(null))}>Logout</Button>
+              onClick={() => dispatch(deleteCurrentUser)}>Logout</Button>
       <h3 className="m-5 text-center">Activity</h3>
       <div className="admin-audit">
         {auditList.isSuccess && auditList.data.map((auditDetail) => (
@@ -42,7 +42,8 @@ const Admin = () => {
             </Col>
           </Row>
         ))}
-        {(!auditList.isSuccess || auditList.data.length < 1) && <p>No activity found</p>}
+        {(!auditList.isSuccess || auditList.data.length < 1) &&
+          <p className="alert alert-warning">No activity found</p>}
       </div>
       <h3 className="m-5 text-center">User list</h3>
       <div className="admin-users">

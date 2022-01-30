@@ -8,6 +8,7 @@ import currentUserSlice from './slice/currentUserSlice'
 import {auditApi} from './api/auditApi'
 import {persistReducer, persistStore} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import currentDialogSlice from './slice/currentDialogSlice'
 
 const persistConfig = {
   key: 'root',
@@ -21,13 +22,15 @@ const reducers = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [auditApi.reducerPath]: auditApi.reducer,
-  currentUser: currentUserSlice
+  currentUser: currentUserSlice,
+  currentDialog: currentDialogSlice
 })
 
 export const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-    photoApi.middleware, userApi.middleware, hashtagApi.middleware, authApi.middleware, auditApi.middleware
+    photoApi.middleware, userApi.middleware, hashtagApi.middleware, authApi.middleware, auditApi.middleware,
+    currentUserSlice.middleware, currentDialogSlice,middleware
   )
 })
 
