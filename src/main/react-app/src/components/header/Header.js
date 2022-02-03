@@ -4,8 +4,10 @@ import Search from '../search/Search'
 import './header.scss'
 import {IoCartOutline, VscAccount} from 'react-icons/all'
 import {useHistory} from 'react-router-dom'
+import {useCart} from 'react-use-cart'
 
-const Header = ({setSearchImageResults, setSearchFired}) => {
+const Header = ({setSearchImageResults, setSearchFired, clearSearch, setClearSearch}) => {
+  const {isEmpty, totalUniqueItems} = useCart()
   const history = useHistory()
 
   return (
@@ -19,7 +21,9 @@ const Header = ({setSearchImageResults, setSearchFired}) => {
           <Button variant="link" size="lg" className="header-link" onClick={() => history.push('/user')}><VscAccount
             size={28}/></Button>
           <Button variant="link" size="lg" className="header-link" onClick={() => history.push('/cart')}><IoCartOutline
-            size={28}/></Button>
+            size={28}/>
+            <div className="d-inline-block align-top text-decoration-underline text-small">{!isEmpty && totalUniqueItems}</div>
+          </Button>
         </div>
       </Container>
     </Nav>

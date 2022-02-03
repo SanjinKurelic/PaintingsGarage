@@ -34,6 +34,15 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ['photo', 'user']
     }),
+    // Cart
+    checkout: builder.mutation({
+      query: (cartItems) => ({
+        url: 'cart',
+        method: 'POST',
+        body: cartItems
+      }),
+      invalidatesTags: ['photo', 'search']
+    }),
     // Photo
     getPhotoList: builder.query({
       query: () => 'photo',
@@ -125,6 +134,7 @@ export const {
   useRegisterUserMutation,
   useUpdateUserMutation,
   useAddPhotoMutation,
+  useCheckoutMutation,
   useUpdatePhotoMutation,
   useDeletePhotoMutation
 } = baseApi

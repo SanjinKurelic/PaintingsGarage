@@ -6,15 +6,17 @@ import {hideDialog} from '../../redux/slice/currentDialogSlice'
 import {useState} from 'react'
 import canvas from '../../assets/canvas.png'
 import camera from '../../assets/camera.png'
-import './addToCartDialog.scss'
+import {useCart} from 'react-use-cart'
 
 const AddToCartDialog = ({image}) => {
   const dispatch = useDispatch()
+  const {addItem, inCart} = useCart()
   const [pictureType, setPictureType] = useState('DIGITAL')
 
   const add = () => {
     console.log(image)
-    console.log(pictureType)
+    const price = pictureType === 'DIGITAL' ? image.digitalPrice : image.paintingPrice
+    addItem({id: image.id, price: price, data: image, pictureType: pictureType})
     dispatch(hideDialog())
   }
 
@@ -28,16 +30,21 @@ const AddToCartDialog = ({image}) => {
         <ModalHeader>
           <ModalTitle>Add to Cart</ModalTitle>
         </ModalHeader>
-        <ModalBody>
+        {inCart(image.id) && <ModalBody>
+          <p>An item is already in the cart.</p>
+        </ModalBody>}
+        {!inCart(image.id) && <ModalBody>
           <Row>
             <Col className="col-4">Image type:</Col>
             <Col>
               <ListGroup horizontal>
-                <ListGroup.Item className="cart-dialog-item text-center" data-selected={pictureType === 'DIGITAL'}
+                <ListGroup.Item className="switcher-item text-center"
+                                data-selected={pictureType === 'DIGITAL'}
                                 onClick={() => setPictureType('DIGITAL')}>
                   <img height="50px" alt="Digital" src={camera}/>
                 </ListGroup.Item>
-                <ListGroup.Item className="cart-dialog-item text-center" data-selected={pictureType === 'PHYSICAL'}
+                <ListGroup.Item className="switcher-item text-center"
+                                data-selected={pictureType === 'PHYSICAL'}
                                 onClick={() => setPictureType('PHYSICAL')}>
                   <img height="50px" alt="Physical" src={canvas}/>
                 </ListGroup.Item>
@@ -52,12 +59,15 @@ const AddToCartDialog = ({image}) => {
           </Row>
           <Row>
             <Col className="col-4">Price:</Col>
-            <Col>{pictureType === 'DIGITAL' ? image.digitalPrice : image.paintingPrice} €</Col>
+            <Col>{pictureType === 'DIGITAL' ?
+              image.digitalPrice.toLocaleString(undefined, {minimumFractionDigits: 2}) :
+              image.paintingPrice.toLocaleString(undefined, {minimumFractionDigits: 2})
+            } €</Col>
           </Row>
-        </ModalBody>
+        </ModalBody>}
         <ModalFooter>
-          <Button className="dialog-box-button" onClick={cancel}>Cancel</Button>
-          <Button className="dialog-box-button" onClick={add}>Add to cart</Button>
+          <Button className="button-dark" onClick={cancel}>{!inCart(image.id) ? 'Cancel' : 'Ok'}</Button>
+          {!inCart(image.id) && <Button className="button-dark" onClick={add}>Add to cart</Button>}
         </ModalFooter>
       </ModalDialog>
     </div>

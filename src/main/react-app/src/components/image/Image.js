@@ -18,6 +18,7 @@ const Image = ({image, closeCallback, editable, isNew}) => {
   const dispatch = useDispatch()
   const imageActionButtonClicked = (actionType) => {
     dispatch(showDialog({type: actionType, data: image}))
+    closeDialog()
   }
 
   // Editable Image component
@@ -96,8 +97,8 @@ const Image = ({image, closeCallback, editable, isNew}) => {
                 </Form>}
                 {!editable && <>
                   <p className="my-4">{image.description}</p>
-                  <p className="my-4">Digital price: {image.digitalPrice} €</p>
-                  <p className="my-4">Painting price: {image.paintingPrice} €</p>
+                  <p className="my-4">Digital price: {image.digitalPrice.toLocaleString(undefined, {minimumFractionDigits: 2})} €</p>
+                  <p className="my-4">Painting price: {image.paintingPrice.toLocaleString(undefined, {minimumFractionDigits: 2})} €</p>
                 </>}
               </div>
               {!editable &&

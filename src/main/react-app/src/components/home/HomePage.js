@@ -21,7 +21,7 @@ const HomePage = ({searchImageResults, searchFired, setSearchFired, setClearSear
 
   return (
     <>
-      {(images().length === 0 && searchFired) && <div className="m-3 fst-italic text-danger">
+      {(images().length === 0 && searchFired) && <div className="m-3 fst-italic alert alert-warning">
         Sorry, but nothing matched your search terms. Please try again with some different keywords or&nbsp;
         <Button variant="link" className="fst-italic p-0 align-baseline" onClick={() => {
           setSearchFired(false)
