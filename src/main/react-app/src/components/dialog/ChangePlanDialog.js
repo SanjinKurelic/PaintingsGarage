@@ -24,8 +24,8 @@ const ChangePlanDialog = ({callback}) => {
         </ModalHeader>
         <ModalBody>Are you sure you want to change current plan?</ModalBody>
         <ModalFooter>
-          <Button className="dialog-box-button" onClick={no}>No</Button>
-          <Button className="dialog-box-button" onClick={yes}>Yes</Button>
+          <Button className="button-dark" onClick={no}>No</Button>
+          <Button className="button-dark" onClick={yes}>Yes</Button>
         </ModalFooter>
       </ModalDialog>
     </div>

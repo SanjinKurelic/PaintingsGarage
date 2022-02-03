@@ -6,6 +6,7 @@ import {persistor, store} from './redux/store'
 import {Provider} from 'react-redux'
 import {PersistGate} from 'redux-persist/integration/react'
 import {CartProvider} from 'react-use-cart'
+import './index.scss'
 
 ReactDOM.render(
   <React.StrictMode>

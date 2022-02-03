@@ -11,8 +11,10 @@ const Header = ({setSearchImageResults, setSearchFired}) => {
   return (
     <Nav className="bg-dark">
       <Container className="d-flex justify-content-between p-2">
-        <Image alt="Sell my picture" className="my-2 header-logo" src={logo} height={40} onClick={() => history.push('/')}/>
-        <Search setSearchImageResults={setSearchImageResults} setSearchFired={setSearchFired}/>
+        <Image alt="Sell my picture" className="my-2 cursor-pointer" src={logo} height={40}
+               onClick={() => history.push('/')}/>
+        <Search setSearchImageResults={setSearchImageResults} setSearchFired={setSearchFired}
+                clearSearch={clearSearch} setClearSearch={setClearSearch}/>
         <div>
           <Button variant="link" size="lg" className="header-link" onClick={() => history.push('/user')}><VscAccount
             size={28}/></Button>

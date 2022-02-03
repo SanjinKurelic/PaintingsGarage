@@ -14,8 +14,8 @@ const Admin = () => {
 
   return (
     <div className="admin position-relative">
-      <Button className="user-action-button d-block m-2 position-absolute end-0" variant="primary"
-              onClick={() => dispatch(deleteCurrentUser)}>Logout</Button>
+      <Button className="button-dark d-block m-2 position-absolute end-0" variant="primary"
+              onClick={() => dispatch(deleteCurrentUser())}>Logout</Button>
       <h3 className="m-5 text-center">Activity</h3>
       <div className="admin-audit position-relative m-auto">
         {auditList.isSuccess && auditList.data.map((auditDetail) => (

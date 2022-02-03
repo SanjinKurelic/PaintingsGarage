@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux'
 import PropTypes from 'prop-types'
 import Plan from '../plan/Plan'
 import {useEffect, useState} from 'react'
+import './userDetails.scss'
 
 const UserDetails = ({userDetails, showLogoutButton, className}) => {
   const dispatch = useDispatch()
@@ -55,7 +56,7 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
           </Card.Body>
         </Card>
       </Col>
-      {showLogoutButton && <Col className="col-2"><Button className="user-action-button d-block m-2" variant="primary"
+      {showLogoutButton && <Col className="col-2"><Button className="button-dark d-block m-2" variant="primary"
                                                           onClick={() => dispatch(deleteCurrentUser())}>Logout</Button></Col>}
     </Row>
   )

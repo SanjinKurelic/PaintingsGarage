@@ -10,7 +10,7 @@ const ImageActionButton = ({type, size, callback}) => {
         <div>
           <AiOutlineDownload onClick={() => callback(DialogType.DOWNLOAD)} size={size} role="button"/>
           <AiOutlineEdit onClick={() => callback(DialogType.EDIT)} size={size} role="button"/>
-          <AiOutlineDelete onClick={() => callback(DialogType.CONFIRMATION)} color="red" size={size} role="button"/>
+          <AiOutlineDelete onClick={() => callback(DialogType.DELETE)} color="red" size={size} role="button"/>
         </div>
       )
     case 'BOUGHT':

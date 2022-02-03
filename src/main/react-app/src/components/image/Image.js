@@ -51,13 +51,13 @@ const Image = ({image, closeCallback, editable, isNew}) => {
   }
 
   return (
-    <div className="modal show fade d-block" onClick={closeDialog} onContextMenu={closeDialog}>
+    <div className="modal show fade d-block" onContextMenu={closeDialog}>
       <div className="modal-fullscreen">
         <div className="modal-content image-content">
           <div className="modal-body row p-5">
             <div className="col-9 image-content-image" style={{background: `url(${baseUrl}/photo/${image.path})`}}/>
             <div className="col-3 p-4 position-relative">
-              <div className="float-end" role="button">
+              <div className="float-end" role="button" onClick={closeDialog} >
                 <AiOutlineCloseCircle size="2em"/>
               </div>
               <h2>{image.title}</h2>
@@ -74,8 +74,8 @@ const Image = ({image, closeCallback, editable, isNew}) => {
                   </Form.Group>
                   <Form.Group as={Row} className="my-4">
                     <Col>
-                      <textarea required={true} name="description" placeholder="Description" onChange={changeInput}
-                                value={image.description}/>
+                      <textarea className="w-100" required={true} name="description" placeholder="Description"
+                                onChange={changeInput} value={image.description} rows="4"/>
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="my-4">
@@ -92,7 +92,7 @@ const Image = ({image, closeCallback, editable, isNew}) => {
                                     value={image.paintingPrice || 0}/>
                     </Col>
                   </Form.Group>
-                  <Button className="image-content-button" variant="primary" type="submit">Save</Button>
+                  <Button className="button-light float-end" variant="primary" type="submit">Save</Button>
                 </Form>}
                 {!editable && <>
                   <p className="my-4">{image.description}</p>

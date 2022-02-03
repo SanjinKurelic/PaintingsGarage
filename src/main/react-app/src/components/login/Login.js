@@ -79,7 +79,7 @@ const Login = () => {
 
   return (
     <Container fluid className="mt-5 mx-sm-0">
-      <Row className="d-flex justify-content-center align-items-center h-100">
+      <Row className="d-flex justify-content-center align-items-start h-100">
         <Col className="col-5 col-lg-6 col-xl-5">
           <Image src={hostname + '/login-screen-logo.png'} className="img-fluid" alt=""/>
         </Col>
@@ -91,10 +91,10 @@ const Login = () => {
           <Form noValidate validated={validated} onSubmit={submit} className="login">
             <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
               <p className="lead fw-normal mb-0 me-5">Sign in with</p>
-              <Button className="mx-2 p-2 rounded-circle login-social-media-button">
+              <Button className="mx-2 p-2 rounded-circle button-dark login-social-media-button">
                 <GrGoogle size={22} className="text-center"/>
               </Button>
-              <Button className="mx-2 p-2 rounded-circle login-social-media-button">
+              <Button className="mx-2 p-2 rounded-circle button-dark login-social-media-button">
                 <FaGithubAlt size={22} className="text-center"/>
               </Button>
             </div>
@@ -105,15 +105,15 @@ const Login = () => {
               <Form.Label column className="col-3"><b>Type:</b></Form.Label>
               <Col>
                 <Form.Check inline type="radio" label="Existing user" name="userType" value={LOGIN}
-                            defaultChecked onChange={changeSubmitUrl}/>
+                            className="input-light" defaultChecked onChange={changeSubmitUrl}/>
                 <Form.Check inline type="radio" label="New user" name="userType" value={REGISTER}
-                            onChange={changeSubmitUrl}/>
+                            className="input-light" onChange={changeSubmitUrl}/>
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-4" hidden={action === LOGIN}>
               <Form.Label column className="col-3"><b>Name:</b></Form.Label>
               <Col>
-                <Form.Control required={action === REGISTER} type="text" name="name" className="login-input-text"
+                <Form.Control required={action === REGISTER} type="text" name="name" className="input-light"
                               placeholder="Enter your name" onChange={changeInput}/>
                 <Form.Control.Feedback type="invalid">
                   Please enter valid name.
@@ -124,7 +124,7 @@ const Login = () => {
               <Form.Label column className="col-3"><b>Email:</b></Form.Label>
               <Col>
                 <Form.Control required type="email" name="email" placeholder="Enter your email" onChange={changeInput}
-                              className="login-input-text"/>
+                              className="input-light"/>
                 <Form.Control.Feedback type="invalid">
                   Please enter valid email.
                 </Form.Control.Feedback>
@@ -134,7 +134,7 @@ const Login = () => {
               <Form.Label column className="col-3"><b>Password:</b></Form.Label>
               <Col>
                 <Form.Control required minLength={8} type="password" name="password" placeholder="Enter your password"
-                              className="login-input-text" onChange={changeInput}/>
+                              className="input-light" onChange={changeInput}/>
                 <Form.Control.Feedback type="invalid">
                   Please enter valid password, at least 8 characters long.
                 </Form.Control.Feedback>
@@ -148,7 +148,7 @@ const Login = () => {
               </Col>
             </Form.Group>
             <div className="text-center text-lg-end mt-4 pt-2">
-              <Button className="login-submit-button" variant="primary"
+              <Button className="button-dark" variant="primary"
                       type="submit">{action === LOGIN ? 'Login' : 'Register'}</Button>
             </div>
           </Form>
