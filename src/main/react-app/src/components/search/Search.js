@@ -9,7 +9,7 @@ import SearchFilter from './SearchFilter'
 import {useLazyFindAuthorQuery, useLazyFindHashtagQuery, useLazyFindImageQuery} from '../../redux/api/baseApi'
 import {useHistory} from 'react-router-dom'
 
-const Search = ({setSearchImageResults, setSearchFired}) => {
+const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSearch}) => {
   // Fetch results
   const searchInput = createRef()
   const [findImages, foundImages] = useLazyFindImageQuery()
@@ -102,6 +102,23 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
     setSearchFired(true)
     history.push('/')
   }
+
+  // Clear search component
+  useEffect(() => {
+    console.log(clearSearch)
+    if (!clearSearch) {
+      return;
+    }
+
+    if (searchInput.current) {
+      searchInput.current.value = ''
+    }
+    setAuthors([])
+    setHashtags([])
+    setSearchDate([undefined, undefined])
+    setCurrentImageSize(1)
+    setClearSearch(false)
+  }, [clearSearch, setClearSearch])
 
   return (
     <div className="mx-3 my-2 flex-grow-1 search position-relative">

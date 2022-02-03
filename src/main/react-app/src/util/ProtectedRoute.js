@@ -14,7 +14,7 @@ const ProtectedRoute = ({componentForRole, location, ...rest}) => {
 
     // Check if token has expired
     let jwt = JSON.parse(atob(currentUser.user.token.split('.')[1]))
-    if (jwt.exp * 10000 < Date.now()) {
+    if (jwt.exp * 1000 < Date.now()) {
       dispatch(deleteCurrentUser())
       return false
     }
@@ -26,7 +26,7 @@ const ProtectedRoute = ({componentForRole, location, ...rest}) => {
     return (<Redirect to={{pathname: '/login', state: {from: location}}}/>)
   }
 
-  const role = currentUser.user.role.toLowerCase().replace("role_", "")
+  const role = currentUser.user.role.toLowerCase().replace('role_', '')
   return (
     <Route {...rest} component={componentForRole[role]}/>
   )

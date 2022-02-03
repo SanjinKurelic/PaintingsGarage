@@ -5,6 +5,7 @@ import {persistReducer, persistStore} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import currentDialogSlice from './slice/currentDialogSlice'
 import {baseApi} from './api/baseApi'
+import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from 'redux-persist/es/constants'
 
 const persistConfig = {
   key: 'root',
@@ -20,7 +21,11 @@ const reducers = combineReducers({
 
 export const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+    }
+  }).concat(baseApi.middleware)
 })
 
 export const persistor = persistStore(store)

@@ -4,12 +4,15 @@ import Image from '../image/Image'
 import UserDetails from './UserDetails'
 import {Button} from 'react-bootstrap'
 import {useFindImageQuery, useGetUserQuery} from '../../redux/api/baseApi'
+import {useSelector} from 'react-redux'
+import {selectCurrentUser} from '../../redux/slice/currentUserSlice'
 
 const User = () => {
+  const currentUser = useSelector(selectCurrentUser)
   const userDetails = useGetUserQuery()
 
   // Fetch images
-  const userImages = useFindImageQuery({authors: userDetails.id})
+  const userImages = useFindImageQuery({authors: currentUser.id})
   const [selectedImage, setSelectedImage] = useState(null)
 
   return (
