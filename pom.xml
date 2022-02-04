@@ -22,10 +22,11 @@
     <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
     <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
     <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
-    <org.hibernate-jpamodelgen.version>5.6.3.Final</org.hibernate-jpamodelgen.version>
+    <org.hibernate-jpamodelgen.version>5.6.5.Final</org.hibernate-jpamodelgen.version>
     <com.sshj.version>0.32.0</com.sshj.version>
     <org.apache.commons.version>3.12.0</org.apache.commons.version>
     <io.jjwt.version>0.9.1</io.jjwt.version>
+    <thumbnailator.version>0.4.16</thumbnailator.version>
     <!-- frontend -->
     <maven.frontend.plugin>1.12.0</maven.frontend.plugin>
     <maven.resources.plugin>3.2.0</maven.resources.plugin>
@@ -96,6 +97,12 @@
     </dependency>
 
     <dependency>
+      <groupId>net.coobird</groupId>
+      <artifactId>thumbnailator</artifactId>
+      <version>${thumbnailator.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
@@ -113,7 +120,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-
         <configuration>
           <excludes>
             <exclude>
@@ -127,7 +133,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven.compiler.plugin.version}</version>
-
         <configuration>
           <annotationProcessorPaths>
             <path>
@@ -167,12 +172,10 @@
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
         <version>${maven.frontend.plugin}</version>
-
         <configuration>
           <workingDirectory>${react.app.dir}</workingDirectory>
           <installDirectory>${react.app.dir}/node</installDirectory>
         </configuration>
-
         <executions>
           <execution>
             <id>install-frontend-tools</id>
@@ -232,5 +235,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

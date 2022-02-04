@@ -1,7 +1,9 @@
 package eu.sanjin.kurelic.photostorage.photo.controller;
 
 import eu.sanjin.kurelic.photostorage.audit.aspect.LogPhotoUpload;
+import eu.sanjin.kurelic.photostorage.photo.filter.ImageFilterType;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoData;
+import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import eu.sanjin.kurelic.photostorage.photo.service.FileService;
 import eu.sanjin.kurelic.photostorage.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -36,8 +37,12 @@ public class PhotoController {
   }
 
   @GetMapping("/{fileName:.+}")
-  public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName) {
-    var content = fileService.loadFile(fileName);
+  public ResponseEntity<byte[]> downloadFile(
+    @PathVariable String fileName,
+    @RequestParam(required = false) ImageFilterType filter,
+    @RequestParam(required = false) PhotoSize size
+  ) {
+    var content = fileService.loadFile(fileName, filter, size);
 
     if (Objects.isNull(content) || content.length == 0) {
       return ResponseEntity.notFound().build();
@@ -51,27 +56,23 @@ public class PhotoController {
 
   @PostMapping
   @LogPhotoUpload
-  public ResponseEntity<PhotoData> addPhoto(
-    @RequestParam("file") MultipartFile file,
-    @RequestParam(value = "title") String title,
-    @RequestParam(value = "description") String description,
-    @RequestParam(value = "hashtagList") Map<String, Long> hashtagList) {
-    return ResponseEntity.ok(fileService.saveFile(file, title, description, hashtagList));
+  public ResponseEntity<PhotoData> addPhoto(@RequestParam("file") MultipartFile file, PhotoData photoData) {
+    var filePath = fileService.saveFile(file);
+    var thumbnailPath = fileService.getThumbnailPrefix(filePath);
+    var fileSize = file.getSize();
+    return ResponseEntity.ok(photoService.addPhoto(filePath, thumbnailPath, fileSize, photoData));
   }
 
   @PutMapping("/{photoId}")
-  public void updatePhoto(
-    @PathVariable Long photoId,
-    @RequestParam(value = "title") String title,
-    @RequestParam(value = "description") String description,
-    @RequestParam(value = "hashtagList") Map<String, Long> hashtagList
-  ) {
-    photoService.updatePhoto(photoId, title, description, hashtagList);
+  public void updatePhoto(@PathVariable Long photoId, PhotoData photoData) {
+    photoService.updatePhoto(photoId, photoData);
   }
 
   @DeleteMapping("/{photoId}")
   public void deletePhoto(@PathVariable Long photoId) {
+    var photo = photoService.getPhoto(photoId);
     photoService.deletePhoto(photoId);
-    // TODO also delete file
+    fileService.deleteFile(photo.path());
+    fileService.deleteFile(photo.thumbnail());
   }
 }

@@ -52,6 +52,10 @@ public class UserService {
     repository.saveAndFlush(userData);
   }
 
+  public User getUser(Long userId) {
+    return repository.getById(userId);
+  }
+
   /**
    * Used by auth process
    */
