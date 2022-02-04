@@ -105,7 +105,6 @@ const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSea
 
   // Clear search component
   useEffect(() => {
-    console.log(clearSearch)
     if (!clearSearch) {
       return;
     }
@@ -118,7 +117,7 @@ const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSea
     setSearchDate([undefined, undefined])
     setCurrentImageSize(1)
     setClearSearch(false)
-  }, [clearSearch, setClearSearch])
+  }, [clearSearch, setClearSearch, searchInput])
 
   return (
     <div className="mx-3 my-2 flex-grow-1 search position-relative">

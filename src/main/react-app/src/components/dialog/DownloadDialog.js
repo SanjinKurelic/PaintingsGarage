@@ -5,15 +5,17 @@ import {useDispatch} from 'react-redux'
 import {hideDialog} from '../../redux/slice/currentDialogSlice'
 import {useState} from 'react'
 import {BsImage} from 'react-icons/bs'
+import {saveAs} from 'file-saver'
+import {baseUrl} from '../../redux/api/baseApi'
 
 const DownloadDialog = ({image}) => {
   const dispatch = useDispatch()
-  const [imageSize, setImageSize] = useState('NORMAL')
-  const [sepia, setSepia] = useState(false)
+  const [imageSize, setImageSize] = useState('BIG')
+  const [filter, setFilter] = useState(null)
 
   const download = () => {
-    console.log(image)
-    console.log(imageSize)
+    const url = `${baseUrl}/photo/${image.path}?size=${imageSize}` + (!filter ? '' : `&filter=${filter}`)
+    saveAs(url, image.title + image.path.substring(image.path.lastIndexOf('.')))
     dispatch(hideDialog(null))
   }
 
@@ -33,21 +35,24 @@ const DownloadDialog = ({image}) => {
             <Col>
               <ListGroup horizontal>
                 <ListGroup.Item className="switcher-item text-center"
-                                data-selected={imageSize === 'NORMAL'}
-                                onClick={() => setImageSize('NORMAL')}>
-                  <BsImage style="1.3em"/>
+                                data-selected={imageSize === 'BIG'}
+                                onClick={() => setImageSize('BIG')}>
+                  <BsImage style={{fontSize: "1.3em"}}/>
                 </ListGroup.Item>
                 <ListGroup.Item className="switcher-item text-center"
                                 data-selected={imageSize === 'SMALL'}
                                 onClick={() => setImageSize('SMALL')}>
-                  <BsImage style="1em"/>
+                  <BsImage style={{fontSize: "1em"}}/>
                 </ListGroup.Item>
               </ListGroup>
             </Col>
           </Row>
           <Row>
             <Col>Filter:</Col>
-            <Col><input type="checkbox" onChange={() => setSepia(!sepia)} checked={sepia}/>Sepia</Col>
+            <Col><input type="radio" onChange={() => setFilter(null)} checked={filter === null}/>None</Col>
+            <Col><input type="radio" onChange={() => setFilter('GREYSCALE')} checked={filter === 'GREYSCALE'}/>Grayscale</Col>
+            <Col><input type="radio" onChange={() => setFilter('SEPIA')} checked={filter === 'SEPIA'}/>Invert</Col>
+            <Col><input type="radio" onChange={() => setFilter('INVERT')} checked={filter === 'INVERT'}/>Sepia</Col>
           </Row>
         </ModalBody>
         <ModalFooter>
