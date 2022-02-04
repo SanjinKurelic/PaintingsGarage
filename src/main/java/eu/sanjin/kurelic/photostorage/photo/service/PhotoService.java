@@ -46,4 +46,12 @@ public class PhotoService {
   public void deletePhoto(Long photoId) {
     photoRepository.deleteById(photoId);
   }
+
+  public void buyPhoto(Long photoId, User user) {
+    var photo = photoRepository.getById(photoId);
+
+    photo.getOwners().add(user);
+
+    photoRepository.saveAndFlush(photo);
+  }
 }
