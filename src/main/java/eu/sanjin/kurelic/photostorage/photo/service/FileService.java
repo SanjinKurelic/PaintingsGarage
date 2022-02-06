@@ -10,11 +10,13 @@ import java.util.Objects;
 
 public interface FileService {
 
-  String THUMBNAIL_PREFIX = "th";
+  String THUMBNAIL_PREFIX = "th_";
 
   String saveFile(MultipartFile file);
 
   byte[] loadFile(String fileName, ImageFilterType filter, PhotoSize size);
+
+  byte[] applyWatermark(byte[] image, String fileName);
 
   void deleteFile(String fileName);
 
@@ -23,6 +25,6 @@ public interface FileService {
   default String getThumbnailPrefix(String fileName) {
     var extension = Objects.requireNonNull(StringUtils.getFilenameExtension(fileName));
     var file = StringUtils.stripFilenameExtension(fileName);
-    return String.format("%s_%s.%s", file, THUMBNAIL_PREFIX, extension);
+    return String.format("%s%s.%s", file, THUMBNAIL_PREFIX, extension);
   }
 }

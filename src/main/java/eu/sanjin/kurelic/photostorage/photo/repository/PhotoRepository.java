@@ -24,6 +24,9 @@ public interface PhotoRepository extends JpaRepository<Photo, Long>, JpaSpecific
 
   List<Photo> findFirst9ByOrderByUploadedDesc();
 
+  Photo getByPath(String path);
+
+  @SuppressWarnings("SqlResolve")
   @Query(value = "SELECT photo_id FROM hashtag_photo WHERE hashtag_id IN (:hashtags)", nativeQuery = true)
   List<Long> getPhotoIdsByHashtagIds(List<Long> hashtags);
 

@@ -94,4 +94,16 @@ public class PhotoService {
 
     photoRepository.saveAndFlush(photo);
   }
+
+  public boolean isUserOwner(String photoPath) {
+    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    var photo = photoRepository.getByPath(photoPath);
+
+    if (Objects.isNull(principal) || !(principal instanceof UserDetailsModel userDetailsModel)) {
+      return false;
+    }
+
+    return photo.getAuthor().getId().equals(userDetailsModel.getId()) ||
+      photo.getOwners().stream().anyMatch(o -> o.getId().equals(userDetailsModel.getId()));
+  }
 }

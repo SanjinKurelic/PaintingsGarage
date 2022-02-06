@@ -10,6 +10,8 @@ import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.filters.Caption;
+import net.coobird.thumbnailator.geometry.Positions;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
@@ -19,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -38,7 +41,7 @@ public class LocalFileService implements FileService {
     if (file.isEmpty()) {
       throw new WrongArgumentException(WrongArgumentException.WrongArgumentMessage.WRONG_FILE_FORMAT);
     }
-    //Validate extension
+    // Validate extension
     var extension = validateExtension(file.getOriginalFilename());
 
     // Save to sftp
@@ -98,13 +101,37 @@ public class LocalFileService implements FileService {
     return content;
   }
 
+  @Override
+  public byte[] applyWatermark(byte[] image, String fileName) {
+    // Don't add watermark to thumbnails
+    if (fileName.startsWith(FileService.THUMBNAIL_PREFIX)) {
+      return image;
+    }
+    try {
+      var extension = Objects.requireNonNull(StringUtils.getFilenameExtension(fileName));
+      var bufferedImage = ImageIO.read(new ByteArrayInputStream(image));
+      var watermarkedImage = new ByteArrayOutputStream(image.length);
+
+      var text = "Paintings Garage";
+      var font = new Font("Monospaced", Font.BOLD, 60);
+      var filter = new Caption(text, font, Color.WHITE, 0.5f, Positions.CENTER, 0);
+
+      ImageIO.write(filter.apply(bufferedImage), extension, watermarkedImage);
+      watermarkedImage.flush();
+
+      return watermarkedImage.toByteArray();
+    } catch (IOException e) {
+      throw new InternalServerError(e);
+    }
+  }
+
   private byte[] changeSize(byte[] content) throws IOException {
     var bufferedImage = ImageIO.read(new ByteArrayInputStream(content));
     var resizedImage = new ByteArrayOutputStream(content.length);
 
     int newWidth = (bufferedImage.getWidth() / 2);
     int newHeight = (bufferedImage.getHeight() / 2);
-    Thumbnails.of(bufferedImage).size(newWidth, newHeight).toOutputStream(resizedImage);
+    Thumbnails.of(bufferedImage).size(newWidth, newHeight).useOriginalFormat().toOutputStream(resizedImage);
 
     return resizedImage.toByteArray();
   }

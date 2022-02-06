@@ -8,6 +8,7 @@ import eu.sanjin.kurelic.photostorage.photo.service.FileService;
 import eu.sanjin.kurelic.photostorage.photo.service.PhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,8 @@ public class PhotoController {
   public ResponseEntity<byte[]> downloadFile(
     @PathVariable String fileName,
     @RequestParam(required = false) ImageFilterType filter,
-    @RequestParam(required = false) PhotoSize size
+    @RequestParam(required = false) PhotoSize size,
+    @RequestParam(required = false) Boolean download
   ) {
     var content = fileService.loadFile(fileName, filter, size);
 
@@ -48,8 +50,23 @@ public class PhotoController {
       return ResponseEntity.notFound().build();
     }
 
+    if (!photoService.isUserOwner(fileName)) {
+      content = fileService.applyWatermark(content, fileName);
+    }
+
+    // Extra http headers
+    var httpHeaders = new HttpHeaders();
+    if (Boolean.TRUE.equals(download)) {
+      httpHeaders.add(
+        HttpHeaders.CONTENT_DISPOSITION,
+        String.format("attachment; filename=\"%1$s\"; filename*=\"%1$s\"", fileName)
+      );
+    }
+
     return ResponseEntity.ok()
       .contentType(fileService.getMediaType(fileName))
+      .contentLength(content.length)
+      .headers(httpHeaders)
       .cacheControl(CacheControl.maxAge(3, TimeUnit.HOURS).mustRevalidate().noTransform())
       .body(content);
   }
