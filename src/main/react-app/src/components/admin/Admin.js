@@ -6,16 +6,25 @@ import {BiImageAlt, BiLockAlt, BiUser} from 'react-icons/all'
 import moment from 'moment'
 import './admin.scss'
 import {useGetAuditListQuery, useGetUserListQuery} from '../../redux/api/baseApi'
+import {useHistory} from 'react-router-dom'
 
 const Admin = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const userList = useGetUserListQuery()
   const auditList = useGetAuditListQuery()
+
+  const logout = () => {
+    dispatch(deleteCurrentUser())
+    history.push('/')
+    // Fix for fetching the latest images
+    window.location.reload()
+  }
 
   return (
     <div className="admin position-relative">
       <Button className="button-dark d-block m-2 position-absolute end-0" variant="primary"
-              onClick={() => dispatch(deleteCurrentUser())}>Logout</Button>
+              onClick={() => logout()}>Logout</Button>
       <h3 className="m-5 text-center">Activity</h3>
       <div className="admin-audit position-relative m-auto">
         {auditList.isSuccess && auditList.data.map((auditDetail) => (

@@ -25,6 +25,6 @@ public interface FileService {
   default String getThumbnailPrefix(String fileName) {
     var extension = Objects.requireNonNull(StringUtils.getFilenameExtension(fileName));
     var file = StringUtils.stripFilenameExtension(fileName);
-    return String.format("%s%s.%s", file, THUMBNAIL_PREFIX, extension);
+    return String.format("%s%s.%s", THUMBNAIL_PREFIX, file, extension);
   }
 }

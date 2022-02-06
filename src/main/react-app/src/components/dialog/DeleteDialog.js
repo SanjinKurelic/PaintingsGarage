@@ -7,7 +7,7 @@ import {useDeletePhotoMutation} from '../../redux/api/baseApi'
 
 const DeleteDialog = ({image}) => {
   const dispatch = useDispatch()
-  const deleteImage = useDeletePhotoMutation()
+  const [deleteImage] = useDeletePhotoMutation()
 
   const no = () => {
     dispatch(hideDialog())

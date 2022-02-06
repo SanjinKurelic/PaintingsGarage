@@ -2,7 +2,6 @@ import {ListGroup} from 'react-bootstrap'
 import buyer from '../../assets/buyer.png'
 import painter from '../../assets/painter.png'
 import PropTypes from 'prop-types'
-import {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {showDialog} from '../../redux/slice/currentDialogSlice'
 import {DialogType} from '../dialog/AllDialogs'
@@ -11,20 +10,18 @@ import {useUpdateUserMutation} from '../../redux/api/baseApi'
 const Plan = ({visibleDetails, userId, selectedPlan, setSelectedPlan}) => {
   const dispatch = useDispatch()
   const [changePlan] = useUpdateUserMutation()
-  const [focusedPlan, setFocusedPlan] = useState(selectedPlan)
 
   const focusPlanAndShowDialog = (value) => {
     if (visibleDetails === true) {
       setSelectedPlan(value)
     } else {
-      setFocusedPlan(value)
-      dispatch(showDialog({type: DialogType.CHANGE_PLAN, data: confirmChangePlan}))
+      dispatch(showDialog({type: DialogType.CHANGE_PLAN, data: () => confirmChangePlan(value)}))
     }
   }
 
-  const confirmChangePlan = () => {
-    setSelectedPlan(focusedPlan)
-    changePlan({userId, plan: focusedPlan === 0 ? 'BUYER' : 'ARTIST'})
+  const confirmChangePlan = (value) => {
+    changePlan({userId: userId, plan: value === 0 ? 'BUYER' : 'ARTIST'})
+    setSelectedPlan(value)
   }
 
   return (

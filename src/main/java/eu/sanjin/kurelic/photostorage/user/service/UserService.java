@@ -45,7 +45,7 @@ public class UserService {
   }
 
   public void changePlan(Long userId, UserPlan plan) {
-    var userData = repository.getById(userId);
+    var userData = repository.findById(userId).orElseThrow();
 
     userData.setPlan(plan);
 

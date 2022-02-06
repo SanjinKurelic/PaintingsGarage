@@ -1,4 +1,14 @@
-import {Button, Col, ListGroup, ModalBody, ModalDialog, ModalFooter, ModalTitle, Row} from 'react-bootstrap'
+import {
+  Button,
+  Col,
+  DropdownButton,
+  ListGroup,
+  ModalBody,
+  ModalDialog,
+  ModalFooter,
+  ModalTitle,
+  Row
+} from 'react-bootstrap'
 import ModalHeader from 'react-bootstrap/ModalHeader'
 import PropTypes from 'prop-types'
 import {useDispatch} from 'react-redux'
@@ -7,6 +17,7 @@ import {useState} from 'react'
 import {BsImage} from 'react-icons/bs'
 import {saveAs} from 'file-saver'
 import {baseUrl} from '../../redux/api/baseApi'
+import DropdownItem from 'react-bootstrap/DropdownItem'
 
 const DownloadDialog = ({image}) => {
   const dispatch = useDispatch()
@@ -47,12 +58,16 @@ const DownloadDialog = ({image}) => {
               </ListGroup>
             </Col>
           </Row>
-          <Row>
+          <Row className="mt-3">
             <Col>Filter:</Col>
-            <Col><input type="radio" onChange={() => setFilter(null)} checked={filter === null}/>None</Col>
-            <Col><input type="radio" onChange={() => setFilter('GREYSCALE')} checked={filter === 'GREYSCALE'}/>Grayscale</Col>
-            <Col><input type="radio" onChange={() => setFilter('SEPIA')} checked={filter === 'SEPIA'}/>Invert</Col>
-            <Col><input type="radio" onChange={() => setFilter('INVERT')} checked={filter === 'INVERT'}/>Sepia</Col>
+            <Col>
+              <DropdownButton className="dropdown w-100" variant="flat" title={filter === null ? 'None' : (filter.charAt(0) + filter.slice(1).toLowerCase())}>
+                <DropdownItem onClick={() => setFilter(null)}>None</DropdownItem>
+                <DropdownItem onClick={() => setFilter('GREYSCALE')}>Grayscale</DropdownItem>
+                <DropdownItem onClick={() => setFilter('INVERT')}>Invert</DropdownItem>
+                <DropdownItem onClick={() => setFilter('SEPIA')}>Sepia</DropdownItem>
+              </DropdownButton>
+            </Col>
           </Row>
         </ModalBody>
         <ModalFooter>

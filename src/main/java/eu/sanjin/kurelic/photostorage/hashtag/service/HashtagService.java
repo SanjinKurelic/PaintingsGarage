@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -28,6 +29,10 @@ public class HashtagService {
 
   public Set<Hashtag> getOrCreate(List<String> hashtagNames) {
     var hashtags = new HashSet<Hashtag>();
+
+    if (Objects.isNull(hashtagNames)) {
+      return hashtags;
+    }
 
     // Optimize with ehcache or redis
     hashtagNames.forEach(name -> {

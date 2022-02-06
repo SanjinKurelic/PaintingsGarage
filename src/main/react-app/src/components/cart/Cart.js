@@ -23,10 +23,11 @@ const Cart = () => {
   const [checkout] = useCheckoutMutation()
 
   const doCheckout = () => {
-    if (!currentUser || !currentUser.id) {
+    if (!currentUser || !currentUser.user || !currentUser.user.id) {
       history.push('/login')
+      return
     }
-    const cartItems = items.map(item => ({photoId: item.id, photoType: item.pictrueType}))
+    const cartItems = items.map(item => ({photoId: item.id, photoType: item.pictureType}))
     checkout(cartItems)
     emptyCart()
     history.push('/')
@@ -66,20 +67,19 @@ const Cart = () => {
                   <img height="30px" alt="Digital" src={camera}/>
                 </ListGroup.Item>
                 <ListGroup.Item className="switcher-item text-center"
-                                data-selected={item.pictureType === 'PHYSICAL'}
+                                data-selected={item.pictureType === 'PAINTING'}
                                 onClick={() => {
-                                  console.log('update')
                                   updateItem(item.id, {
-                                    pictureType: 'PHYSICAL',
+                                    pictureType: 'PAINTING',
                                     price: item.data.paintingPrice
                                   })
                                 }}>
-                  <img height="30px" alt="Physical" src={canvas}/>
+                  <img height="30px" alt="Physical painting" src={canvas}/>
                 </ListGroup.Item>
               </ListGroup>
             </Col>
             <Col className="col-2 text-end">
-              {item.price} €
+              {item.price.toLocaleString(undefined, {minimumFractionDigits: 2})} €
             </Col>
             <Col className="col-1">
               <div className="cursor-pointer" onClick={() => removeItem(item.id)}>
@@ -89,14 +89,14 @@ const Cart = () => {
           </Row>
         ))}
         <hr/>
-        <Row className="m-4">
+        <Row className="my-4 mx-3">
           <Col className="col-2"/>
           <Col/>
           <Col className="col-2 text-end"><b>Total price:</b></Col>
           <Col className="col-2 text-end">{cartTotal.toLocaleString(undefined, {minimumFractionDigits: 2})} €</Col>
           <Col className="col-1"/>
         </Row>
-        <Button className="button-dark float-end" onClick={() => doCheckout()}>Checkout</Button>
+        <Button className="button-dark float-end m-5" onClick={() => doCheckout()}>Checkout</Button>
       </div>
     </div>
   )

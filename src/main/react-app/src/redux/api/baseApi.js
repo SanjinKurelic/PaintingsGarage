@@ -32,7 +32,7 @@ export const baseApi = createApi({
         method: 'POST',
         body: user
       }),
-      invalidatesTags: ['photo', 'user']
+      invalidatesTags: ['photo', 'user', 'audit']
     }),
     // Cart
     checkout: builder.mutation({
@@ -41,15 +41,11 @@ export const baseApi = createApi({
         method: 'POST',
         body: cartItems
       }),
-      invalidatesTags: ['photo', 'search']
+      invalidatesTags: ['photo', 'search', 'audit']
     }),
     // Photo
     getPhotoList: builder.query({
       query: () => 'photo',
-      providesTags: ['photo']
-    }),
-    getPhoto: builder.query({
-      query: (photoPath) => `photo/${photoPath}`,
       providesTags: ['photo']
     }),
     addPhoto: builder.mutation({
@@ -58,7 +54,7 @@ export const baseApi = createApi({
         method: 'POST',
         body: photo
       }),
-      invalidatesTags: ['photo']
+      invalidatesTags: ['photo', 'audit']
     }),
     updatePhoto: builder.mutation({
       query: (photo) => ({
@@ -66,14 +62,14 @@ export const baseApi = createApi({
         method: 'PUT',
         body: photo
       }),
-      invalidatesTags: ['photo']
+      invalidatesTags: ['photo', 'audit']
     }),
     deletePhoto: builder.mutation({
       query: (photoId) => ({
         url: `photo/${photoId}`,
         method: 'DELETE'
       }),
-      invalidatesTags: ['photo']
+      invalidatesTags: ['photo', 'audit']
     }),
     // Search
     findAuthor: builder.query({
@@ -104,11 +100,11 @@ export const baseApi = createApi({
     }),
     updateUser: builder.mutation({
       query: ({userId, plan}) => ({
-        url: `user${userId}`,
+        url: `user/${userId}`,
         method: 'PUT',
         body: {plan: plan}
       }),
-      invalidatesTags: ['user']
+      invalidatesTags: ['user', 'audit']
     }),
   })
 })
@@ -125,8 +121,7 @@ export const {
 export const {
   useLazyFindHashtagQuery,
   useLazyFindImageQuery,
-  useLazyFindAuthorQuery,
-  useLazyGetPhotoQuery
+  useLazyFindAuthorQuery
 } = baseApi
 // Mutations
 export const {

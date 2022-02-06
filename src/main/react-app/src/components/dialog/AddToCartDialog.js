@@ -14,7 +14,6 @@ const AddToCartDialog = ({image}) => {
   const [pictureType, setPictureType] = useState('DIGITAL')
 
   const add = () => {
-    console.log(image)
     const price = pictureType === 'DIGITAL' ? image.digitalPrice : image.paintingPrice
     addItem({id: image.id, price: price, data: image, pictureType: pictureType})
     dispatch(hideDialog())
@@ -44,9 +43,9 @@ const AddToCartDialog = ({image}) => {
                   <img height="50px" alt="Digital" src={camera}/>
                 </ListGroup.Item>
                 <ListGroup.Item className="switcher-item text-center"
-                                data-selected={pictureType === 'PHYSICAL'}
-                                onClick={() => setPictureType('PHYSICAL')}>
-                  <img height="50px" alt="Physical" src={canvas}/>
+                                data-selected={pictureType === 'PAINTING'}
+                                onClick={() => setPictureType('PAINTING')}>
+                  <img height="50px" alt="Physical painting" src={canvas}/>
                 </ListGroup.Item>
               </ListGroup>
             </Col>

@@ -43,7 +43,7 @@ public class UserController {
   }
 
   @LogUserPlanChange
-  @PutMapping("/{:userId}")
+  @PutMapping("/{userId}")
   public void updateUser(@PathVariable Long userId, @RequestBody UserPlanRequest plan) {
     var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

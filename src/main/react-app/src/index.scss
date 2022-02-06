@@ -2,6 +2,10 @@
   font-size: 0.8em;
 }
 
+.text-extra-small {
+  font-size: xx-small;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -53,6 +57,34 @@
   }
 }
 
+.dropdown {
+  .btn {
+    width: 100%;
+    border: 1px solid var(--bs-gray-400);
+    text-align: left;
+
+    &:hover, &:focus {
+      box-shadow: none;
+      outline: none;
+    }
+
+    &:hover {
+      background: var(--bs-yellow);
+      color: var(--bs-dark);
+    }
+  }
+
+  &-menu {
+    width: 100%;
+  }
+
+  &-toggle:after {
+    position: absolute;
+    right: .75em;
+    top: 1em;
+  }
+}
+
 .button {
   &-dark {
     width: 130px;
@@ -82,6 +114,12 @@
   }
 }
 
+.link {
+  &-dark {
+
+  }
+}
+
 .input {
   &-light {
     &:focus {
@@ -89,19 +127,27 @@
       box-shadow: 0 0 8px var(--bs-yellow);
       background: var(--bs-body-bg);
     }
+
     &:-webkit-autofill, &:-webkit-autofill:focus {
       background: #fffcc8 !important;
       border-color: var(--bs-yellow);
     }
+
     & input[type=radio]:checked {
       background: var(--bs-yellow);
       border-color: var(--bs-yellow);
       outline: none;
     }
+
     & input[type=radio]:focus {
       outline: none;
       border-color: var(--bs-yellow);
       box-shadow: 0 0 8px var(--bs-yellow);
     }
   }
+}
+
+// Effects
+.fade-to-right {
+  box-shadow: -15px 0px 10px 1px white;
 }

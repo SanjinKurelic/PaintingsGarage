@@ -8,8 +8,10 @@ import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import eu.sanjin.kurelic.photostorage.photo.repository.PhotoRepository;
 import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
 import eu.sanjin.kurelic.photostorage.user.entity.User;
+import eu.sanjin.kurelic.photostorage.user.entity.UserRole;
 import eu.sanjin.kurelic.photostorage.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +68,7 @@ public class PhotoService {
   }
 
   public void updatePhoto(Long photoId, PhotoData photoData) {
-    var photo = photoRepository.getById(photoId);
+    var photo = photoRepository.findById(photoId).orElseThrow();
 
     photo.setTitle(photoData.title());
     photo.setDescription(photoData.description());
@@ -81,7 +83,7 @@ public class PhotoService {
     // Check if user is the owner of a photo
     var photo = photoRepository.getById(photoId);
     var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    if (!(principal instanceof UserDetailsModel userDetailsModel) || userDetailsModel.getId().equals(photo.getAuthor().getId())) {
+    if (!(principal instanceof UserDetailsModel userDetailsModel) || !userDetailsModel.getId().equals(photo.getAuthor().getId())) {
       throw new RuntimeException("User not the owner of a image");
     }
     photoRepository.deleteById(photoId);
@@ -101,6 +103,10 @@ public class PhotoService {
 
     if (Objects.isNull(principal) || !(principal instanceof UserDetailsModel userDetailsModel)) {
       return false;
+    }
+
+    if (userDetailsModel.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(UserRole.ROLE_ADMIN.name()::equals)) {
+      return true;
     }
 
     return photo.getAuthor().getId().equals(userDetailsModel.getId()) ||

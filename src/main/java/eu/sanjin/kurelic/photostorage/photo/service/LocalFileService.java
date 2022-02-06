@@ -58,7 +58,7 @@ public class LocalFileService implements FileService {
         var sourceFile = new ImageStreamingSourceFile(multipartFile);
         sftp.put(sourceFile, appendRemotePath(fileName));
         // Save thumbnail
-        var resizedImage = new ByteArrayInputStream(changeSize(multipartFile.getBytes()));
+        var resizedImage = new ByteArrayInputStream(changeSize(multipartFile.getBytes(), extension));
         sftp.put(new ImageStreamingSourceFile(multipartFile, resizedImage), appendRemotePath(thumbnailName));
 
         resizedImage.close();
@@ -90,7 +90,7 @@ public class LocalFileService implements FileService {
       }
       // Change size
       if (Objects.nonNull(size) && PhotoSize.SMALL.equals(size)) {
-        content = changeSize(content);
+        content = changeSize(content, extension);
       }
 
       destinationFile.close();
@@ -125,13 +125,13 @@ public class LocalFileService implements FileService {
     }
   }
 
-  private byte[] changeSize(byte[] content) throws IOException {
+  private byte[] changeSize(byte[] content, String extension) throws IOException {
     var bufferedImage = ImageIO.read(new ByteArrayInputStream(content));
     var resizedImage = new ByteArrayOutputStream(content.length);
 
     int newWidth = (bufferedImage.getWidth() / 2);
     int newHeight = (bufferedImage.getHeight() / 2);
-    Thumbnails.of(bufferedImage).size(newWidth, newHeight).useOriginalFormat().toOutputStream(resizedImage);
+    Thumbnails.of(bufferedImage).size(newWidth, newHeight).outputFormat(extension).toOutputStream(resizedImage);
 
     return resizedImage.toByteArray();
   }
