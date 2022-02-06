@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import {checkToken} from '../../util/TokenValidator'
 
 const initialState = { user: null }
 
@@ -15,4 +16,10 @@ export const {setCurrentUser, deleteCurrentUser} = currentUserSlice.actions
 
 export default currentUserSlice.reducer
 
-export const selectCurrentUser = (state) => state.currentUser
+export const selectCurrentUser = (state) => {
+  if (!checkToken(state.currentUser)) {
+    deleteCurrentUser()
+  }
+
+  return state.currentUser
+}
