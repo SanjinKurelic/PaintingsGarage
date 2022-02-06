@@ -13,7 +13,7 @@ const Header = ({setSearchImageResults, setSearchFired, clearSearch, setClearSea
   return (
     <Nav className="bg-dark">
       <Container className="d-flex justify-content-between p-2">
-        <Image alt="Sell my picture" className="my-2 cursor-pointer" src={logo} height={40}
+        <Image alt="Sell my picture" className="m-2 cursor-pointer" src={logo} height={40}
                onClick={() => history.push('/')}/>
         <Search setSearchImageResults={setSearchImageResults} setSearchFired={setSearchFired}
                 clearSearch={clearSearch} setClearSearch={setClearSearch}/>
