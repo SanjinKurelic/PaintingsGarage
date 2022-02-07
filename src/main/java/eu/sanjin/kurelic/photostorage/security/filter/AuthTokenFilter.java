@@ -16,6 +16,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Component
@@ -24,6 +26,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
   private final JwtService service;
   private final UserDetailsServiceImpl userDetailsService;
+
+  private static final String AUTHORIZATION_BEARER = "Bearer ";
+  private static final String AUTHORIZATION_QUERY = "auth=";
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -48,8 +53,22 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   private String parseJwt(HttpServletRequest request) {
     String headerAuth = request.getHeader("Authorization");
 
-    if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-      return headerAuth.substring(7);
+    if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(AUTHORIZATION_BEARER)) {
+      return headerAuth.substring(AUTHORIZATION_BEARER.length());
+    }
+
+    // Get auth from URL request - this option is needed while downloading image (should be replaced with fetch-blob mechanism)
+    if (StringUtils.hasText(request.getQueryString()) && request.getQueryString().contains(AUTHORIZATION_QUERY)) {
+      var queryString = request.getQueryString();
+
+      var authQuery = queryString.substring(queryString.indexOf(AUTHORIZATION_QUERY) + AUTHORIZATION_QUERY.length());
+      var endOfAuthQuery = authQuery.indexOf("&");
+      if (endOfAuthQuery == -1) {
+        endOfAuthQuery = authQuery.length();
+      }
+      var auth = URLDecoder.decode(authQuery.substring(0, endOfAuthQuery), StandardCharsets.UTF_8);
+
+      return StringUtils.hasText(auth) ? auth : null;
     }
 
     return null;

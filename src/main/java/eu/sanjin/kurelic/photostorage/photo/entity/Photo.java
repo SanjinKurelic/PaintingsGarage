@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -44,6 +45,10 @@ public class Photo implements Serializable {
   private String description;
 
   private Integer size;
+
+  private BigDecimal digitalPrice;
+
+  private BigDecimal paintingPrice;
 
   private LocalDateTime uploaded;
 

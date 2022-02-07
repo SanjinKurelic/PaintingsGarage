@@ -40,7 +40,7 @@ public class AuditService {
   }
 
   private void logAudit(AuditAction action, String object) {
-    repository.save(
+    repository.saveAndFlush(
       Audit.builder()
         .time(LocalDateTime.now())
         .action(action)

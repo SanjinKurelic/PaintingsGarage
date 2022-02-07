@@ -2,16 +2,16 @@ package eu.sanjin.kurelic.photostorage.photo.service;
 
 import eu.sanjin.kurelic.photostorage.common.exceptions.InternalServerError;
 import eu.sanjin.kurelic.photostorage.common.exceptions.WrongArgumentException;
+import eu.sanjin.kurelic.photostorage.photo.config.FileStorageConfig;
 import eu.sanjin.kurelic.photostorage.photo.file.ImageStreamingDestinationFile;
 import eu.sanjin.kurelic.photostorage.photo.file.ImageStreamingSourceFile;
-import eu.sanjin.kurelic.photostorage.photo.config.FileStorageConfig;
-import eu.sanjin.kurelic.photostorage.photo.entity.Photo;
-import eu.sanjin.kurelic.photostorage.photo.mapper.PhotoMapper;
-import eu.sanjin.kurelic.photostorage.photo.model.PhotoData;
-import eu.sanjin.kurelic.photostorage.photo.repository.PhotoRepository;
-import eu.sanjin.kurelic.photostorage.user.entity.User;
+import eu.sanjin.kurelic.photostorage.photo.filter.ImageFilterType;
+import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.filters.Caption;
+import net.coobird.thumbnailator.geometry.Positions;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
@@ -20,10 +20,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -31,54 +33,34 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LocalFileService implements FileService {
 
-  private final PhotoMapper photoMapper;
   private final FileStorageConfig config;
-  private final PhotoRepository photoRepository;
-
-  private static final String THUMBNAIL_PREFIX = "th";
-  private static final int MEGABYTE = 1024 * 1024;
 
   @Override
-  public PhotoData saveFile(MultipartFile file, String title, String description, Map<String, Long> hashtagList) {
+  public String saveFile(MultipartFile file) {
     // Validate
     if (file.isEmpty()) {
       throw new WrongArgumentException(WrongArgumentException.WrongArgumentMessage.WRONG_FILE_FORMAT);
     }
+    // Validate extension
+    var extension = validateExtension(file.getOriginalFilename());
 
     // Save to sftp
-    var extension = validateExtension(file.getOriginalFilename());
-    final var fileId = uploadFile(file, extension);
-
-    // Save to database
-    var author = new User();
-    author.setId(1L);
-
-    var photo = Photo.builder()
-      .author(author) // TODO get current user
-      .title(title)
-      .description(description)
-      //.hashtags(hashtags) // TODO if search model does not have id, store it as new hashtag
-      .path(String.join(".", fileId, extension))
-      .thumbnail(String.format("%s_%s.%s", fileId, THUMBNAIL_PREFIX, extension))
-      .size((int) (file.getSize() / MEGABYTE))
-      .uploaded(LocalDateTime.now())
-      .build();
-
-    return photoMapper.mapPhotoToPhotoData(photoRepository.save(photo));
+    return uploadFile(file, extension);
   }
 
   private String uploadFile(MultipartFile multipartFile, String extension) {
-    var fileId = UUID.randomUUID().toString();
-    var fileName = String.join(".", fileId, extension);
-    var thumbnailName = String.format("%s_%s.%s", fileId, THUMBNAIL_PREFIX, extension);
+    var fileName = String.join(".", UUID.randomUUID().toString(), extension);
+    var thumbnailName = getThumbnailPrefix(fileName);
 
     try {
       try (var sftp = getSftpClient(new SSHClient())) {
+        // Save file
         var sourceFile = new ImageStreamingSourceFile(multipartFile);
         sftp.put(sourceFile, appendRemotePath(fileName));
-        // TODO store resize image for thumbnail
-        var resizedImage = multipartFile.getInputStream();
+        // Save thumbnail
+        var resizedImage = new ByteArrayInputStream(changeSize(multipartFile.getBytes(), extension));
         sftp.put(new ImageStreamingSourceFile(multipartFile, resizedImage), appendRemotePath(thumbnailName));
+
         resizedImage.close();
         sourceFile.close();
       }
@@ -86,12 +68,13 @@ public class LocalFileService implements FileService {
       throw new InternalServerError(e);
     }
 
-    return fileId;
+    return fileName;
   }
 
   @Override
-  public byte[] loadFile(String fileName) {
+  public byte[] loadFile(String fileName, ImageFilterType filter, PhotoSize size) {
     var path = appendRemotePath(fileName);
+    var extension = Objects.requireNonNull(StringUtils.getFilenameExtension(fileName));
     byte[] content = null;
 
     try (var remoteFile = getSftpClient(new SSHClient())) {
@@ -101,12 +84,77 @@ public class LocalFileService implements FileService {
 
       content = ((ByteArrayOutputStream) destinationFile.getOutputStream()).toByteArray();
 
+      // Apply filters
+      if (Objects.nonNull(filter)) {
+        content = applyFilters(content, filter, extension);
+      }
+      // Change size
+      if (Objects.nonNull(size) && PhotoSize.SMALL.equals(size)) {
+        content = changeSize(content, extension);
+      }
+
       destinationFile.close();
     } catch (Exception e) {
       log.error(e.getMessage(), e);
     }
 
     return content;
+  }
+
+  @Override
+  public byte[] applyWatermark(byte[] image, String fileName) {
+    // Don't add watermark to thumbnails
+    if (fileName.startsWith(FileService.THUMBNAIL_PREFIX)) {
+      return image;
+    }
+    try {
+      var extension = Objects.requireNonNull(StringUtils.getFilenameExtension(fileName));
+      var bufferedImage = ImageIO.read(new ByteArrayInputStream(image));
+      var watermarkedImage = new ByteArrayOutputStream(image.length);
+
+      var text = "Paintings Garage";
+      var font = new Font("Monospaced", Font.BOLD, 60);
+      var filter = new Caption(text, font, Color.WHITE, 0.5f, Positions.CENTER, 0);
+
+      ImageIO.write(filter.apply(bufferedImage), extension, watermarkedImage);
+      watermarkedImage.flush();
+
+      return watermarkedImage.toByteArray();
+    } catch (IOException e) {
+      throw new InternalServerError(e);
+    }
+  }
+
+  private byte[] changeSize(byte[] content, String extension) throws IOException {
+    var bufferedImage = ImageIO.read(new ByteArrayInputStream(content));
+    var resizedImage = new ByteArrayOutputStream(content.length);
+
+    int newWidth = (bufferedImage.getWidth() / 2);
+    int newHeight = (bufferedImage.getHeight() / 2);
+    Thumbnails.of(bufferedImage).size(newWidth, newHeight).outputFormat(extension).toOutputStream(resizedImage);
+
+    return resizedImage.toByteArray();
+  }
+
+  private byte[] applyFilters(byte[] content, ImageFilterType filter, String extension) throws IOException {
+    var bufferedImage = ImageIO.read(new ByteArrayInputStream(content));
+    var filteredImage = new ByteArrayOutputStream(content.length);
+
+    ImageIO.write(filter.applyFilter(bufferedImage), extension, filteredImage);
+
+    return filteredImage.toByteArray();
+  }
+
+  @Override
+  public void deleteFile(String fileName) {
+    var path = appendRemotePath(fileName);
+    try {
+      try (var sftp = getSftpClient(new SSHClient())) {
+        sftp.rm(path);
+      }
+    } catch (IOException e) {
+      throw new InternalServerError(e);
+    }
   }
 
   @Override

@@ -1,13 +1,15 @@
 import {Button, Card, Col, Container, Row} from 'react-bootstrap'
 import {hostname} from '../../redux/api/baseApi'
-import {setCurrentUser} from '../../redux/slice/currentUserSlice'
+import {deleteCurrentUser} from '../../redux/slice/currentUserSlice'
 import {useDispatch} from 'react-redux'
 import PropTypes from 'prop-types'
 import Plan from '../plan/Plan'
 import {useEffect, useState} from 'react'
+import {useHistory} from 'react-router-dom'
 
 const UserDetails = ({userDetails, showLogoutButton, className}) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const resolvePlan = (plan) => {
     return plan === 'ARTIST' ? 1 : 0
   }
@@ -17,13 +19,20 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
     setSelectedPlan(resolvePlan(userDetails.plan))
   }, [userDetails.plan])
 
+  const logout = () => {
+    dispatch(deleteCurrentUser())
+    history.push('/')
+    // Fix for fetching the latest images
+    window.location.reload()
+  }
+
   return (
     <Row className={className}>
       <Col className="text-center col-2">
         <img className="mt-3" alt="" src={hostname + '/' + userDetails.avatar} height="100"/>
       </Col>
-      <Col className={showLogoutButton ? "col-6" : "col-7"}>
-        <Card className="user-details text-start">
+      <Col className={showLogoutButton ? 'col-6' : 'col-7'}>
+        <Card className="text-start">
           <Card.Body>
             <Card.Title>User details</Card.Title>
             <Card.Text>
@@ -45,18 +54,18 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
           </Card.Body>
         </Card>
       </Col>
-      <Col className={showLogoutButton ? "col-2" : "col-3"}>
+      <Col className={showLogoutButton ? 'col-2' : 'col-3'}>
         <Card>
           <Card.Body>
             <Card.Title>Change plan</Card.Title>
             <Card.Text>
-              <Plan setSelectedPlan={setSelectedPlan} selectedPlan={selectedPlan}/>
+              <Plan userId={userDetails.id} setSelectedPlan={setSelectedPlan} selectedPlan={selectedPlan}/>
             </Card.Text>
           </Card.Body>
         </Card>
       </Col>
-      {showLogoutButton && <Col className="col-2"><Button className="user-action-button d-block m-2" variant="primary"
-                                                          onClick={() => dispatch(setCurrentUser(null))}>Logout</Button></Col>}
+      {showLogoutButton && <Col className="col-2"><Button className="button-dark d-block m-2" variant="primary"
+                                                          onClick={() => logout()}>Logout</Button></Col>}
     </Row>
   )
 }

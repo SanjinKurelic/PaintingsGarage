@@ -1,24 +1,33 @@
-import {configureStore} from '@reduxjs/toolkit'
-import {photoApi} from './api/photoApi'
+import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import {setupListeners} from '@reduxjs/toolkit/query'
-import {userApi} from './api/userApi'
-import {hashtagApi} from './api/hashtagApi'
-import {authApi} from './api/authApi'
 import currentUserSlice from './slice/currentUserSlice'
-import {auditApi} from './api/auditApi'
+import {persistReducer, persistStore} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import currentDialogSlice from './slice/currentDialogSlice'
+import {baseApi} from './api/baseApi'
+import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from 'redux-persist/es/constants'
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['currentUser']
+}
+
+const reducers = combineReducers({
+  [baseApi.reducerPath]: baseApi.reducer,
+  currentUser: currentUserSlice,
+  currentDialog: currentDialogSlice
+})
 
 export const store = configureStore({
-  reducer: {
-    [hashtagApi.reducerPath]: hashtagApi.reducer,
-    [photoApi.reducerPath]: photoApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
-    [authApi.reducerPath]: authApi.reducer,
-    [auditApi.reducerPath]: auditApi.reducer,
-    currentUser: currentUserSlice
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-    photoApi.middleware, userApi.middleware, hashtagApi.middleware, authApi.middleware, auditApi.middleware
-  )
+  reducer: persistReducer(persistConfig, reducers),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+    }
+  }).concat(baseApi.middleware)
 })
+
+export const persistor = persistStore(store)
 
 setupListeners(store.dispatch)

@@ -25,7 +25,7 @@ public class PhotoSpecification {
   public static Specification<Photo> findAllBySize(PhotoSize size) {
     return (root, criteriaQuery, criteriaBuilder) -> switch (size) {
       case SMALL -> criteriaBuilder.le(root.get(Photo_.size), 1000);
-      case BIG -> criteriaBuilder.ge(root.get(Photo_.size), 4000);
+      case BIG -> criteriaBuilder.ge(root.get(Photo_.size), 2000);
     };
   }
 

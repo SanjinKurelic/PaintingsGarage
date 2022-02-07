@@ -4,16 +4,15 @@ import './search.scss'
 import {createRef, forwardRef, useEffect, useState} from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.min.css'
-import {useLazyFindAuthorQuery} from '../../redux/api/userApi'
-import {useLazyFindHashtagQuery} from '../../redux/api/hashtagApi'
-import {useLazyFindImagesQuery} from '../../redux/api/photoApi'
 import {AiOutlineCloseCircle} from 'react-icons/all'
 import SearchFilter from './SearchFilter'
+import {useLazyFindAuthorQuery, useLazyFindHashtagQuery, useLazyFindImageQuery} from '../../redux/api/baseApi'
+import {useHistory} from 'react-router-dom'
 
-const Search = ({setSearchImageResults, setSearchFired}) => {
+const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSearch}) => {
   // Fetch results
   const searchInput = createRef()
-  const [findImages, foundImages] = useLazyFindImagesQuery()
+  const [findImages, foundImages] = useLazyFindImageQuery()
   useEffect(() => setSearchImageResults(foundImages), [setSearchImageResults, foundImages])
 
   // Search for specific image size
@@ -82,6 +81,7 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
   }
 
   // Perform search
+  const history = useHistory()
   const search = () => {
     let args = {}
 
@@ -100,7 +100,24 @@ const Search = ({setSearchImageResults, setSearchFired}) => {
 
     findImages(args)
     setSearchFired(true)
+    history.push('/')
   }
+
+  // Clear search component
+  useEffect(() => {
+    if (!clearSearch) {
+      return;
+    }
+
+    if (searchInput.current) {
+      searchInput.current.value = ''
+    }
+    setAuthors([])
+    setHashtags([])
+    setSearchDate([undefined, undefined])
+    setCurrentImageSize(1)
+    setClearSearch(false)
+  }, [clearSearch, setClearSearch, searchInput])
 
   return (
     <div className="mx-3 my-2 flex-grow-1 search position-relative">

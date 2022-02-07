@@ -3,9 +3,9 @@
   color: var(--bs-gray-400);
 
   &-image {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
     height: 100%;
   }
 
@@ -18,5 +18,16 @@
       margin-top: 2px;
       display: inline-block;
     }
+  }
+
+  input:focus {
+    border-color: var(--bs-yellow);
+    box-shadow: 0 0 8px var(--bs-yellow);
+    background: var(--bs-body-bg);
+  }
+
+  input:-webkit-autofill, input:-webkit-autofill:focus {
+    background: #fffcc8 !important;
+    border-color: var(--bs-yellow);
   }
 }

@@ -1,10 +1,6 @@
 .admin {
-  position: relative;
-
   &-audit {
     width: 800px;
-    margin: 0 auto;
-    position: relative;
 
     &::before {
       position: absolute;
@@ -37,6 +33,5 @@
 
   &-users {
     width: 800px;
-    margin: 0 auto;
   }
 }
