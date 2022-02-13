@@ -60,8 +60,8 @@ const Image = ({image, closeCallback, editable, isNew}) => {
     <div className="modal show fade d-block" onContextMenu={closeDialog}>
       <div className="modal-fullscreen">
         <div className="modal-content image-content">
-          <Form noValidate validated={validated} onSubmit={submit}>
-            <Row className="modal-body p-5">
+          <Form className="h-100" noValidate validated={validated} onSubmit={submit}>
+            <Row className="modal-body h-100 p-5">
               {!isNew &&
                 <Col className="col-9 image-content-image"
                      style={{background: `url(${baseUrl}/photo/${image.path})`}}/>}

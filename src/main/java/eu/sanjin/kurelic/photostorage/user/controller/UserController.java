@@ -54,7 +54,7 @@ public class UserController {
         return;
       }
 
-      service.changePlan(user.getId(), plan.plan());
+      service.changePlan(userId, plan.plan());
     }
   }
 }
