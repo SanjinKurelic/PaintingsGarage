@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.photostorage.common.model;
+package eu.sanjin.kurelic.photostorage.search.model;
 
 public record SearchResult(
   Long id,

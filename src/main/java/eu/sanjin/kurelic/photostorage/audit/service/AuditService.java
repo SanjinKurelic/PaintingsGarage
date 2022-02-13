@@ -5,17 +5,15 @@ import eu.sanjin.kurelic.photostorage.audit.entity.AuditAction;
 import eu.sanjin.kurelic.photostorage.audit.mapper.AuditMapper;
 import eu.sanjin.kurelic.photostorage.audit.model.AuditModel;
 import eu.sanjin.kurelic.photostorage.audit.repository.AuditRepository;
-import eu.sanjin.kurelic.photostorage.common.exceptions.InternalServerError;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoData;
 import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
-import eu.sanjin.kurelic.photostorage.user.entity.UserPlan;
+import eu.sanjin.kurelic.photostorage.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -28,26 +26,20 @@ public class AuditService {
     return mapper.mapAuditListToAuditModelList(repository.findFirst10ByOrderByTimeDesc());
   }
 
-  private String getCurrentUser() {
-    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-    // Throw exception if somehow user called secured endpoint
-    if (Objects.isNull(principal) || !(principal instanceof UserDetailsModel currentUser)) {
-      throw new InternalServerError("User called restricted endpoint without log in!");
-    }
-
-    return currentUser.getName();
-  }
-
-  private void logAudit(AuditAction action, String object) {
+  private void logAudit(AuditAction action, String subject, String object) {
     repository.saveAndFlush(
       Audit.builder()
         .time(LocalDateTime.now())
         .action(action)
-        .subject(getCurrentUser())
+        .subject(subject)
         .object(object)
         .build()
     );
+  }
+
+  private void logAudit(AuditAction action, String object) {
+    var subject = (UserDetailsModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    logAudit(action, subject.getName(), object);
   }
 
   public void logPhotoChanges(PhotoData photo, AuditAction action) {
@@ -58,11 +50,7 @@ public class AuditService {
     logAudit(action, null);
   }
 
-  public void logUserChanges(UserPlan userPlan) {
-    if (Objects.isNull(userPlan)) {
-      // Double check if no exception is thrown in annotated logic
-      return;
-    }
-    logAudit(AuditAction.USER_CHANGE_PLAN, userPlan.name());
+  public void logUserChanges(User user, String userPlan) {
+    logAudit(AuditAction.USER_CHANGE_PLAN, user.getName(), userPlan);
   }
 }

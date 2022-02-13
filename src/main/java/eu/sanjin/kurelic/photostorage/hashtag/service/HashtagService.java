@@ -1,6 +1,6 @@
 package eu.sanjin.kurelic.photostorage.hashtag.service;
 
-import eu.sanjin.kurelic.photostorage.common.model.SearchResult;
+import eu.sanjin.kurelic.photostorage.search.model.SearchResult;
 import eu.sanjin.kurelic.photostorage.hashtag.entity.Hashtag;
 import eu.sanjin.kurelic.photostorage.hashtag.mapper.HashtagMapper;
 import eu.sanjin.kurelic.photostorage.hashtag.repository.HashtagRepository;

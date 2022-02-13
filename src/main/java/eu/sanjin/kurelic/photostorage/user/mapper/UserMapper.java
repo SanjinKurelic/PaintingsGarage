@@ -1,6 +1,6 @@
 package eu.sanjin.kurelic.photostorage.user.mapper;
 
-import eu.sanjin.kurelic.photostorage.common.model.SearchResult;
+import eu.sanjin.kurelic.photostorage.search.model.SearchResult;
 import eu.sanjin.kurelic.photostorage.user.entity.User;
 import eu.sanjin.kurelic.photostorage.user.model.Author;
 import org.mapstruct.Mapper;

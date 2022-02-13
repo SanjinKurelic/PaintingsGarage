@@ -1,6 +1,6 @@
 package eu.sanjin.kurelic.photostorage.search.controller;
 
-import eu.sanjin.kurelic.photostorage.common.model.SearchResult;
+import eu.sanjin.kurelic.photostorage.search.model.SearchResult;
 import eu.sanjin.kurelic.photostorage.hashtag.service.HashtagService;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoData;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoSize;

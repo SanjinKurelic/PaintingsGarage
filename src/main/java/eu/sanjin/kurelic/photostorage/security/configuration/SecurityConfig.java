@@ -43,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/api/audit/**").hasRole(UserRole.ROLE_ADMIN.getApplicationRole())
       // Auth
       .antMatchers("/api/auth/**").permitAll()
+      // Cart
+      .antMatchers("/api/cart").hasRole(UserRole.ROLE_USER.getApplicationRole())
       // Hashtag
       .antMatchers("/api/search/**").permitAll()
       // Photo

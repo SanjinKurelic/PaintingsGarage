@@ -67,8 +67,12 @@ public class PhotoService {
     return photoMapper.mapPhotoToPhotoData(photoRepository.saveAndFlush(photo));
   }
 
-  public void updatePhoto(Long photoId, PhotoData photoData) {
+  public PhotoData updatePhoto(Long photoId, PhotoData photoData) {
     var photo = photoRepository.findById(photoId).orElseThrow();
+    // Check if user is the owner of a photo
+    if (!isUserOwner(photo)) {
+      throw new RuntimeException("User not the owner of a image");
+    }
 
     photo.setTitle(photoData.title());
     photo.setDescription(photoData.description());
@@ -76,39 +80,44 @@ public class PhotoService {
     photo.setPaintingPrice(photoData.paintingPrice());
     photo.setHashtags(hashtagService.getOrCreate(photoData.hashtags()));
 
-    photoRepository.saveAndFlush(photo);
+    return photoMapper.mapPhotoToPhotoData(photoRepository.saveAndFlush(photo));
   }
 
   public void deletePhoto(Long photoId) {
     // Check if user is the owner of a photo
     var photo = photoRepository.getById(photoId);
-    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    if (!(principal instanceof UserDetailsModel userDetailsModel) || !userDetailsModel.getId().equals(photo.getAuthor().getId())) {
+    if (!isUserOwner(photo)) {
       throw new RuntimeException("User not the owner of a image");
     }
     photoRepository.deleteById(photoId);
   }
 
-  public void buyPhoto(Long photoId, User user) {
+  public PhotoData buyPhoto(Long photoId, User user) {
     var photo = photoRepository.getById(photoId);
 
     photo.getOwners().add(user);
 
-    photoRepository.saveAndFlush(photo);
+    return photoMapper.mapPhotoToPhotoData(photoRepository.saveAndFlush(photo));
   }
 
   public boolean isUserOwner(String photoPath) {
-    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    var photo = photoRepository.getByPath(photoPath);
+    return isUserOwner(photoRepository.getByPath(photoPath));
+  }
 
+  private boolean isUserOwner(Photo photo) {
+    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    // Is logged-in
     if (Objects.isNull(principal) || !(principal instanceof UserDetailsModel userDetailsModel)) {
       return false;
     }
 
+    // Is admin
     if (userDetailsModel.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(UserRole.ROLE_ADMIN.name()::equals)) {
       return true;
     }
 
+    // Is owner
     return photo.getAuthor().getId().equals(userDetailsModel.getId()) ||
       photo.getOwners().stream().anyMatch(o -> o.getId().equals(userDetailsModel.getId()));
   }

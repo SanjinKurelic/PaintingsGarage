@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.photostorage.common.exceptions;
+package eu.sanjin.kurelic.photostorage.error;
 
 public class InternalServerError extends RuntimeException {
 

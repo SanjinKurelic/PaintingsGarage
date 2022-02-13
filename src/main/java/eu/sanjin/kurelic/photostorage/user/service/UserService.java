@@ -1,6 +1,6 @@
 package eu.sanjin.kurelic.photostorage.user.service;
 
-import eu.sanjin.kurelic.photostorage.common.model.SearchResult;
+import eu.sanjin.kurelic.photostorage.search.model.SearchResult;
 import eu.sanjin.kurelic.photostorage.security.model.UserDetailsModel;
 import eu.sanjin.kurelic.photostorage.user.entity.User;
 import eu.sanjin.kurelic.photostorage.user.entity.UserPlan;
@@ -31,13 +31,9 @@ public class UserService {
   }
 
   public Author getAuthorDetails() {
-    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    var user = (UserDetailsModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    if (Objects.nonNull(principal) && principal instanceof UserDetailsModel user) {
-      return repository.getByName(user.getName()).map(mapper::mapUserToAuthor).orElse(null);
-    }
-
-    return null;
+    return repository.getByName(user.getName()).map(mapper::mapUserToAuthor).orElse(null);
   }
 
   public List<Author> getAuthors() {

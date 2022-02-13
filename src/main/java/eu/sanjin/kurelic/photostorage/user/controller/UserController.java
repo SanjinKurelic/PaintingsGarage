@@ -45,9 +45,9 @@ public class UserController {
   @LogUserPlanChange
   @PutMapping("/{userId}")
   public void updateUser(@PathVariable Long userId, @RequestBody UserPlanRequest plan) {
-    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    var user = (UserDetailsModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    if (Objects.nonNull(plan.plan()) && Objects.nonNull(principal) && principal instanceof UserDetailsModel user) {
+    if (Objects.nonNull(plan.plan())) {
       // If user does not update data for himself, or he does not have admin role, block attempt
       if (!user.getId().equals(userId)
         && user.getAuthorities().stream().map(GrantedAuthority::getAuthority).noneMatch(UserRole.ROLE_ADMIN.name()::equals)) {

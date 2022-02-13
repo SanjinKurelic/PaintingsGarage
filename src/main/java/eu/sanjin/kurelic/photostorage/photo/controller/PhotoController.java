@@ -1,5 +1,7 @@
 package eu.sanjin.kurelic.photostorage.photo.controller;
 
+import eu.sanjin.kurelic.photostorage.audit.aspect.LogPhotoDelete;
+import eu.sanjin.kurelic.photostorage.audit.aspect.LogPhotoUpdate;
 import eu.sanjin.kurelic.photostorage.audit.aspect.LogPhotoUpload;
 import eu.sanjin.kurelic.photostorage.photo.filter.ImageFilterType;
 import eu.sanjin.kurelic.photostorage.photo.model.PhotoData;
@@ -81,11 +83,13 @@ public class PhotoController {
     return ResponseEntity.ok(photoService.addPhoto(filePath, thumbnailPath, fileSize, photoData));
   }
 
+  @LogPhotoUpdate
   @PutMapping("/{photoId}")
-  public void updatePhoto(@PathVariable Long photoId, @RequestBody PhotoData photoData) {
-    photoService.updatePhoto(photoId, photoData);
+  public ResponseEntity<PhotoData> updatePhoto(@PathVariable Long photoId, @RequestBody PhotoData photoData) {
+    return ResponseEntity.ok(photoService.updatePhoto(photoId, photoData));
   }
 
+  @LogPhotoDelete
   @DeleteMapping("/{photoId}")
   public void deletePhoto(@PathVariable Long photoId) {
     var photo = photoService.getPhoto(photoId);

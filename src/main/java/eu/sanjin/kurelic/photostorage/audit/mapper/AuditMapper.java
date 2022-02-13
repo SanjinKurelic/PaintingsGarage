@@ -32,7 +32,7 @@ public class AuditMapper {
     return switch (action) {
       case USER_REGISTER, USER_LOGIN -> AuditType.AUTH_TYPE;
       case USER_CHANGE_PLAN -> AuditType.USER_TYPE;
-      case PICTURE_BOUGHT, PICTURE_UPLOAD, PICTURE_DELETE -> AuditType.IMAGE_TYPE;
+      case PICTURE_BOUGHT, PICTURE_UPLOAD, PICTURE_DELETE, PICTURE_CHANGE -> AuditType.IMAGE_TYPE;
     };
   }
 
