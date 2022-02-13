@@ -14,7 +14,7 @@ const User = () => {
   const userDetails = useGetUserQuery()
 
   // Fetch images
-  const userImages = useFindImageQuery({authors: currentUser.id})
+  const userImages = useFindImageQuery({authors: currentUser?.user?.id})
   const [selectedImage, setSelectedImage] = useState(null)
 
   // Upload image
