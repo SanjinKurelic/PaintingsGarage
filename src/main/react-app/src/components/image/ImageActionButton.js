@@ -22,7 +22,8 @@ const ImageActionButton = ({type, size, callback}) => {
 
 ImageActionButton.propTypes = {
   type: PropTypes.oneOf(['OWNER', 'BOUGHT', 'NONE']),
-  size: PropTypes.string
+  size: PropTypes.string,
+  callback: PropTypes.func.isRequired
 }
 
 ImageActionButton.defaultProps = {

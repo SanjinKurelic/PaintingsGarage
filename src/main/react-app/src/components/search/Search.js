@@ -8,8 +8,10 @@ import {AiOutlineCloseCircle} from 'react-icons/all'
 import SearchFilter from './SearchFilter'
 import {useLazyFindAuthorQuery, useLazyFindHashtagQuery, useLazyFindImageQuery} from '../../redux/api/baseApi'
 import {useHistory} from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSearch}) => {
+  const NO_RESULT = {isSuccess: false}
   // Fetch results
   const searchInput = createRef()
   const [findImages, foundImages] = useLazyFindImageQuery()
@@ -51,12 +53,12 @@ const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSea
 
   // Search for author or hashtag
   const [authors, setAuthors] = useState([])
-  const [foundAuthors, setFoundAuthors] = useState({isSuccess: false})
+  const [foundAuthors, setFoundAuthors] = useState(NO_RESULT)
   const [findAuthor, findAuthorResult] = useLazyFindAuthorQuery()
   useEffect(() => setFoundAuthors(findAuthorResult), [findAuthorResult])
 
   const [hashtags, setHashtags] = useState([])
-  const [foundHashtags, setFoundHashtags] = useState({isSuccess: false})
+  const [foundHashtags, setFoundHashtags] = useState(NO_RESULT)
   const [findHashtag, findHashtagResult] = useLazyFindHashtagQuery()
   useEffect(() => setFoundHashtags(findHashtagResult), [findHashtagResult])
 
@@ -64,6 +66,8 @@ const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSea
     let query = e.target.value
 
     if (query.length < 3) {
+      setFoundAuthors(NO_RESULT)
+      setFoundHashtags(NO_RESULT)
       return
     }
 
@@ -75,8 +79,8 @@ const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSea
   }
 
   const clearSearchField = () => {
-    setFoundAuthors({isSuccess: false})
-    setFoundHashtags({isSuccess: false})
+    setFoundAuthors(NO_RESULT)
+    setFoundHashtags(NO_RESULT)
     searchInput.current.value = ''
   }
 
@@ -158,6 +162,17 @@ const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSea
         </div>}
     </div>
   )
+}
+
+Search.propTypes = {
+  setSearchImageResults: PropTypes.func.isRequired,
+  setSearchFired: PropTypes.func.isRequired,
+  setClearSearch: PropTypes.func.isRequired,
+  clearSearch: PropTypes.bool
+}
+
+Search.defaultProps = {
+  clearSearch: false
 }
 
 export default Search

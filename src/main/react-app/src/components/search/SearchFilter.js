@@ -1,6 +1,7 @@
 import React from 'react'
 import './searchFilter.scss'
 import {VscChromeClose} from 'react-icons/all'
+import PropTypes from 'prop-types'
 
 const SearchFilter = ({authors, setAuthors, hashtags, setHashtags}) => {
   const removeAuthor = (id) => {
@@ -22,11 +23,18 @@ const SearchFilter = ({authors, setAuthors, hashtags, setHashtags}) => {
   return (
     <>
       {(authors.length > 0 || hashtags.length > 0) && <div className="search-filters mt-1">
-        {authors.map((author) => <Filter key={"@" + author.id} item={author} removeItem={removeAuthor}/>)}
-        {hashtags.map((hashtag) => <Filter key={"#" + hashtag.id} item={hashtag} removeItem={removeHashtag}/>)}
+        {authors.map((author) => <Filter key={'@' + author.id} item={author} removeItem={removeAuthor}/>)}
+        {hashtags.map((hashtag) => <Filter key={'#' + hashtag.id} item={hashtag} removeItem={removeHashtag}/>)}
       </div>}
     </>
   )
+}
+
+SearchFilter.propTypes = {
+  setAuthors: PropTypes.func.isRequired,
+  setHashtags: PropTypes.func.isRequired,
+  authors: PropTypes.array,
+  hashtags: PropTypes.array
 }
 
 export default SearchFilter

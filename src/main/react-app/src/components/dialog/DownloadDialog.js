@@ -37,6 +37,10 @@ const DownloadDialog = ({image}) => {
     dispatch(hideDialog(null))
   }
 
+  const uppercaseOnlyFirstLetter = (word) => {
+    return word.charAt(0) + word.slice(1).toLowerCase()
+  }
+
   return (
     <div className="position-fixed top-0 bottom-0 w-100 dialog-box">
       <ModalDialog centered={true}>
@@ -65,7 +69,7 @@ const DownloadDialog = ({image}) => {
             <Col>Filter:</Col>
             <Col>
               <DropdownButton className="dropdown w-100" variant="flat"
-                              title={filter === null ? 'None' : (filter.charAt(0) + filter.slice(1).toLowerCase())}>
+                              title={filter === null ? 'None' : uppercaseOnlyFirstLetter(filter)}>
                 <DropdownItem onClick={() => setFilter(null)}>None</DropdownItem>
                 <DropdownItem onClick={() => setFilter('GREYSCALE')}>Grayscale</DropdownItem>
                 <DropdownItem onClick={() => setFilter('INVERT')}>Invert</DropdownItem>
@@ -84,7 +88,10 @@ const DownloadDialog = ({image}) => {
 }
 
 DownloadDialog.propTypes = {
-  image: PropTypes.object.isRequired
+  image: PropTypes.shape({
+    path: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
+  }).isRequired
 }
 
 export default DownloadDialog

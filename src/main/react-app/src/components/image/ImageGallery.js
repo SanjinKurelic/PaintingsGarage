@@ -47,7 +47,9 @@ ImageGallery.propTypes = {
     thumbnail: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     uploaded: PropTypes.string.isRequired,
+    title: PropTypes.string,
     description: PropTypes.string,
+    digitalPrice: PropTypes.number,
     ownershipType: PropTypes.string,
     hashtags: PropTypes.array
   }))

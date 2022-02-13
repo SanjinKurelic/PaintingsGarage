@@ -72,7 +72,14 @@ const UserDetails = ({userDetails, showLogoutButton, className}) => {
 
 UserDetails.propTypes = {
   className: PropTypes.string,
-  userDetails: PropTypes.object,
+  userDetails: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    plan: PropTypes.oneOf(['ARTIST', 'BUYER']),
+    avatar: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    registered: PropTypes.string.isRequired
+  }).isRequired,
   showLogoutButton: PropTypes.bool
 }
 
