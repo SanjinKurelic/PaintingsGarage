@@ -74,7 +74,15 @@ const AddToCartDialog = ({image}) => {
 }
 
 AddToCartDialog.propTypes = {
-  image: PropTypes.object.isRequired
+  image: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    author: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    digitalPrice: PropTypes.number.isRequired,
+    paintingPrice: PropTypes.number.isRequired
+  }).isRequired
 }
 
 export default AddToCartDialog

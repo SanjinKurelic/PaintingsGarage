@@ -8,6 +8,7 @@ import {AiOutlineCloseCircle} from 'react-icons/all'
 import SearchFilter from './SearchFilter'
 import {useLazyFindAuthorQuery, useLazyFindHashtagQuery, useLazyFindImageQuery} from '../../redux/api/baseApi'
 import {useHistory} from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSearch}) => {
   const NO_RESULT = {isSuccess: false}
@@ -161,6 +162,17 @@ const Search = ({setSearchImageResults, setSearchFired, clearSearch, setClearSea
         </div>}
     </div>
   )
+}
+
+Search.propTypes = {
+  setSearchImageResults: PropTypes.func.isRequired,
+  setSearchFired: PropTypes.func.isRequired,
+  setClearSearch: PropTypes.func.isRequired,
+  clearSearch: PropTypes.bool
+}
+
+Search.defaultProps = {
+  clearSearch: false
 }
 
 export default Search

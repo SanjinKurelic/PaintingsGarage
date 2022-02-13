@@ -5,6 +5,7 @@ import './header.scss'
 import {IoCartOutline, VscAccount} from 'react-icons/all'
 import {useHistory} from 'react-router-dom'
 import {useCart} from 'react-use-cart'
+import PropTypes from 'prop-types'
 
 const Header = ({setSearchImageResults, setSearchFired, clearSearch, setClearSearch}) => {
   const {isEmpty, totalUniqueItems} = useCart()
@@ -22,12 +23,24 @@ const Header = ({setSearchImageResults, setSearchFired, clearSearch, setClearSea
             size={28}/></Button>
           <Button variant="link" size="lg" className="header-link" onClick={() => history.push('/cart')}><IoCartOutline
             size={28}/>
-            <div className="d-inline-block align-top text-decoration-underline text-small">{!isEmpty && totalUniqueItems}</div>
+            <div
+              className="d-inline-block align-top text-decoration-underline text-small">{!isEmpty && totalUniqueItems}</div>
           </Button>
         </div>
       </Container>
     </Nav>
   )
+}
+
+Header.propTypes = {
+  setSearchImageResults: PropTypes.func.isRequired,
+  setSearchFired: PropTypes.func.isRequired,
+  setClearSearch: PropTypes.func.isRequired,
+  clearSearch: PropTypes.bool
+}
+
+Header.defaultProps = {
+  clearSearch: false
 }
 
 export default Header

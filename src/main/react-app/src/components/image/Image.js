@@ -44,7 +44,8 @@ const Image = ({image, closeCallback, editable, isNew}) => {
           title: inputs.title,
           description: inputs.description,
           digitalPrice: inputs.digitalPrice,
-          paintingPrice: inputs.paintingPrice
+          paintingPrice: inputs.paintingPrice,
+          hashtags: image.hashtags
         })
       }
 
@@ -135,7 +136,10 @@ Image.propTypes = {
     path: PropTypes.string,
     author: PropTypes.string.isRequired,
     uploaded: PropTypes.string.isRequired,
+    title: PropTypes.string,
     description: PropTypes.string,
+    paintingPrice: PropTypes.number,
+    digitalPrice: PropTypes.number,
     ownershipType: PropTypes.string,
     hashtags: PropTypes.array
   })
