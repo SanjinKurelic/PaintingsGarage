@@ -75,7 +75,7 @@ public class LogAspect {
   }
 
   @Around("@annotation(LogUserPlanChange)")
-  public Object logPhotoUpload(ProceedingJoinPoint joinPoint) throws Throwable {
+  public Object logUserPlanChange(ProceedingJoinPoint joinPoint) throws Throwable {
     String userPlan = null;
     User user = null;
     // resolve user plan
