@@ -24,13 +24,18 @@ docker-compose up
 
 Some images are already provided with the project and will be automatically copied to SFTP server.
 
-To start backend and build frontend, run Maven wrapper command which will build everything and serve web application on **localhost:8080**
+To start backend and build frontend, run Maven wrapper command which will build everything and serve web application
+on **localhost:8080**
 
 ```
 ./mvnw spring-boot:run
 ```
 
-Maven wrapper will build Java Spring Boot project and will also run yarn commands to build frontend and copy it to backend resource directory.
+Maven wrapper will build Java Spring Boot project and will also run yarn commands to build frontend and copy it to
+backend resource directory.
+
+> Note: If you would like to run this web application in Dockerfile container, please follow usage notes mentioned in
+> Dockerfile
 
 #### Main page
 
@@ -38,7 +43,11 @@ After application is started main page is shown. Main page shows latest uploaded
 
 <p align="center"><img src="https://github.com/SanjinKurelic/PaintingsGarage/blob/master/images/homeScreen.png"/></p>
 
-After user click on one painting in gallery, image will be enlarged and extra information will be shown such as: title, author, upload date, description, hashtag and digital and physical painting price. If the user is not the owner or author of the image, watermark text will be generated on the backend, which will cover a great amount of the image. To additionally secure copying the image, right click is disabled on image view dialog. Of course,  more skilled users will be able to download **watermarked** images in full size.
+After user click on one painting in gallery, image will be enlarged and extra information will be shown such as: title,
+author, upload date, description, hashtag and digital and physical painting price. If the user is not the owner or
+author of the image, watermark text will be generated on the backend, which will cover a great amount of the image. To
+additionally secure copying the image, right click is disabled on image view dialog. Of course, more skilled users will
+be able to download **watermarked** images in full size.
 
 Depending on the user type, the user is offered with several actions below each image:
 
