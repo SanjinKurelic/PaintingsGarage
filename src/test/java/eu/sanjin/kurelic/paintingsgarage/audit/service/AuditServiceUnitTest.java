@@ -28,7 +28,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @UnitTest
-class AuditServiceTest {
+class AuditServiceUnitTest {
 
   @Mock
   private AuditRepository repository;
