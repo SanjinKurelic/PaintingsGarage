@@ -20,7 +20,7 @@ public class HashtagService {
   private final HashtagMapper hashtagMapper;
 
   public List<SearchResult> findHashtag(String name) {
-    if (name.length() < 2) {
+    if (Objects.isNull(name) || name.length() < 2) {
       return List.of();
     }
 
