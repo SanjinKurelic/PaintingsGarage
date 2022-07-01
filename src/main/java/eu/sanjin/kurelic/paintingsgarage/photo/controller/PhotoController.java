@@ -3,6 +3,7 @@ package eu.sanjin.kurelic.paintingsgarage.photo.controller;
 import eu.sanjin.kurelic.paintingsgarage.audit.aspect.LogPhotoDelete;
 import eu.sanjin.kurelic.paintingsgarage.audit.aspect.LogPhotoUpdate;
 import eu.sanjin.kurelic.paintingsgarage.audit.aspect.LogPhotoUpload;
+import eu.sanjin.kurelic.paintingsgarage.metric.aspect.TimerMetric;
 import eu.sanjin.kurelic.paintingsgarage.photo.filter.ImageFilterType;
 import eu.sanjin.kurelic.paintingsgarage.photo.model.PhotoData;
 import eu.sanjin.kurelic.paintingsgarage.photo.model.PhotoSize;
@@ -40,6 +41,7 @@ public class PhotoController {
     return ResponseEntity.ok(photoService.getLatestPhotoList());
   }
 
+  @TimerMetric
   @GetMapping("/{fileName:.+}")
   public ResponseEntity<byte[]> downloadFile(
     @PathVariable String fileName,

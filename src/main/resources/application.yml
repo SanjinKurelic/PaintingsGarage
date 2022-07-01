@@ -12,6 +12,21 @@ spring:
       max-file-size: 500MB
       max-request-size: 512MB
 
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  health:
+    db:
+      enabled: true
+
 app:
   react:
     urls:

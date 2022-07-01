@@ -8,3 +8,15 @@ services:
     ports:
       - "2222:22"
     command: user:password:1001
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./docker-files/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "19090:9090"
+
+  grafana:
+    build: "./docker-files/grafana"
+    ports:
+      - "13000:3000"
