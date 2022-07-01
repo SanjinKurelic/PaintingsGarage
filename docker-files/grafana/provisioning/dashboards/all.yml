@@ -1,0 +1,4 @@
+- name: 'default'
+  type: 'file'
+  options:
+    path: '/var/lib/grafana/dashboards'

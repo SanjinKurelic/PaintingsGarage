@@ -16,3 +16,9 @@ services:
       - ./docker-files/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "19090:9090"
+
+  grafana:
+    build: "./docker-files/grafana"
+    container_name: 'grafana'
+    ports:
+      - "13000:3000"
