@@ -7,14 +7,13 @@ import eu.sanjin.kurelic.paintingsgarage.photo.file.ImageStreamingDestinationFil
 import eu.sanjin.kurelic.paintingsgarage.photo.file.ImageStreamingSourceFile;
 import eu.sanjin.kurelic.paintingsgarage.photo.filter.ImageFilterType;
 import eu.sanjin.kurelic.paintingsgarage.photo.model.PhotoSize;
+import eu.sanjin.kurelic.paintingsgarage.util.FtpClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.filters.Caption;
 import net.coobird.thumbnailator.geometry.Positions;
 import net.schmizz.sshj.SSHClient;
-import net.schmizz.sshj.sftp.SFTPClient;
-import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -33,6 +32,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LocalFileService implements FileService {
 
+  private final FtpClient ftpClient;
   private final FileStorageConfig config;
 
   @Override
@@ -53,7 +53,7 @@ public class LocalFileService implements FileService {
     var thumbnailName = getThumbnailPrefix(fileName);
 
     try {
-      try (var sftp = getSftpClient(new SSHClient())) {
+      try (var sftp = ftpClient.getSftpClient(new SSHClient())) {
         // Save file
         var sourceFile = new ImageStreamingSourceFile(multipartFile);
         sftp.put(sourceFile, appendRemotePath(fileName));
@@ -77,7 +77,7 @@ public class LocalFileService implements FileService {
     var extension = Objects.requireNonNull(StringUtils.getFilenameExtension(fileName));
     byte[] content = null;
 
-    try (var remoteFile = getSftpClient(new SSHClient())) {
+    try (var remoteFile = ftpClient.getSftpClient(new SSHClient())) {
       var destinationFile = new ImageStreamingDestinationFile();
 
       remoteFile.getFileTransfer().download(path, destinationFile);
@@ -149,7 +149,7 @@ public class LocalFileService implements FileService {
   public void deleteFile(String fileName) {
     var path = appendRemotePath(fileName);
     try {
-      try (var sftp = getSftpClient(new SSHClient())) {
+      try (var sftp = ftpClient.getSftpClient(new SSHClient())) {
         sftp.rm(path);
       }
     } catch (IOException e) {
@@ -176,13 +176,5 @@ public class LocalFileService implements FileService {
 
   private String appendRemotePath(String fileName) {
     return config.getDirectory() + "/" + fileName;
-  }
-
-  private SFTPClient getSftpClient(SSHClient client) throws IOException {
-    client.addHostKeyVerifier(new PromiscuousVerifier());
-    client.connect(config.getHost(), config.getPort());
-    client.authPassword(config.getUsername(), config.getPassword());
-
-    return client.newSFTPClient();
   }
 }
