@@ -1,6 +1,7 @@
 package eu.sanjin.kurelic.react.testutil.containers;
 
 import eu.sanjin.kurelic.paintingsgarage.PaintingsGarageApplication;
+import eu.sanjin.kurelic.react.testutil.containers.ftp.FtpTestContainer;
 import eu.sanjin.kurelic.react.testutil.containers.selenium.SeleniumTestContainer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.junit.jupiter.Container;
@@ -12,5 +13,8 @@ public abstract class SeleniumContainerTestBase {
 
   @Container
   protected static final SeleniumTestContainer seleniumContainer = SeleniumTestContainer.getInstance();
+
+  @Container
+  protected static final FtpTestContainer ftpContainer = FtpTestContainer.getInstance();
 
 }
