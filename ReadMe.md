@@ -148,7 +148,8 @@ Health check is implemented using Spring Actuator with one custom health check f
 http://localhost:8080/actuator/health
 ```
 
-Also, project is packed with Grafana and Prometheus monitoring tools. Both technologies are run from docker-compose and are already set-up for project. There is also one custom metric defined in Grafana which measure image filters speed:
+Also, project is packed with Grafana and Prometheus monitoring tools. Both technologies are run from docker-compose and
+already set-up for the project. There is also one custom metric defined in Grafana which measure image filters speed:
 
 <p align="center"><img src="https://github.com/SanjinKurelic/PaintingsGarage/blob/master/images/grafana.png"/></p>
 

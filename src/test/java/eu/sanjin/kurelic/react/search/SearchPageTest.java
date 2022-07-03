@@ -2,7 +2,6 @@ package eu.sanjin.kurelic.react.search;
 
 import eu.sanjin.kurelic.react.testutil.SeleniumVisibilityUtil;
 import eu.sanjin.kurelic.react.testutil.containers.SeleniumContainerTestBase;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;

@@ -1,6 +1,5 @@
 package eu.sanjin.kurelic.paintingsgarage.testutil.containers.ftp;
 
-import eu.sanjin.kurelic.react.testutil.containers.selenium.SeleniumTestContainer;
 import org.testcontainers.containers.GenericContainer;
 
 public class FtpTestContainer extends GenericContainer<FtpTestContainer> {
@@ -19,7 +18,7 @@ public class FtpTestContainer extends GenericContainer<FtpTestContainer> {
 
   public static FtpTestContainer getInstance() {
     if (container == null) {
-      synchronized (SeleniumTestContainer.class) {
+      synchronized (FtpTestContainer.class) {
         if (container == null) {
           container = new FtpTestContainer();
         }
