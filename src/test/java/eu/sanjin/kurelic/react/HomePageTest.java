@@ -5,14 +5,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class WebRootTest extends SeleniumContainerTestBase {
+class HomePageTest extends SeleniumContainerTestBase {
 
   @Test
   void shouldDisplayWebsiteTitle() {
+    // Given
     seleniumContainer.fetchRootPage();
 
+    // When
     var messageElement = seleniumContainer.getWebDriver().getTitle();
 
+    // Then
     assertEquals("Paintings Garage", messageElement);
   }
 }
