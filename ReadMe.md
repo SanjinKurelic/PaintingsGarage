@@ -126,6 +126,36 @@ The administrator can do everything that a normal registered user can do, which 
 
 <p align="center"><img src="https://github.com/SanjinKurelic/PaintingsGarage/blob/master/images/changeUserPlan.png"/></p>
 
+## Test cases
+
+This project is covered with unit, integration and UI test cases. Integration and unit test cases are done using JUnit/Jupiter, mockito-inline and Testcontainers. UI integration test with backend is done using Selenium test suite.
+
+> Note: Before running Selenium test cases please make sure that you have running application on port 8080:
+>
+> ```./mvnw spring-boot:run```
+> 
+> This requirement can't be easily overcome using something like:
+> 
+> ```@SpringBootTest(classes = PaintingsGarageApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)```
+> 
+> because we are building React frontend in Maven build process. Fix would require using Testcontainers that read Dockerfile which loads maven and all project sources, build a _jar_ file and then run it in container by exposing defined port.
+
+## Monitoring and health check
+
+Health check is implemented using Spring Actuator with one custom health check for SFTP server availability. Health is exposed on actuator/health endpoint:
+
+```
+http://localhost:8080/actuator/health
+```
+
+Also, project is packed with Grafana and Prometheus monitoring tools. Both technologies are run from docker-compose and are already set-up for project. There is also one custom metric defined in Grafana which measure image filters speed:
+
+<p align="center"><img src="https://github.com/SanjinKurelic/PaintingsGarage/blob/master/images/grafana.png"/></p>
+
+Prometheus can be accessed from: `http://localhost:19090`
+
+Grafana can be accessed from: `http://localhost:13000` with username `admin` and password `admin`.
+
 ## Dependencies and technologies
 
 Backend:
@@ -134,6 +164,7 @@ Backend:
 - Spring Boot
 - Spring Security
 - Spring Aspect (AOP)
+- Spring Actuator
 - MapStruct
 - Lombok
 - Hibernate
@@ -141,6 +172,9 @@ Backend:
 - SSHJ
 - JWT
 - OAuth
+- Micrometer
+- Prometheus
+- Grafana
 
 Frontend:
 
@@ -161,6 +195,15 @@ Frontend:
 - PropTypes
 - Moment
 - File saver
+
+Test cases:
+
+- JUnit
+- Jupiter
+- Selenium
+- Selenium Fluent
+- Mockito-inline
+- Testcontainers
 
 ## Licence
 
