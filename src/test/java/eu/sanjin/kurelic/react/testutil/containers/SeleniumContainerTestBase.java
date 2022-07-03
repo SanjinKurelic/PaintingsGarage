@@ -1,6 +1,5 @@
 package eu.sanjin.kurelic.react.testutil.containers;
 
-import eu.sanjin.kurelic.react.testutil.containers.ftp.FtpTestContainer;
 import eu.sanjin.kurelic.react.testutil.containers.selenium.SeleniumTestContainer;
 import eu.sanjin.kurelic.react.testutil.type.SeleniumTest;
 import org.testcontainers.junit.jupiter.Container;
@@ -12,9 +11,4 @@ public abstract class SeleniumContainerTestBase {
 
   @Container
   protected static final SeleniumTestContainer seleniumContainer = SeleniumTestContainer.getInstance();
-
-  @Container
-  @SuppressWarnings("unused")
-  protected static final FtpTestContainer ftpContainer = FtpTestContainer.getInstance();
-
 }

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.sanjin.kurelic.paintingsgarage.photo.model.PhotoSize;
 import eu.sanjin.kurelic.paintingsgarage.search.model.SearchResult;
+import eu.sanjin.kurelic.paintingsgarage.testutil.containers.IntegrationContainerTestBase;
 import eu.sanjin.kurelic.paintingsgarage.testutil.fixtures.DatabaseFixtures;
-import eu.sanjin.kurelic.paintingsgarage.testutil.type.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -26,8 +26,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@IntegrationTest
-class SearchControllerIntegrationTest {
+class SearchControllerIntegrationTest extends IntegrationContainerTestBase {
 
   @Autowired
   protected ObjectMapper mapper;

@@ -2,8 +2,8 @@ package eu.sanjin.kurelic.paintingsgarage.user.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.sanjin.kurelic.paintingsgarage.testutil.containers.IntegrationContainerTestBase;
 import eu.sanjin.kurelic.paintingsgarage.testutil.fixtures.DatabaseFixtures;
-import eu.sanjin.kurelic.paintingsgarage.testutil.type.IntegrationTest;
 import eu.sanjin.kurelic.paintingsgarage.user.entity.UserPlan;
 import eu.sanjin.kurelic.paintingsgarage.user.model.Author;
 import eu.sanjin.kurelic.paintingsgarage.user.model.UserPlanRequest;
@@ -21,8 +21,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@IntegrationTest
-class UserControllerIntegrationTest {
+class UserControllerIntegrationTest extends IntegrationContainerTestBase {
 
   @Autowired
   private UserRepository userRepository;

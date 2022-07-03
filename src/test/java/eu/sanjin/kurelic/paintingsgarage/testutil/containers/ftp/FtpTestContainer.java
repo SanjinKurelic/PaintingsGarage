@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.react.testutil.containers.ftp;
+package eu.sanjin.kurelic.paintingsgarage.testutil.containers.ftp;
 
 import eu.sanjin.kurelic.react.testutil.containers.selenium.SeleniumTestContainer;
 import org.testcontainers.containers.GenericContainer;
