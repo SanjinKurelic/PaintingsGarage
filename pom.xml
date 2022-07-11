@@ -36,6 +36,7 @@
     <!-- test -->
     <mockito.version>4.2.0</mockito.version>
     <testcontainers.version>1.16.3</testcontainers.version>
+    <selenium-fluent.version>1.23</selenium-fluent.version>
   </properties>
 
   <dependencyManagement>
@@ -162,6 +163,12 @@
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-firefox-driver</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium.fluent</groupId>
+      <artifactId>fluent-selenium</artifactId>
+      <version>${selenium-fluent.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>

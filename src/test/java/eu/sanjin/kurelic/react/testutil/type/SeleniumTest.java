@@ -1,4 +1,4 @@
-package eu.sanjin.kurelic.paintingsgarage.testutil.type;
+package eu.sanjin.kurelic.react.testutil.type;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface IntegrationTest {
+public @interface SeleniumTest {
 }

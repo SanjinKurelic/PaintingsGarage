@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 500MB
+      max-request-size: 512MB
+
+management:
+  endpoint:
+    prometheus:
+      enabled: false
+    health:
+      enabled: false
+
+app:
+  react:
+    urls:
+      - /login
+      - /user
+      - /cart
+      - /notFound
+  jwt:
+    secret: '024d1700-85de-45d8-9c4d-37ce2a545290'
+    expiration: 60
+  file:
+    directory: ./images/
+    host: ${SFTP_TESTCONTAINER_HOSTNAME}
+    port: ${SFTP_TESTCONTAINER_PORT}
+    username: user
+    password: password
+    extension-list:
+      - jpg
+      - jpeg
+      - png
+      - bmp
